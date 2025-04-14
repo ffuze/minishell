@@ -4,7 +4,7 @@ NAME = minishell
 #NAME_BONUS =
 OBJ_DIR = obj
 
-SRC_MAIN = index.c ms_echo.c
+SRC_MAIN = index.c ft_echo.c
 
 #SRC_BONUS = 
 
