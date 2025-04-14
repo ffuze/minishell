@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_echo.c                                          :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:00:30 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/14 16:53:55 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:11:31 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ static int	handle_double_quotes(char *input, int i)
 		j++;
 	if (j == ft_strlen(input) && input[j] != 34)
 	{
-		printf("\nUnclosed double quotes were found.");
+		printf(RED"\nUnclosed ");
+		printf(YELLOW"double ");
+		printf(GREEN"quotes ");
+		printf(BLUE"were ");
+		printf(MAGENTA"found");
+		printf(RED"."NO_ALL);
 		return (0);
 	}
 	while (input[i] != 34)
@@ -114,6 +119,3 @@ void	ft_echo(char *input)
 	if (!check_flag(input + 4))
 		printf("\n");
 }
-// evitare anche ';'(59) e '\'(92) in assenza di virgolette o apici?
-// '\' da ignorare completamente
-// stampare fino a ';'? 
