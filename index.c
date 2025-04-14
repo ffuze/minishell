@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:17 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/14 12:39:21 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:56:48 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int main(/*int argc, char **argv*/)
 	// char	*all_paths;
 	struct	sigaction sa;
 	char	*input;
+	char	**split_input;
 
 	// dir = ft_split(path, ':');
 	// all_paths = malloc(sizeof(char));
@@ -99,25 +100,27 @@ int main(/*int argc, char **argv*/)
 	// 		printf("%s\n", dir[i]);
 	while (1)
 	{
-		input = readline("powershell> ");
+		input = readline(BGMAGENTA"powershell> "NO_ALL);
 		if (!input)
 			return EXIT_FAILURE;
 		else if (!(*input))
 			continue;
-		else if (ft_strcmp(input, "ls") == 0)
-			ft_ls();
-		else if (ft_strcmp(input, "ls -l") == 0)
-			ft_ls_l();
-		else if (ft_strcmp(input, "exit") == 0)
+		split_input = ft_split(input, ' ');
+		if (ft_strcmp(split_input[0], "exit") == 0 && !split_input[1])
 			return EXIT_SUCCESS;
-		else if ((ft_strncmp(input, "echo ", 5)) == 0 || (ft_strcmp(input, "echo")) == 0)
-			ft_echo(input);
+		// else if (ft_strcmp(split_input[0], "ls") == 0)
+		// 	ft_ls();
+		// else if (ft_strcmp(split_input[0], "ls -l") == 0)
+		// 	ft_ls_l();
+		else if ((ft_strcmp(split_input[0], "echo")) == 0)
+			ft_echo(split_input);
 		else
 			printf("Command not found: %s\n", input);
-		if (ft_strcmp(input, "clear") == 0)
+		if (ft_strcmp(split_input[0], "clear") == 0 && !split_input[1])
 			ft_clear(input);
 		else
 			add_history(input);
+		free_dpc(split_input);
 	}
 	return EXIT_SUCCESS;
 }
