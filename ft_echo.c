@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:00:30 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/14 19:41:54 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:04:02 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ static int	check_flag(char *input)
 	int	j;
 
 	j = 0;
-	if (input[j] == '-' && input[j + 1] == 'n')
+	if (input[j] == '-' && input[j + 1] == '\0')
+		return (-1);
+	else if (input[j] == '-' && input[j + 1] == 'n')
 	{
 		j++;
 		while (input[j] == 'n')
@@ -97,31 +99,35 @@ static int	ft_echo2(char *input)
 	while (ft_isprint(input[i]))
 	{
 		if (input[i] == 39)
-			i = handle_single_quotes(input, i);
+			i = handle_single_quotes(input, i);			
 		else if (input[i] == 34)
 			i = handle_double_quotes(input, i);
-		if (i < 0)
+		if (i < 0)	
 			break ;
 		printf("%c", input[i]);
 		i++;
 	}
+	// printf("\n");
 	return (i);
 }
 
 void	ft_echo(char **input)
 {
 	int	j;
-
+	
 	j = 1;
-	j += check_flag(input[j]);
+	if (check_flag(input[j]) < 0)
+		j++;
+	else
+		j += check_flag(input[j]);
 	while (input[j])
 	{
 		ft_echo2(input[j]);
 		j++;
-		if (input[j])
-			printf(" ");
+		// if (input[j])
+		// 	printf(" ");
 	}
-	if (check_flag(input[1]) == 0)
+	if (check_flag(input[1]) < 1)
 		printf("\n");
 }
 // c2r1p5% echo -nnnnfn      "cef'we"
