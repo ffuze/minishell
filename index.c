@@ -105,7 +105,7 @@ int main(/*int argc, char **argv*/)
 			return EXIT_FAILURE;
 		else if (!(*input))
 			continue;
-		split_input = ft_split_input(input);//ft_split(input, ' ');
+		split_input = ft_split(input, ' ');
 		if (ft_strcmp(split_input[0], "exit") == 0 && !split_input[1])
 			return EXIT_SUCCESS;
 		else if (ft_strcmp(split_input[0], "pwd") == 0)
