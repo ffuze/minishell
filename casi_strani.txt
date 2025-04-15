@@ -1,0 +1,22 @@
+bash$ "e"ch"o" ciao"$USER"ciao
+ciaolemarinociao
+
+bash$ "e"ch"o" ciao'$USER'ciao
+ciao$USERciao
+
+bash$ "e"ch"o" "ciao'$USER'ciao"
+ciao'lemarino'ciao
+
+bash$ "e"ch"o"lall "ciao'$USER'ciao"
+echolall: command not found
+
+bash$ "echo " vvvdssw   "  vvbbb"
+echo: command not found
+
+bash$ "e"ch"o" "ciao$USERciao"
+ciao
+
+bash$ "e"ch"o" "ciao$USER"
+ciaolemarino
+
+bash$
