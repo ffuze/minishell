@@ -4,6 +4,9 @@ ciaolemarinociao
 bash$ "e"ch"o" ciao'$USER'ciao
 ciao$USERciao
 
+bash$ echo 'ciao$USERciao'
+ciao$USERciao
+
 bash$ "e"ch"o" "ciao'$USER'ciao"
 ciao'lemarino'ciao
 
@@ -19,4 +22,12 @@ ciao
 bash$ "e"ch"o" "ciao$USER"
 ciaolemarino
 
-bash$
+bash$ rompiballe='trall"alle"ro'
+bash$ echo "ciao $rompiballe ciao"
+ciao trall"alle"ro ciao
+
+bash$ 'ls'"-l"
+ls-l: command not found
+
+bash$ ls|wc -l
+9

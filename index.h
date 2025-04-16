@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/15 16:22:37 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:43:11 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-char	**ft_split_input(char *input)
+char	**ft_split_input(char *input);
 void	ft_echo(char **input);
 void	ft_pwd();
 
