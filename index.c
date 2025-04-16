@@ -6,21 +6,13 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:17 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/15 16:21:50 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:04:34 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./index.h"
+#include "minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	int	i;
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 // void	ft_ls()
 // {
@@ -114,8 +106,8 @@ int main(/*int argc, char **argv*/)
 		// 	ft_ls(split_input);
 		// else if (ft_strcmp(split_input[0], "ls -l") == 0)
 		// 	ft_ls_l();
-		else if ((ft_strcmp(split_input[0], "echo")) == 0)
-			ft_echo(split_input);
+		// else if ((ft_strcmp(split_input[0], "echo")) == 0)
+		// 	ft_echo(split_input);
 		else
 			printf("Command not found: %s\n", input);
 		if (ft_strcmp(split_input[0], "clear") == 0 && !split_input[1])
