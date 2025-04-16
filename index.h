@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   index.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/15 10:42:29 by adegl-in         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/15 18:43:11 by lemarino         ###   ########.fr       */
+>>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +28,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <limits.h>
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MACROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -60,7 +65,13 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+<<<<<<< HEAD
 void	ft_echo(char **input);
 int		skip_spaces(char *input, int i);
+=======
+char	**ft_split_input(char *input);
+void	ft_echo(char **input);
+void	ft_pwd();
+>>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
 
 #endif

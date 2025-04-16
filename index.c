@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:17 by adegl-in          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/15 08:25:21 by adegl-in         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/15 16:21:50 by lemarino         ###   ########.fr       */
+>>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +26,33 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void	ft_ls()
-{
-	int	pid;
+// void	ft_ls()
+// {
+// 	int	pid;
 	
-	pid = fork();
-	if (pid == 0)
-	{
-		char *argv[] = {"ls", NULL, NULL};
-		execve("/bin/ls", argv, NULL);
-	}
-	else
-		wait(NULL);
-}
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		char *argv[] = {"ls", NULL, NULL};
+// 		execve("/bin/ls", argv, NULL);
+// 	}
+// 	else
+// 		wait(NULL);
+// }
 
-void	ft_ls_l()
-{
-	int	pid;
+// void	ft_ls_l()
+// {
+// 	int	pid;
 	
-	pid = fork();
-	if (pid == 0)
-	{
-		char *argv[] = {"ls", "-l", NULL};
-		execve("/bin/ls", argv, NULL);
-	}
-	else
-		wait(NULL);
-}
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		char *argv[] = {"ls", "-l", NULL};
+// 		execve("/bin/ls", argv, NULL);
+// 	}
+// 	else
+// 		wait(NULL);
+// }
 
 void	ft_clear(char *input)
 {
@@ -108,8 +112,15 @@ int main(/*int argc, char **argv*/)
 		split_input = ft_split(input, ' ');
 		if (ft_strcmp(split_input[0], "exit") == 0 && !split_input[1])
 			return EXIT_SUCCESS;
+<<<<<<< HEAD
 		// else if (ft_strcmp(split_input[0], "ls") == 0)
 		// 	ft_ls();
+=======
+		else if (ft_strcmp(split_input[0], "pwd") == 0)
+			ft_pwd();
+		// else if (ft_strcmp(split_input[0], "ls") == 0)
+		// 	ft_ls(split_input);
+>>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
 		// else if (ft_strcmp(split_input[0], "ls -l") == 0)
 		// 	ft_ls_l();
 		else if ((ft_strcmp(split_input[0], "echo")) == 0)
