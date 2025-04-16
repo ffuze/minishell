@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/16 17:42:50 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:00:06 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ typedef enum s_token_enum
     TOKEN_STRING_SINGLE, // string with single quotes
     TOKEN_STRING_DOUBLE, // string with double quotes
     TOKEN_PIPE, // --> | <--
-    TOKEN_ERROR // invalid token
+    TOKEN_ERROR, // invalid token
+	EXIT_STATUS = 0
 }	t_token_enum;
 
 typedef struct s_token
