@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   index.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/15 18:43:11 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:38:03 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,24 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+typedef enum s_token_enum
+{
+	TOKEN_WORD, // simple strings
+    TOKEN_VAR, // all variables starting with the $
+    TOKEN_STRING_SINGLE, // string with single quotes
+    TOKEN_STRING_DOUBLE, // string with double quotes
+    TOKEN_PIPE, // --> | <--
+    TOKEN_ERROR // invalid token
+}	t_token_enum;
+
+typedef struct s_token
+{
+	t_token_enum	type;
+	char			*value;
+}	t_token;
+
 char	**ft_split_input(char *input);
-void	ft_echo(char **input);
+void	ft_echo(t_token *input);
 void	ft_pwd();
 
 #endif
