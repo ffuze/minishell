@@ -1,0 +1,18 @@
+bash$ a=ff
+declare -x a="ff"
+
+bash$ export a b c= f
+declare -x a
+declare -x b
+declare -x c=""
+declare -x f 
+
+bash$ export a =ff
+bash: export: `=ff': not a valid identifier
+declare -x a
+
+bash$ a=''
+declare -x a=""
+
+bash$ a='     '
+declare -x a="     "

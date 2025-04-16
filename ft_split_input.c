@@ -6,11 +6,11 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:23 by lemarino          #+#    #+#             */
-/*   Updated: 2025/04/15 17:46:47 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:49:39 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "index.h"
+#include "minishell.h"
 
 /* int	handle_squotes(char *input_i)
 {}

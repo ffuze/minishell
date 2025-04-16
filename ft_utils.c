@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 08:46:35 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/15 10:41:42 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:49:25 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./index.h"
+#include "minishell.h"
 
 int	skip_spaces(char *input, int i)
 {
