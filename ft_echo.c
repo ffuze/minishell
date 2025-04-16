@@ -6,11 +6,11 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:00:30 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/14 16:53:55 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:05:22 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "index.h"
+#include "minishell.h"
 
 static int	handle_single_quotes(char *input, int i)
 {

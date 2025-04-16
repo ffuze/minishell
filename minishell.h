@@ -1,16 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   index.h                                            :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/15 10:42:29 by adegl-in         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/15 18:43:11 by lemarino         ###   ########.fr       */
->>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
+/*   Updated: 2025/04/16 17:34:57 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +61,25 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-<<<<<<< HEAD
-void	ft_echo(char **input);
+typedef enum s_token_enum
+{
+	TOKEN_WORD, // simple strings
+    TOKEN_VAR, // all variables starting with the $
+    TOKEN_STRING_SINGLE, // string with single quotes
+    TOKEN_STRING_DOUBLE, // string with double quotes
+    TOKEN_PIPE, // --> | <--
+    TOKEN_ERROR // invalid token
+}	t_token_enum;
+
+typedef struct s_token
+{
+	t_token_enum	type;
+	char			*value;
+}	t_token;
+
 int		skip_spaces(char *input, int i);
-=======
-char	**ft_split_input(char *input);
-void	ft_echo(char **input);
+// char	**ft_split_input(char *input);
+void	ft_echo(char *input);
 void	ft_pwd();
->>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
 
 #endif
