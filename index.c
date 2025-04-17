@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:17 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/15 16:21:50 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:14:20 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./index.h"
+#include "./minishell.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

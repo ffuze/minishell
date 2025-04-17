@@ -6,28 +6,28 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:00:30 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/16 15:43:33 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:14:33 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "index.h"
+#include "minishell.h"
 
-static int	handle_single_quotes(char *input, int i)
+static int	handle_single_quotes(t_token *input, int i)
 {
 	size_t	j;
 
 	i++;
 	j = (size_t)i;
-	while (input[j] != '\0' && input[j] != 39)
+	while (input->value[i] != '\0' && input->value[i] != 39)
 		j++;
-	if (j == ft_strlen(input) && input[j] != 39)
+	if (j == ft_strlen(input->value) && input->value[i] != 39)
 	{
 		printf("Unclosed single quotes were found.");
 		return (0);
 	}
-	while (input[i] != 39)
+	while (input->value[i] != 39)
 	{
-		printf("%c", input[i]);
+		printf("%c", input->value[i]);
 		i++;
 	}
 	i++;
@@ -42,7 +42,7 @@ static int	handle_double_quotes(t_token *input, int i)
 	j = (size_t)i;
 	while (input->value[i] && input->value[i] != 34)
 		j++;
-	if (j == ft_strlen(input) && input->value[i] != 34)
+	if (j == ft_strlen(input->value) && input->value[i] != 34)
 	{
 		printf("\nUnclosed double quotes were found.");
 		return (0);
@@ -88,9 +88,9 @@ static int	ft_echo2(t_token *input, int i)
 	while (ft_isprint(input->value[i]))
 	{
 		if (input->value[i] == 39)
-			i = handle_single_quotes(input->value[i], i);
+			i = handle_single_quotes(input, i);
 		else if (input->value[i] == 34)
-			i = handle_double_quotes(input->value[i], i);
+			i = handle_double_quotes(input, i);
 		if (i == 0)
 			break ;
 		printf("%c", input->value[i]);

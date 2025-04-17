@@ -4,8 +4,7 @@ NAME = minishell
 #NAME_BONUS =
 OBJ_DIR = obj
 
-SRC_MAIN = index.c ft_echo.c ft_pwd.c
-
+SRC_MAIN = index.c ft_echo.c ft_utils.c ft_pwd.c
 #SRC_BONUS = 
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
