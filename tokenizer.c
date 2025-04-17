@@ -6,13 +6,13 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:05:03 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/17 18:08:44 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:40:11 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-t_token	*make_token(t_token_enum token_type, char *input, size_t len)
+t_token	*make_token(t_token_enum token_type, char *input)
 {
 	t_token	*token;
 
@@ -42,7 +42,26 @@ t_token	**tokenize(char *input, int token_count)
 			start = ++i;
 			while (input[i] != '\'')
 				i++;
-			tokens[count] = make_token(TOKEN_STRING_SINGLE, ft_strlen(input) + start, );
+			tokens[count] = make_token(TOKEN_STRING_SINGLE, ft_strlen(input) + start);
+			if (input[i] == '\'')
+				i++;
 		}
+		else if (input[i] && input[i] == '"')
+		{
+			start = ++i;
+			while (input[i] != '"')
+				i++;
+			tokens[count] = make_token(TOKEN_STRING_DOUBLE, ft_strlen(input) + start);
+			if (input[i] == '"')
+				i++;
+		}
+		else if (input[i] && input[i] == '$')
+		{
+			start = ++i;
+			while (input[i] != '$')
+				i++;
+			tokens[count] = make_token(TOKEN_VAR, ft_strlen(input) + start);
+		}
+		
 	}
 }
