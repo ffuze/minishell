@@ -2,16 +2,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
 NAME = minishell
 #NAME_BONUS =
+
 OBJ_DIR = obj
-
-<<<<<<< HEAD
-SRC_MAIN = index.c ft_echo.c ft_utils.c
-=======
-SRC_MAIN = index.c ft_echo.c ft_pwd.c
->>>>>>> 6ceedf4367b220c9b0ea55f9026630ca4a54292f
-
+SRC_MAIN = index.c ft_echo.c ft_pwd.c ft_utils.c
 #SRC_BONUS = 
-
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
