@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:05:03 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/17 18:40:11 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:58:22 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ t_token	**tokenize(char *input, int token_count)
 				i++;
 			tokens[count] = make_token(TOKEN_VAR, ft_strlen(input) + start);
 		}
-		
+		else if (input[i] && input[i] == '|')
+		{
+			start = ++i;
+			
+		}
 	}
 }
