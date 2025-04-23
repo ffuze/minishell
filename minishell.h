@@ -7,7 +7,11 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
 <<<<<<< HEAD:minishell.h
+<<<<<<< HEAD:minishell.h
 /*   Updated: 2025/04/23 11:03:26 by adegl-in         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/16 19:00:06 by adegl-in         ###   ########.fr       */
+>>>>>>> master:index.h
 =======
 /*   Updated: 2025/04/16 19:00:06 by adegl-in         ###   ########.fr       */
 >>>>>>> master:index.h
