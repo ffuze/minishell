@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/16 17:58:20 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:35:04 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_token
 }	t_token;
 
 int		skip_spaces(char *input, int i);
-void	ft_echo(char *input);
+void	ft_echo(t_token *input);
 void	ft_pwd();
 
 #endif
