@@ -2,6 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
 NAME = minishell
 #NAME_BONUS =
+
 OBJ_DIR = obj
 SRC_MAIN = index.c ft_echo.c ft_pwd.c ft_utils.c
 #SRC_BONUS = 
