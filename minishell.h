@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/16 17:58:20 by lemarino         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -68,7 +56,8 @@ typedef enum s_token_enum
     TOKEN_STRING_SINGLE, // string with single quotes
     TOKEN_STRING_DOUBLE, // string with double quotes
     TOKEN_PIPE, // --> | <--
-    TOKEN_ERROR // invalid token
+    TOKEN_ERROR, // invalid token
+	EXIT_STATUS = 0
 }	t_token_enum;
 
 typedef struct s_token
@@ -78,7 +67,8 @@ typedef struct s_token
 }	t_token;
 
 int		skip_spaces(char *input, int i);
-void	ft_echo(char *input);
+// char	**ft_split_input(char *input);
+void	ft_echo(t_token *input);
 void	ft_pwd();
 
 #endif
