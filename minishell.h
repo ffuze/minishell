@@ -66,9 +66,18 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
+/*                   ft_utils.c                 */
 int		skip_spaces(t_token *input, int i);
-// char	**ft_split_input(char *input);
+
+/*                   ft_echo.c                 */
 void	ft_echo(t_token *input);
+
+/*                   ft_pwd.c                 */
+// Prints the absolute path to the current directory.
 void	ft_pwd();
+
+/*                   ft_env.c                 */
+// Prints all the environment variables
+void	ft_env(char **envp);
 
 #endif

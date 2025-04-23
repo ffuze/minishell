@@ -5,10 +5,13 @@ bash$ export a b c= f
 declare -x a
 declare -x b
 declare -x c=""
-declare -x f 
+declare -x f
+bash$ unset a b 
+declare -x c=""
+declare -x f
 
 bash$ export a =ff
-bash: export: `=ff': not a valid identifier
+bash: export: '=ff': not a valid identifier
 declare -x a
 
 bash$ a=''
@@ -16,3 +19,8 @@ declare -x a=""
 
 bash$ a='     '
 declare -x a="     "
+
+bash$ export bella=c"ia"o
+declare -x bella="ciao"
+bash$ env
+bella=ciao
