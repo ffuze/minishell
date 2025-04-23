@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:17 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/17 18:14:20 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:03:04 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,16 @@ int main(/*int argc, char **argv*/)
 		split_input = ft_split(input, ' ');
 		if (ft_strcmp(split_input[0], "exit") == 0 && !split_input[1])
 			return EXIT_SUCCESS;
+		// else if (ft_strcmp(split_input[0], "ls") == 0)
+		// 	ft_ls();
 		else if (ft_strcmp(split_input[0], "pwd") == 0)
 			ft_pwd();
 		// else if (ft_strcmp(split_input[0], "ls") == 0)
 		// 	ft_ls(split_input);
 		// else if (ft_strcmp(split_input[0], "ls -l") == 0)
 		// 	ft_ls_l();
-		else if ((ft_strcmp(split_input[0], "echo")) == 0)
-			ft_echo(split_input);
+		// else if ((ft_strcmp(split_input[0], "echo")) == 0)
+		// 	ft_echo(split_input);
 		else
 			printf("Command not found: %s\n", input);
 		if (ft_strcmp(split_input[0], "clear") == 0 && !split_input[1])

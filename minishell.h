@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   index.h                                            :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/17 18:13:02 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:03:26 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ typedef enum s_token_enum
     TOKEN_STRING_SINGLE, // string with single quotes
     TOKEN_STRING_DOUBLE, // string with double quotes
     TOKEN_PIPE, // --> | <--
-    TOKEN_ERROR // invalid token
+    TOKEN_ERROR, // invalid token
+	EXIT_STATUS = 0
 }	t_token_enum;
 
 typedef struct s_token
@@ -77,8 +78,9 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
-char	**ft_split_input(char *input);
-void	ft_echo(t_token *input);
+int		skip_spaces(char *input, int i);
+// char	**ft_split_input(char *input);
+void	ft_echo(char *input);
 void	ft_pwd();
 
 #endif

@@ -1,10 +1,9 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft -g
+CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
 NAME = minishell
 #NAME_BONUS =
 OBJ_DIR = obj
-
-SRC_MAIN = index.c ft_echo.c ft_utils.c ft_pwd.c
+SRC_MAIN = index.c ft_echo.c ft_pwd.c ft_utils.c
 #SRC_BONUS = 
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
@@ -31,7 +30,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
 $(NAME): $(LIBFT) $(SRC_MAIN)
-	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)Object files created!$(NO_COLOR)"
 
 #bonus: $(LIBFT) $(NAME_BONUS)
@@ -46,7 +45,7 @@ clean:
 
 fclean: clean
 	@echo "$(RED)Full Cleaning...$(NO_COLOR)"
-	@	rm -rf $(OBJ_DIR) $(NAME) #$(NAME_BONUS)
+	@	rm -rf $(OBJ_DIR) $(NAME)
 	@	$(MAKE) -C $(LIBFT_DIR) fclean --quiet
 
 re: fclean all
