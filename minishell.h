@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 08:30:24 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/23 11:35:04 by lemarino         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-=======
->>>>>>> master
-=======
->>>>>>> master
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -84,17 +66,8 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-int		skip_spaces(char *input, int i);
-=======
 int		skip_spaces(t_token *input, int i);
 // char	**ft_split_input(char *input);
->>>>>>> master
-=======
-int		skip_spaces(t_token *input, int i);
-// char	**ft_split_input(char *input);
->>>>>>> master
 void	ft_echo(t_token *input);
 void	ft_pwd();
 
