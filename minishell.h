@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -11,6 +12,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 #ifndef MINISHELL_H
@@ -82,7 +85,12 @@ typedef struct s_token
 }	t_token;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 int		skip_spaces(char *input, int i);
+=======
+int		skip_spaces(t_token *input, int i);
+// char	**ft_split_input(char *input);
+>>>>>>> master
 =======
 int		skip_spaces(t_token *input, int i);
 // char	**ft_split_input(char *input);
