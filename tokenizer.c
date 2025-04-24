@@ -55,5 +55,9 @@ t_token	**tokenize(char *input, int token_count)
 			start = ++i;
 			
 		}
+		else
+		{
+			
+		}
 	}
 }
