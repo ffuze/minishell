@@ -66,6 +66,9 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
+/*                   tokenizer.c                 */
+t_token	**tokenize(char *input/* , int token_count */);
+
 /*                   ft_utils.c                 */
 int		skip_spaces(t_token *input, int i);
 
