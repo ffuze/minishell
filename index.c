@@ -83,8 +83,8 @@ int main(int ac, char *av[], char **envp)
 		split_input = ft_split(input, ' ');
 		if (ft_strcmp(split_input[0], "exit") == 0 && !split_input[1])
 			return EXIT_SUCCESS;
-		// else if (ft_strcmp(split_input[0], "ls") == 0)
-		// 	ft_ls();
+		// else if (ft_strcmp(split_input[0], "export") == 0)
+		// 	ft_export();
 		else if (ft_strcmp(split_input[0], "pwd") == 0)
 			ft_pwd();
 		else if (ft_strcmp(split_input[0], "env") == 0)
