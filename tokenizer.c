@@ -56,9 +56,5 @@ t_token	**tokenize(char *input, int token_count)
 		{
 			
 		}
-		else
-		{
-			
-		}
 	}
 }
