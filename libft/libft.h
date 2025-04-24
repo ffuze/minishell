@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:17:36 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/04/16 12:37:03 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:58:12 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int		ft_printf_s(char *s);
 int		ft_printf_p(void *p);
 int		ft_strcmp(const char *s1, const char *s2);
 void	**free_dpc(char **double_pointer_char);
+void	*ft_realloc(void *ptr, size_t old_size, size_t size);
 
 #endif

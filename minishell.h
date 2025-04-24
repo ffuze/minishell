@@ -69,18 +69,25 @@ typedef struct s_token
 /*                   tokenizer.c                 */
 t_token	**tokenize(char *input/* , int token_count */);
 
-/*                   ft_utils.c                 */
+
+/*                   utils.c                 */
 int		skip_spaces(t_token *input, int i);
+
+// Duplicates the pointer to Environment Variables
+char	**ft_envp_dup(char **envp);
+
 
 /*                   ft_echo.c                 */
 void	ft_echo(t_token *input);
+
 
 /*                   ft_pwd.c                 */
 // Prints the absolute path to the current directory.
 void	ft_pwd();
 
+
 /*                   ft_env.c                 */
 // Prints all the environment variables
-void	ft_env(char **envp);
+void	ft_env(char **envp2);
 
 #endif

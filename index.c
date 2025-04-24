@@ -56,11 +56,9 @@ void	ft_handler(int signum)
 
 int main(int ac, char *av[], char **envp)
 {
-	// char	*path = getenv("PATH");
-	// char	**dir;
-	// char	*all_paths;
 	struct	sigaction sa;
 	char	*input;
+	char	**envp2;
 	char	**split_input;
 
 	(void)ac;
@@ -73,6 +71,7 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGSEGV, &sa, NULL);
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
+	envp2 = ft_envp_dup(envp);
 	input = malloc(sizeof(char *));
 	while (1)
 	{
@@ -89,7 +88,7 @@ int main(int ac, char *av[], char **envp)
 		else if (ft_strcmp(split_input[0], "pwd") == 0)
 			ft_pwd();
 		else if (ft_strcmp(split_input[0], "env") == 0)
-			ft_env(envp);
+			ft_env(envp2);
 		// else if (ft_strcmp(split_input[0], "ls") == 0)
 		// 	ft_ls(split_input);
 		// else if (ft_strcmp(split_input[0], "ls -l") == 0)
@@ -102,7 +101,9 @@ int main(int ac, char *av[], char **envp)
 			ft_clear(input);
 		else
 			add_history(input);
+		free(input);
 		free_dpc(split_input);
 	}
+	free_dpc(envp2);
 	return EXIT_SUCCESS;
 }
