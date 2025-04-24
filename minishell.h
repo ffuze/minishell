@@ -66,9 +66,9 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
-int		skip_spaces(char *input, int i);
+int		skip_spaces(t_token *input, int i);
 // char	**ft_split_input(char *input);
-void	ft_echo(char *input);
+void	ft_echo(t_token *input);
 void	ft_pwd();
 
 #endif
