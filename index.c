@@ -54,7 +54,7 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(/*int argc, char **argv*/)
+int main(int ac, char *av[], char **envp)
 {
 	// char	*path = getenv("PATH");
 	// char	**dir;
@@ -63,8 +63,8 @@ int main(/*int argc, char **argv*/)
 	char	*input;
 	char	**split_input;
 
-	// dir = ft_split(path, ':');
-	// all_paths = malloc(sizeof(char));
+	(void)ac;
+	av = NULL;
 	sa.sa_handler = ft_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
@@ -74,8 +74,6 @@ int main(/*int argc, char **argv*/)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	input = malloc(sizeof(char *));
-	// for (size_t i = 0; i < ft_strlen(dir[i]); i++)
-	// 		printf("%s\n", dir[i]);
 	while (1)
 	{
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
@@ -90,6 +88,8 @@ int main(/*int argc, char **argv*/)
 		// 	ft_ls();
 		else if (ft_strcmp(split_input[0], "pwd") == 0)
 			ft_pwd();
+		else if (ft_strcmp(split_input[0], "env") == 0)
+			ft_env(envp);
 		// else if (ft_strcmp(split_input[0], "ls") == 0)
 		// 	ft_ls(split_input);
 		// else if (ft_strcmp(split_input[0], "ls -l") == 0)

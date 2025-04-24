@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-// Returns the absolute path to the current directory.
+// Prints the absolute path to the current directory.
 void	ft_pwd()
 {
 	int		i;
