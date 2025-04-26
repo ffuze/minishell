@@ -11,7 +11,6 @@ char	**ft_sortenvp(char	**envp)
 	sorted_envp = ft_calloc(ft_mtrxlen(envp) + 1, sizeof(char *));
 	if (!sorted_envp)
 		return (NULL);
-	
 }
 
 void	print_declarex(char **envp2)

@@ -1,108 +1,98 @@
 #include "minishell.h"
 
-static int	handle_single_quotes(t_token *input, int i)
+int	handle_single_quotes(t_token *token)
 {
-	size_t	j;
+	size_t	i;
 
-	i++;
-	j = (size_t)i;
-	while (input->value[i] != '\0' && input->value[i] != 39)
-		j++;
-	if (j == ft_strlen(input->value) && input->value[i] != 39)
+	i = 0;
+	while (token->value[i] != '\0')
 	{
-		printf("Unclosed single quotes were found.");
-		return (0);
-	}
-	while (input->value[i] != 39)
-	{
-		printf("%c", input->value[i]);
+		if (token->value[i] != '\'')
+			printf("%c", token->value[i]);
 		i++;
 	}
-	i++;
-	return (i);
+	return (0);
 }
 
-static int	handle_double_quotes(t_token *input, int i)
+int	handle_double_quotes(t_token *token)
 {
-	size_t	j;
+	size_t	i;
 
-	i++;
-	j = (size_t)i;
-	while (input->value[i] && input->value[i] != 34)
-		j++;
-	if (j == ft_strlen(input->value) && input->value[i] != 34)
+	i = 0;
+	while (token->value[i] != '\0')
 	{
-		printf("\nUnclosed double quotes were found.");
-		return (0);
-	}
-	while (input->value[i] != 34)
-	{
-		printf("%c", input->value[i]);
+		if (token->value[i] != '"')
+			printf("%c", token->value[i]);
 		i++;
 	}
-	i++;
-	return (i);
+	return (0);
 }
 
-// Verifies whether the "-n" flag is to be applied,
-//  no matter how many letters are after the sign.
-static int	check_flag(t_token *input)
-{
-	int	j;
-
-	j = 0;
-	while (input->value[j] && input->value[j] == ' ')
-		j++;
-	if (input->value[j] == '-' && input->value[j + 1] == 'n')
-	{
-		j++;
-		while (input->value[j] == 'n')
-		{
-			j++;
-			if (input->value[j] != 'n' && input->value[j] != ' ')
-				return (0);
-		}
-	}
-	else
-		return (0);
-	return (j);
-}
-
-// Actually prints the characters unless it finds unclosed quotes
-static int	ft_echo2(t_token *input, int i)
-{
-	while (input->value[i] && input->value[i] == ' ')
-		i++;
-	while (ft_isprint(input->value[i]))
-	{
-		if (input->value[i] == 39)
-			i = handle_single_quotes(input, i);
-		else if (input->value[i] == 34)
-			i = handle_double_quotes(input, i);
-		if (i == 0)
-			break ;
-		printf("%c", input->value[i]);
-		i++;
-	}
-	return (i);
-}
-
-void	ft_echo(t_token *input)
+int	check_flag(t_token *token)
 {
 	int	i;
 
-	i = 4;
-	if ((input->value[i] > 32 && input->value[i] < 96)
-		|| (input->value[i] > 96 && input->value[i] < 127))
+	i = 0;
+	if (!token || token->type != TOKEN_WORD)
+		return (0);
+	while (token->value[i] == ' ')
+		i++;
+	if (token->value[i] == '-' && token->value[i + 1] == 'n')
 	{
-		printf("\n");
-		return ;
+		i++;
+		while (token->value[i] == 'n')
+			i++;
+		if (token->value[i] == '\0')
+			return (1);
 	}
-	i += check_flag(input + 4);
-	i = ft_echo2(input, i);
-	if (!check_flag(input + 4))
+	return (0);
+}
+
+void	print_token(t_token *token, int *in_quotes)
+{
+	size_t	i;
+
+	i = 0;
+	while (token->value[i])
+	{
+		if (!(*in_quotes) && token->value[i] == ';')
+			return ;
+		else if (!(*in_quotes) && token->value[i] == '\\')
+			continue ;
+		else if (token->value[i] == '\'' || token->value[i] == '"')
+			*in_quotes = !(*in_quotes); // mette in_quotes da 1 a 0
+		else
+			printf("%c", token->value[i]);
+		i++;
+	}
+}
+
+void	ft_echo(t_token **tokens)
+{
+	int	i;
+	int	newline;
+	int	in_quotes;
+
+	i = 1;
+	newline = 1;
+	in_quotes = 0;
+	if (tokens[i] && check_flag(tokens[i]))
+	{
+		newline = 0;
+		i++;
+	}
+	while (tokens[i])
+	{
+		if (tokens[i]->type == TOKEN_STRING_SINGLE)
+			handle_single_quotes(tokens[i]);
+		else if (tokens[i]->type == TOKEN_STRING_DOUBLE)
+			handle_double_quotes(tokens[i]);
+		else
+			print_token(tokens[i], &in_quotes);
+		if (tokens[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (newline)
 		printf("\n");
 }
-// evitare anche ';'(59) e '\'(92) in assenza di virgolette o apici?
-// '\' da ignorare completamente
-// stampare fino a ';'?

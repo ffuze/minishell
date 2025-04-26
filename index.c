@@ -59,7 +59,9 @@ int main(int ac, char *av[], char **envp)
 	struct	sigaction sa;
 	char	*input;
 	char	**envp2;
-	char	**split_input;
+	// char	**split_input;
+	t_token	**tokens;
+	int		clearflag;
 
 	(void)ac;
 	av = NULL;
@@ -72,7 +74,7 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	envp2 = ft_envp_dup(envp);
-	input = malloc(sizeof(char *));
+	clearflag = 0;
 	while (1)
 	{
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
@@ -80,14 +82,20 @@ int main(int ac, char *av[], char **envp)
 			return EXIT_FAILURE;
 		else if (!(*input))
 			continue;
-		split_input = ft_split(input, ' ');
-		if (ft_strcmp(split_input[0], "exit") == 0 && !split_input[1])
+		tokens = tokenize(input);
+		if (!tokens)
+			continue ;
+		// split_input = ft_split(input, ' ');
+		if (tokens[0] && tokens[0]->type == TOKEN_WORD
+			&& ft_strcmp(tokens[0]->value, "exit") == 0)
 			return EXIT_SUCCESS;
 		// else if (ft_strcmp(split_input[0], "export") == 0)
 		// 	ft_export();
-		else if (ft_strcmp(split_input[0], "pwd") == 0)
+		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
+			&& ft_strcmp(tokens[0]->value, "pwd") == 0)
 			ft_pwd();
-		else if (ft_strcmp(split_input[0], "env") == 0)
+		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
+			&& ft_strcmp(tokens[0]->value, "env") == 0)
 			ft_env(envp2);
 		// else if (ft_strcmp(split_input[0], "ls") == 0)
 		// 	ft_ls(split_input);
@@ -95,14 +103,18 @@ int main(int ac, char *av[], char **envp)
 		// 	ft_ls_l();
 		// else if ((ft_strcmp(split_input[0], "echo")) == 0)
 		// 	ft_echo(split_input);
+		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
+			&& ft_strcmp(tokens[0]->value, "clear") == 0)
+		{
+				ft_clear(input);
+				clearflag = 1;
+		}
 		else
 			printf("Command not found: %s\n", input);
-		if (ft_strcmp(split_input[0], "clear") == 0 && !split_input[1])
-			ft_clear(input);
-		else
+		if (!clearflag)
 			add_history(input);
 		free(input);
-		free_dpc(split_input);
+		// free_dpc(split_input);
 	}
 	free_dpc(envp2);
 	return EXIT_SUCCESS;

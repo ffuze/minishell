@@ -10,8 +10,8 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, size_t e
 	token->value = ft_substr(input, start, end);
 	return (token);
 }
-
-void	handle_single_quotes(t_token *tokens, char *input, int *i)
+	
+void	handle_single_quotes(t_token **tokens, char *input, int *i)
 {
 	size_t	start;
 	size_t	end;
@@ -20,44 +20,44 @@ void	handle_single_quotes(t_token *tokens, char *input, int *i)
 	end = 0;
 	start = ++*i;
 	while (input[*i] != '\'')
-		*i++;
+		(*i)++;
 	if (input[*i] == '\'')
 		end = ft_strlen(input) - *i - start;
-	tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
-	*i++;
+	*tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
+	(*i)++;
 }
 
-void	handle_double_quotes(t_token *tokens, char *input, int *i)
+void	handle_double_quotes(t_token **tokens, char *input, int *i)
 {
 	size_t	start;
 	size_t	end;
 
 	start = 0;
 	end = 0;
-	start = ++*i;
-	while (input[*i] != '\'')
-		*i++;
-	if (input[*i] == '\'')
+	start = ++(*i);
+	while (input[*i] != '"')
+		(*i)++;
+	if (input[*i] == '"')
 		end = ft_strlen(input) - *i - start;
-	tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
-	*i++;
+	*tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
+	(*i)++;
 }
 
-void	handle_dollar_sign(t_token *tokens, char *input, int *i)
+void	handle_dollar_sign(t_token **tokens, char *input, int *i)
 {
 	size_t	start;
 	size_t	end;
 
 	start = 0;
 	end = 0;
-	start = ++*i;
+	start = ++(*i);
 	while (input[*i] != '$')
-		*i++;
-	tokens = make_token(TOKEN_VAR, input, start, ft_strlen(input) - 1);
-	*i++;
+		(*i)++;
+	*tokens = make_token(TOKEN_VAR, input, start, ft_strlen(input) - 1);
+	(*i)++;
 }
 
-void	handle_no_quotes(t_token *tokens, char *input, int *i)
+void	handle_no_quotes(t_token **tokens, char *input, int *i)
 {
 	size_t	start;
 	size_t	end;
@@ -67,13 +67,13 @@ void	handle_no_quotes(t_token *tokens, char *input, int *i)
 	start = *i;
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\''
 		&& input[*i] != '"' && input[*i] != '|' && input[*i] != '$')
-		*i++;
+		(*i)++;
 	if (!input[*i] || input[*i] == ' ')
 		end = ft_strlen(input) - *i - start;
 	else
 		return ;
-	tokens = make_token(TOKEN_WORD, input, start, end);
-	*i++;
+	*tokens = make_token(TOKEN_WORD, input, start, end);
+	(*i)++;
 }
 
 t_token	**tokenize(char *input/* , int token_count */)
@@ -82,7 +82,7 @@ t_token	**tokenize(char *input/* , int token_count */)
 	int		i;
 	int		count;
 
-	tokens = malloc(sizeof(t_token *));
+	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
 	i = 0;
 	count = 0;
 	while (input[i] != '\0')
@@ -90,18 +90,20 @@ t_token	**tokenize(char *input/* , int token_count */)
 		while (input[i] && input[i] == ' ')
 			i++;
 		if (input[i] == '\'')
-			handle_single_quotes(tokens[count], input, &i);
+			handle_single_quotes(&tokens[count], input, &i);
 		else if (input[i] && input[i] == '"')
-			handle_double_quotes(tokens[count], input, &i);
+			handle_double_quotes(&tokens[count], input, &i);
 		else if (input[i] && input[i] == '$')
-			handle_dollar_sign(tokens[count], input, &i);
+			handle_dollar_sign(&tokens[count], input, &i);
 		else if (input[i] && input[i] == '|')
 		{
 			tokens[count] = make_token(TOKEN_PIPE, input, i, 1);
 			i++;
 		}
 		else
-			handle_no_quotes(tokens[count], input, &i);
+			handle_no_quotes(&tokens[count], input, &i);
 		count++;
 	}
+	tokens[count] = NULL;
+	return (tokens);
 }
