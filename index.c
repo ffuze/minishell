@@ -83,19 +83,24 @@ int main(int ac, char *av[], char **envp)
 		else if (!(*input))
 			continue;
 		tokens = tokenize(input);
+		for (size_t i = 0; tokens[i] != NULL; i++)
+			printf("Token numero %zu: %s++\n", i, tokens[i]->value);
+		// size_t i = 0;
+		// while (tokens[i])
+		// {
+		// 	printf("Token numero %zu: %s++\n", i, tokens[i]->value);
+		// 	i++;
+		// }
 		if (!tokens)
 			continue ;
 		// split_input = ft_split(input, ' ');
-		if (tokens[0] && tokens[0]->type == TOKEN_WORD
-			&& ft_strcmp(tokens[0]->value, "exit") == 0)
+		if (tokens[0] && ft_strcmp(tokens[0]->value, "exit") == 0)
 			return EXIT_SUCCESS;
 		// else if (ft_strcmp(split_input[0], "export") == 0)
 		// 	ft_export();
-		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
-			&& ft_strcmp(tokens[0]->value, "pwd") == 0)
+		else if (tokens[0] && ft_strcmp(tokens[0]->value, "pwd") == 0)
 			ft_pwd();
-		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
-			&& ft_strcmp(tokens[0]->value, "env") == 0)
+		else if (tokens[0] && ft_strcmp(tokens[0]->value, "env") == 0)
 			ft_env(envp2);
 		// else if (ft_strcmp(split_input[0], "ls") == 0)
 		// 	ft_ls(split_input);

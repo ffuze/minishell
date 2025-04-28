@@ -6,7 +6,9 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, size_t e
 
 	token = malloc(sizeof(t_token));
 	token->type = token_type;
-
+	// printf("start: %zu\n", start);//////////
+	// printf("end: %zu\n", end);//////////
+	// printf("len: %zu\n", strlen(input));//////////
 	token->value = ft_substr(input, start, end);
 	return (token);
 }
@@ -22,7 +24,7 @@ void	handle_single_quotes(t_token **tokens, char *input, int *i)
 	while (input[*i] != '\'')
 		(*i)++;
 	if (input[*i] == '\'')
-		end = ft_strlen(input) - *i - start;
+		end = *i - start;
 	*tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
 	(*i)++;
 }
@@ -38,7 +40,7 @@ void	handle_double_quotes(t_token **tokens, char *input, int *i)
 	while (input[*i] != '"')
 		(*i)++;
 	if (input[*i] == '"')
-		end = ft_strlen(input) - *i - start;
+		end = *i - start;
 	*tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
 	(*i)++;
 }
@@ -65,13 +67,15 @@ void	handle_no_quotes(t_token **tokens, char *input, int *i)
 	start = 0;
 	end = 0;
 	start = *i;
+	// printf("i: %d\n", *i);//////////
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\''
 		&& input[*i] != '"' && input[*i] != '|' && input[*i] != '$')
 		(*i)++;
 	if (!input[*i] || input[*i] == ' ')
-		end = ft_strlen(input) - *i - start;
+		end = *i - start;
 	else
 		return ;
+	// printf("end: %zu\n", end);//////////
 	*tokens = make_token(TOKEN_WORD, input, start, end);
 	(*i)++;
 }
@@ -100,7 +104,7 @@ t_token	**tokenize(char *input/* , int token_count */)
 			tokens[count] = make_token(TOKEN_PIPE, input, i, 1);
 			i++;
 		}
-		else
+		else if (input[i] && input[i] != ' ')
 			handle_no_quotes(&tokens[count], input, &i);
 		count++;
 	}
