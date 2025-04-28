@@ -20,6 +20,10 @@ declare -x a=""
 bash$ a='     '
 declare -x a="     "
 
+bash$ export zanza= mara
+declare -x mara
+declare -x zanza=""
+
 bash$ export bella=c"ia"o
 declare -x bella="ciao"
 bash$ env

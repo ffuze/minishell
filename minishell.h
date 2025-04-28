@@ -90,4 +90,7 @@ void	ft_pwd();
 // Prints all the environment variables
 void	ft_env(char **envp2);
 
+/*                   ft_export.c                 */
+void	ft_export(char *input, char **envp2);
+
 #endif

@@ -96,9 +96,9 @@ int main(int ac, char *av[], char **envp)
 		// split_input = ft_split(input, ' ');
 		if (tokens[0] && ft_strcmp(tokens[0]->value, "exit") == 0)
 			return EXIT_SUCCESS;
-		// else if (ft_strcmp(split_input[0], "export") == 0)
-		// 	ft_export();
-		else if (tokens[0] && ft_strcmp(tokens[0]->value, "pwd") == 0)
+		else if (ft_strcmp(tokens[0]->value, "export") == 0)
+			ft_export(tokens[0]->value, envp2);
+		else if (tokens[0] && ft_strcmp(tokens[0]->value, "pwd") == 0/*, tokens[0]->type == TOKEN_WORD*/)
 			ft_pwd();
 		else if (tokens[0] && ft_strcmp(tokens[0]->value, "env") == 0)
 			ft_env(envp2);
