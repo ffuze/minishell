@@ -85,19 +85,13 @@ int main(int ac, char *av[], char **envp)
 		tokens = tokenize(input);
 		for (size_t i = 0; tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s++\n", i, tokens[i]->value);
-		// size_t i = 0;
-		// while (tokens[i])
-		// {
-		// 	printf("Token numero %zu: %s++\n", i, tokens[i]->value);
-		// 	i++;
-		// }
 		if (!tokens)
 			continue ;
 		// split_input = ft_split(input, ' ');
 		if (tokens[0] && ft_strcmp(tokens[0]->value, "exit") == 0)
 			return EXIT_SUCCESS;
 		else if (ft_strcmp(tokens[0]->value, "export") == 0)
-			ft_export(tokens[0]->value, envp2);
+			ft_export(tokens, envp2);
 		else if (tokens[0] && ft_strcmp(tokens[0]->value, "pwd") == 0/*, tokens[0]->type == TOKEN_WORD*/)
 			ft_pwd();
 		else if (tokens[0] && ft_strcmp(tokens[0]->value, "env") == 0)

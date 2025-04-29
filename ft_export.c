@@ -1,39 +1,43 @@
 #include "minishell.h"
 
-// Returns a copy of ENVP sorted alphanumerically
+void	str_swap(char **s1, char **s2)
+{
+	char	*tmp;
+
+	tmp = *s1;
+	*s1 = *s2;
+	*s2 = tmp;
+}
+
+// Returns a copy of ENVP sorted according to ASCII
 char	**ft_sortenvp(char	**envp)
 {
 	char	**sorted_envp;
-	char	*tmp;
 	size_t	i;
-	size_t	j;
+	size_t	l;
 	size_t	k;
 
 	i = 0;
-	j = 0;
+	l = ft_mtrxlen(envp);
 	k = 0;
-	tmp = envp[i];
-	sorted_envp = ft_calloc(ft_mtrxlen(envp) + 1, sizeof(char *));
+	sorted_envp = ft_envp_dup(envp);
 	if (!sorted_envp)
 		return (NULL);
-	while (sorted_envp[k])
+	while (k < l)
 	{
-		while (envp[i][j] && envp[i][j] != '=')// #################################
+		while (sorted_envp[i + 1])
 		{
-			while (envp[i + 1] && tmp[j] < envp[i + 1][j])
-				i++;
-			tmp = envp[i];
-			i = 0;
-			j++;
+			if (ft_strcmp(sorted_envp[i], sorted_envp[i + 1]) > 0)
+				str_swap(&sorted_envp[i], &sorted_envp[i + 1]);
+			i++;
 		}
-		sorted_envp[k] = tmp;
 		k++;
-		j = 0;
+		i = 0;
 	}
 	return (sorted_envp);
 }
 
-// Prints Environment Vars in alphanumeric order
+// Prints Environment Vars in ASCII order with their value in double quotes
 void	print_declarex(char **envp2)
 {
 	int		i;
@@ -45,16 +49,20 @@ void	print_declarex(char **envp2)
 		return ;
 	while (sorted_envp[i])
 	{
-		printf("declare -x ");
-		printf("%s\n", sorted_envp[i]);
+		ft_printf("declare -x ");
+		ft_strchr3_print(sorted_envp[i], '=');
+		printf("\"%s\"\n", ft_strchr2(sorted_envp[i], '='));
 		i++;
 	}
+	free(sorted_envp);
 }
 
-void	ft_export(char *input, char **envp2)
+void	ft_export(t_token **tokens, char **envp2)
 {
-	if (!input[1])
+	if (!tokens[1])
 		print_declarex(envp2);
+	if (tokens[1])
+		printf("dededede\n");
 }
 // nome della variabile non puo cominciare con un numero e deve avere solo char alfanumerici e/o '_'
 // variabile non puo avere $ o | nel contenuto

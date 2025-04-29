@@ -28,3 +28,9 @@ bash$ export bella=c"ia"o
 declare -x bella="ciao"
 bash$ env
 bella=ciao
+
+
+bash$ export ttws|sv="g|ef" viene ignorato
+
+bash$ ffws$sv="f$ef"
+ffws=f          a prescindere dalle virgolette

@@ -91,6 +91,7 @@ void	ft_pwd();
 void	ft_env(char **envp2);
 
 /*                   ft_export.c                 */
-void	ft_export(char *input, char **envp2);
+// Prints Environment Vars in ASCII order if no arguments are given
+void	ft_export(t_token **tokens, char **envp2);
 
 #endif
