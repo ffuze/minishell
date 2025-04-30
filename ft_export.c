@@ -23,7 +23,7 @@ char	**ft_sortenvp(char	**envp)
 	sorted_envp = ft_envp_dup(envp);
 	if (!sorted_envp)
 		return (NULL);
-	while (k < l)
+	while (k++ < l)
 	{
 		while (sorted_envp[i + 1])
 		{
@@ -31,7 +31,6 @@ char	**ft_sortenvp(char	**envp)
 				str_swap(&sorted_envp[i], &sorted_envp[i + 1]);
 			i++;
 		}
-		k++;
 		i = 0;
 	}
 	return (sorted_envp);
@@ -64,5 +63,6 @@ void	ft_export(t_token **tokens, char **envp2)
 	if (tokens[1])
 		printf("dededede\n");
 }
-// nome della variabile non puo cominciare con un numero e deve avere solo char alfanumerici e/o '_'
+// nome della variabile deve avere solo char alfanumerici e/o '_'
+// se il nome comincia per numero, il primo viene ignorato. Se il secondo  lettera o _
 // variabile non puo avere $ o | nel contenuto

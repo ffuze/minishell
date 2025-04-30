@@ -34,3 +34,14 @@ bash$ export ttws|sv="g|ef" viene ignorato
 
 bash$ ffws$sv="f$ef"
 ffws=f          a prescindere dalle virgolette
+
+bash$ export a="echo ciao | mondo"
+bash$ $a
+ciao | mondo  ---> (echo = comando, | = char)
+
+bash$ export $77baaaaaaa=jbkub
+bash: export: `7baaaaaaa=jbkub': not a valid identifier
+
+bash$ export $7baaaaaaa=jbkub
+declare -x baaaaaaa="jbkub"
+
