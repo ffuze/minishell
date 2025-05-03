@@ -53,16 +53,32 @@ void	print_declarex(char **envp2)
 		printf("\"%s\"\n", ft_strchr2(sorted_envp[i], '='));
 		i++;
 	}
-	free(sorted_envp);
+	free_dpc(sorted_envp);
+}
+
+void	add_var(t_token **tokens, char **envp2)
+{
+	int		i;
+	size_t	envpl;
+
+	i = 1;
+	envpl = ft_mtrxlen(envp2);
+	while (tokens[i]->value && (tokens[i]->type == TOKEN_WORD || tokens[i]->type == TOKEN_STRING_SINGLE || tokens[i]->type == TOKEN_STRING_DOUBLE))
+	{
+		envp2 = ft_realloc(envp2, envpl + 1, envpl + 2);
+		envpl++;
+		envp2[envpl] = ft_strdup(tokens[i]->value);
+		i++;
+	}
 }
 
 void	ft_export(t_token **tokens, char **envp2)
 {
 	if (!tokens[1])
-		print_declarex(envp2);
+		print_declarex(/* tokens[0]-> */envp2);
 	if (tokens[1])
+		// add_var(tokens, /* tokens[0]-> */envp2);
 		printf("dededede\n");
 }
 // nome della variabile deve avere solo char alfanumerici e/o '_'
-// se il nome comincia per numero, il primo viene ignorato. Se il secondo  lettera o _
 // variabile non puo avere $ o | nel contenuto

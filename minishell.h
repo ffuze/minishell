@@ -64,8 +64,10 @@ typedef struct s_token
 	t_token_enum	type;
 	char			*value;
     unsigned char   exit_status;
-    char            **envp2;
+    // char            **envp2;
 }	t_token;
+
+
 
 /*                   tokenizer.c                 */
 t_token	**tokenize(char *input/* , int token_count */);
