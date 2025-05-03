@@ -86,7 +86,7 @@ int main(int ac, char *av[], char **envp)
 		tokens = tokenize(input);
 		
 		for (size_t i = 0; tokens[i] != NULL; i++)
-			printf("Token numero %zu: %s++\n", i, tokens[i]->value);
+			printf("Token numero %zu: %s e' di tipo: %d++\n", i, tokens[i]->value, tokens[i]->type);
 		if (!tokens)
 			continue ;
 		if (tokens[0] && ft_strcmp(tokens[0]->value, "exit") == 0)
