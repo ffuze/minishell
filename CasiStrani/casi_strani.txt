@@ -31,3 +31,13 @@ ls-l: command not found
 
 bash$ ls|wc -l
 9
+
+bash$ echo ciao mondo > b culo
+bash$ cat b
+ciao mondo culo
+
+bash$ echo ciao mondo > b culo > cat lore (cat dopo > sara' il nome di un file)
+bash$ cat b
+*vuoto*
+bash$ cat cat
+ciao mondo culo lore

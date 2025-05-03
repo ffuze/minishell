@@ -1,5 +1,7 @@
 bash$ a=ff
 declare -x a="ff"
+bash$ a+="uck"
+declare -x a="ffuck"
 
 bash$ export a b c= f
 declare -x a
@@ -39,9 +41,18 @@ bash$ export a="echo ciao | mondo"
 bash$ $a
 ciao | mondo  ---> (echo = comando, | = char)
 
-bash$ export $77baaaaaaa=jbkub
+bash$ export $77baaaaaaa=jbkub 
 bash: export: `7baaaaaaa=jbkub': not a valid identifier
 
 bash$ export $7baaaaaaa=jbkub
-declare -x baaaaaaa="jbkub"
+declare -x baaaaaaa="jbkub"    ($0~9 == variabile posizionale)
 
+bash$ export axxa=""
+bash$ env | grep axxa
+axxa=
+
+bash$ export axxa
+bash$ env | grep axxa
+*vuoto*
+bash$ export | grep axxa
+declare -x axxa

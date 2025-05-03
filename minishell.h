@@ -57,13 +57,14 @@ typedef enum s_token_enum
     TOKEN_STRING_DOUBLE, // string with double quotes
     TOKEN_PIPE, // --> | <--
     TOKEN_ERROR, // invalid token
-	EXIT_STATUS = 0
 }	t_token_enum;
 
 typedef struct s_token
 {
 	t_token_enum	type;
 	char			*value;
+    unsigned char   exit_status;
+    char            **envp2;
 }	t_token;
 
 /*                   tokenizer.c                 */
