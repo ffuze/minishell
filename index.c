@@ -74,8 +74,8 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
 	envp2 = ft_envp_dup(envp);// Deve stare fuori dal while()
-		if (!envp2)
-			return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
+	if (!envp2)
+		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
@@ -92,7 +92,11 @@ int main(int ac, char *av[], char **envp)
 		if (tokens[0] && ft_strcmp(tokens[0]->value, "exit") == 0)
 			return (free_dpc(/* tokens[0]-> */envp2), EXIT_SUCCESS);
 		else if (ft_strcmp(tokens[0]->value, "export") == 0)
+		{
 			ft_export(tokens, envp2);
+			if (!envp2)
+				return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
+		}
 		else if (tokens[0] && ft_strcmp(tokens[0]->value, "pwd") == 0)
 			ft_pwd();
 		else if (tokens[0] && ft_strcmp(tokens[0]->value, "env") == 0)
