@@ -53,16 +53,15 @@ void	print_declarex(char **envp2)
 		printf("\"%s\"\n", ft_strchr2(sorted_envp[i], '='));
 		i++;
 	}
-	free(sorted_envp);
+	free_dpc(sorted_envp);
 }
 
 void	ft_export(t_token **tokens, char **envp2)
 {
 	if (!tokens[1])
-		print_declarex(envp2);
+		print_declarex(/* tokens[0]-> */envp2);
 	if (tokens[1])
-		printf("dededede\n");
+		printf("dededede\n");//////////////////
 }
 // nome della variabile deve avere solo char alfanumerici e/o '_'
-// se il nome comincia per numero, il primo viene ignorato. Se il secondo  lettera o _
 // variabile non puo avere $ o | nel contenuto

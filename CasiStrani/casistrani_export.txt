@@ -41,7 +41,7 @@ bash$ export a="echo ciao | mondo"
 bash$ $a
 ciao | mondo  ---> (echo = comando, | = char)
 
-bash$ export $77baaaaaaa=jbkub 
+bash$ export 7baaaaaaa=jbkub 
 bash: export: `7baaaaaaa=jbkub': not a valid identifier
 
 bash$ export $7baaaaaaa=jbkub
