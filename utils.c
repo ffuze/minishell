@@ -28,3 +28,11 @@ char	**ft_envp_dup(char **envp)
 	}
 	return (envp2);
 }
+
+int	ft_isbashprint(int c)
+{
+	if (c > 32 && c < 126 && c != '~' && c != '`' && c != '<' && c != '>'\
+						&& c != '(' && c != ')' && c != '^' && c != '|')
+		return (1);
+	return (0);
+}

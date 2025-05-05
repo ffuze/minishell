@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 11:04:11 by adegl-in          #+#    #+#             */
-/*   Updated: 2024/11/26 15:04:33 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:21:06 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (*s2)
 		s3[i++] = *s2++;
 	s3[i] = '\0';
+	// free((char *)s1);
 	return (s3);
 }
 

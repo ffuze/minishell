@@ -79,6 +79,9 @@ t_token	**tokenize(char *input/* , int token_count */);
 /*                   utils.c                 */
 int		skip_spaces(t_token *input, int i);
 
+// Verifies that the c character is not a symbol recognized from bash
+int     ft_isbashprint(int c);
+
 // Duplicates the pointer to Environment Variables
 char	**ft_envp_dup(char **envp);
 

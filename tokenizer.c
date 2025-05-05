@@ -1,6 +1,7 @@
 #include "./minishell.h"
 
-t_token	*make_token(t_token_enum token_type, char *input, size_t start, size_t end)
+t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
+																size_t end)
 {
 	t_token	*token;
 
@@ -10,20 +11,33 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, size_t e
 	return (token);
 }
 	
-void	handle_single_quotes(t_token **tokens, char *input, int *i)
+void	handle_single_quotes(t_token **tokens, char *input, int *i, int count)
 {
 	size_t	start;
 	size_t	end;
-	
+	char	*tmp;
+
+	tmp = NULL;
 	start = 0;
 	end = 0;
-	start = ++*i;
-	while (input[*i] != '\'')
+	start = ++(*i);
+	while (input[*i] && input[*i] != '\'')
 		(*i)++;
 	if (input[*i] == '\'')
 		end = *i - start;
-	*tokens = make_token(TOKEN_STRING_SINGLE, input, start, end);
+	*tokens = make_token(TOKEN_WORD, input, start, end);
 	(*i)++;
+	if (input[*i] != '\0' && ft_isbashprint(input[*i]))
+	{
+		start = *i;
+		while (input[*i] && ft_isbashprint(input[*i]))
+			(*i)++;
+		end = (*i) - start - 1;
+		tmp = ft_substr(input, start, end);
+		tokens[count]->value = ft_strjoin(tmp, tokens[count]->value);
+		free(tmp);
+	}
+	// (*i)++;
 }
 
 void	handle_double_quotes(t_token **tokens, char *input, int *i)
@@ -38,7 +52,7 @@ void	handle_double_quotes(t_token **tokens, char *input, int *i)
 		(*i)++;
 	if (input[*i] == '"')
 		end = *i - start;
-	*tokens = make_token(TOKEN_STRING_DOUBLE, input, start, end);
+	*tokens = make_token(TOKEN_WORD, input, start, end);
 	(*i)++;
 }
 
@@ -86,10 +100,11 @@ t_token	**tokenize(char *input)
 	count = 0;
 	while (input[i] != '\0')
 	{
+		printf("count: %d\n", count);
 		while (input[i] && input[i] == ' ')
 			i++;
 		if (input[i] == '\'')
-			handle_single_quotes(&tokens[count], input, &i);
+			handle_single_quotes(&tokens[count], input, &i, count);
 		else if (input[i] && input[i] == '"')
 			handle_double_quotes(&tokens[count], input, &i);
 		else if (input[i] && input[i] == '$')
