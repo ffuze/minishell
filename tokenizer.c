@@ -94,13 +94,14 @@ t_token	**tokenize(char *input)
 	t_token	**tokens;
 	int		i;
 	int		count;
+	char	*main_tmp;
 
-	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
+	tokens = malloc(sizeof(t_token) * (ft_strlen(input) + 1));
 	i = 0;
 	count = 0;
+	main_tmp = NULL;
 	while (input[i] != '\0')
 	{
-		printf("count: %d\n", count);
 		while (input[i] && input[i] == ' ')
 			i++;
 		if (input[i] == '\'')
