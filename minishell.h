@@ -63,11 +63,14 @@ typedef struct s_token
 {
 	t_token_enum	type;
 	char			*value;
-    unsigned char   exit_status;
-    // char            **envp2;
 }	t_token;
 
-
+typedef	struct s_msh
+{
+	t_token			**tokens;
+	unsigned char   exit_status;
+	char			**envp2;
+}	t_msh;
 
 /*                   tokenizer.c                 */
 t_token	**tokenize(char *input/* , int token_count */);
@@ -95,6 +98,6 @@ void	ft_env(char **envp2);
 
 /*                   ft_export.c                 */
 // Prints Environment Vars in ASCII order if no arguments are given
-void	ft_export(t_token **tokens, char **envp2);
+void	ft_export(t_msh *msh);
 
 #endif

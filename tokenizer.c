@@ -75,7 +75,7 @@ void	handle_no_quotes(t_token **tokens, char *input, int *i)
 	(*i)++;
 }
 
-t_token	**tokenize(char *input/* , int token_count */)
+t_token	**tokenize(char *input)
 {
 	t_token	**tokens;
 	int		i;

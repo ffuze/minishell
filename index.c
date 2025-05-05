@@ -58,8 +58,8 @@ int main(int ac, char *av[], char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
-	char	**envp2;
-	t_token	**tokens;
+	// char	**envp2;
+	t_msh	msh;
 	int		clearflag;
 
 	(void)ac;
@@ -73,8 +73,8 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	envp2 = ft_envp_dup(envp);// Deve stare fuori dal while()
-	if (!envp2)
+	msh.envp2 = ft_envp_dup(envp);// Deve stare fuori dal while()
+	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
@@ -83,28 +83,28 @@ int main(int ac, char *av[], char **envp)
 			return EXIT_FAILURE;
 		else if (!(*input))
 			continue;
-		tokens = tokenize(input);
+		msh.tokens = tokenize(input);
 		
-		for (size_t i = 0; tokens[i] != NULL; i++)
-			printf("Token numero %zu: %s e' di tipo: %d++\n", i, tokens[i]->value, tokens[i]->type);
-		if (!tokens)
+		for (size_t i = 0; msh.tokens[i] != NULL; i++)
+			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);
+		if (!msh.tokens)
 			continue ;
-		if (tokens[0] && ft_strcmp(tokens[0]->value, "exit") == 0)
-			return (free_dpc(/* tokens[0]-> */envp2), EXIT_SUCCESS);
-		else if (ft_strcmp(tokens[0]->value, "export") == 0)
+		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
+			return (free_dpc(msh.envp2), EXIT_SUCCESS);
+		else if (ft_strcmp(msh.tokens[0]->value, "export") == 0)
 		{
-			ft_export(tokens, envp2);
-			if (!envp2)
+			ft_export(&msh);
+			if (!msh.envp2)
 				return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 		}
-		else if (tokens[0] && ft_strcmp(tokens[0]->value, "pwd") == 0)
+		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "pwd") == 0)
 			ft_pwd();
-		else if (tokens[0] && ft_strcmp(tokens[0]->value, "env") == 0)
-			ft_env(envp2);
-		else if ((ft_strcmp(tokens[0]->value, "echo")) == 0)
-			ft_echo(tokens);
-		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
-			&& ft_strcmp(tokens[0]->value, "clear") == 0)
+		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "env") == 0)
+			ft_env(msh.envp2);
+		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
+			ft_echo(msh.tokens);
+		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
+			&& ft_strcmp(msh.tokens[0]->value, "clear") == 0)
 		{
 			ft_clear(input);
 			clearflag = 1;
@@ -115,6 +115,6 @@ int main(int ac, char *av[], char **envp)
 			add_history(input);
 		free(input);
 	}
-	free_dpc(/* tokens[0]-> */envp2);
+	free_dpc(msh.envp2);
 	return EXIT_SUCCESS;
 }

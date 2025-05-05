@@ -1,21 +1,6 @@
 #include "minishell.h"
 
-static int	handle_single_quotes(t_token *token)
-{
-	size_t	i;
-
-	i = 0;
-	while (token->value[i] != '\0' && token->value[i] != '\'')
-	{
-		printf("%c", token->value[i]);
-		i++;
-		if (token->value[i] == '"')
-			handle_double_quotes(token);
-	}
-	return (0);
-}
-
-static int	handle_double_quotes(t_token *token)
+int	handle_double_quotes_echo(t_token *token)
 {
 	size_t	i;
 
@@ -25,6 +10,21 @@ static int	handle_double_quotes(t_token *token)
 		printf("token value: %c\n", token->value[i]);
 		printf("%c", token->value[i]);
 		i++;
+	}
+	return (0);
+}
+
+int	handle_single_quotes_echo(t_token *token)
+{
+	size_t	i;
+
+	i = 0;
+	while (token->value[i] != '\0' && token->value[i] != '\'')
+	{
+		printf("%c", token->value[i]);
+		i++;
+		if (token->value[i] == '"')
+			handle_double_quotes_echo(token);
 	}
 	return (0);
 }
@@ -79,9 +79,9 @@ void	ft_echo(t_token **tokens)
 	while (tokens[i])
 	{
 		if (tokens[i]->type == TOKEN_STRING_SINGLE)
-			handle_single_quotes(tokens[i]);
+			handle_single_quotes_echo(tokens[i]);
 		else if (tokens[i]->type == TOKEN_STRING_DOUBLE)
-			handle_double_quotes(tokens[i]);
+			handle_double_quotes_echo(tokens[i]);
 		else
 			print_token(tokens[i], &in_quotes);
 		if (tokens[i + 1])

@@ -56,11 +56,11 @@ void	print_declarex(char **envp2)
 	free_dpc(sorted_envp);
 }
 
-void	ft_export(t_token **tokens, char **envp2)
+void	ft_export(t_msh *msh)
 {
-	if (!tokens[1])
-		print_declarex(/* tokens[0]-> */envp2);
-	if (tokens[1])
+	if (!msh->tokens[1])
+		print_declarex(msh->envp2);
+	if (msh->tokens[1])
 		printf("dededede\n");//////////////////
 }
 // nome della variabile deve avere solo char alfanumerici e/o '_'
