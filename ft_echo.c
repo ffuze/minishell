@@ -5,11 +5,12 @@ static int	handle_single_quotes(t_token *token)
 	size_t	i;
 
 	i = 0;
-	while (token->value[i] != '\0')
+	while (token->value[i] != '\0' && token->value[i] != '\'')
 	{
-		if (token->value[i] != '\'')
-			printf("%c", token->value[i]);
+		printf("%c", token->value[i]);
 		i++;
+		if (token->value[i] == '"')
+			handle_double_quotes(token);
 	}
 	return (0);
 }
@@ -19,35 +20,32 @@ static int	handle_double_quotes(t_token *token)
 	size_t	i;
 
 	i = 0;
-	while (token->value[i] != '\0')
+	while (token->value[i] != '\0' && token->value[i] != '"')
 	{
-		if (token->value[i] != '"')
-			printf("%c", token->value[i]);
+		printf("token value: %c\n", token->value[i]);
+		printf("%c", token->value[i]);
 		i++;
 	}
 	return (0);
 }
 
-int	check_flag(t_token **token, int j)
+int	check_flag(t_token **tokens, int j)
 {
 	int	i;
 
-	i = 0;
-	if (!token[j] || token[j]->type != TOKEN_WORD)
-		return (j);
-	while (token[j]->value[i] == ' ')
-		i++;
-	if (token[j]->value[i] == '-' && token[j]->value[i + 1] == 'n')
+	while (tokens[j])
 	{
+		i = 0;
+		if (tokens[j]->value[i] != '-' || tokens[j]->value[i + 1] != 'n')
+			break;
 		i++;
-		while (token[j]->value[i] == 'n')
+		while (tokens[j]->value[i] == 'n')
 			i++;
-		if (token[j]->value[i] == '\0')
-			return (j);
+		if (tokens[j]->value[i] != '\0')
+			break;
+		j++;
 	}
-	// while (token[j] == "-n")
-	// 	j++;
-	return (check_flag(token, j + 1));
+	return (j);
 }
 
 void	print_token(t_token *token, int *in_quotes)
@@ -72,17 +70,12 @@ void	print_token(t_token *token, int *in_quotes)
 void	ft_echo(t_token **tokens)
 {
 	int	i;
-	int	newline;
-	int	in_quotes;
+	int	newline = 1;
+	int	in_quotes = 0;
 
-	i = check_flag(tokens, 0);
-	newline = 1;
-	in_quotes = 0;
-	if (i >= 0 && tokens[i])
-	{
+	i = check_flag(tokens, 1);
+	if (i > 1)
 		newline = 0;
-		i++;
-	}
 	while (tokens[i])
 	{
 		if (tokens[i]->type == TOKEN_STRING_SINGLE)

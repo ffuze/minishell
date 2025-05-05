@@ -101,12 +101,12 @@ int main(int ac, char *av[], char **envp)
 		// else if (ft_strcmp(split_input[0], "ls -l") == 0)
 		// 	ft_ls_l();
 		else if ((ft_strcmp(tokens[0]->value, "echo")) == 0)
-			ft_echo(tokens[0]->value);
+			ft_echo(tokens);
 		else if (tokens[0] && tokens[0]->type == TOKEN_WORD
 			&& ft_strcmp(tokens[0]->value, "clear") == 0)
 		{
-				ft_clear(input);
-				clearflag = 1;
+			ft_clear(input);
+			clearflag = 1;
 		}
 		else
 			printf("Command not found: %s\n", input);
