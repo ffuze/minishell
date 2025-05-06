@@ -37,9 +37,10 @@ char	**ft_sortenvp(char	**envp)
 }
 
 // Prints Environment Vars in ASCII order with their value in double quotes
-void	print_declarex(char **envp2)
+void	print_declarex(t_msh *msh, char **envp2)
 {
 	int		i;
+	char	*tmp;
 	char	**sorted_envp;
 
 	i = 0;
@@ -49,13 +50,23 @@ void	print_declarex(char **envp2)
 	while (sorted_envp[i])
 	{
 		ft_printf("declare -x ");
-		ft_strchr3_print(sorted_envp[i], '=');
-		printf("\"%s\"\n", ft_strchr2(sorted_envp[i], '='));
+		tmp = ft_strchr3(sorted_envp[i], '=');
+		if (!tmp)
+			return ;
+		ft_printf("%s", tmp);
+		free(tmp);
+		if (ft_strchr(sorted_envp[i], '='))
+			printf("\"%s\"", ft_strchr2(sorted_envp[i], '='));
+		printf("\n");
 		i++;
+		
 	}
+	msh->exit_status = 0;
 	free_dpc(sorted_envp);
 }
+//-------------------------------------------------------------------------------//
 
+// Copies the old envp to the newly allocated one
 void	envpcpy(char **envp2, char **nenvp, size_t *i)
 {
 	while (envp2[*i])
@@ -70,6 +81,7 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i)
 	}
 }
 
+// Adds the new variables to the Environment
 char	**add_var(t_msh *msh)
 {
 	size_t	n_vars;
@@ -97,13 +109,62 @@ char	**add_var(t_msh *msh)
 	}
 	return (free_dpc(msh->envp2), nenvp);
 }
+//---------------------------------------------------------------------------//
+
+int	check_vardup(char **envp2, char *input)
+{
+	int		i;
+	char	*new_var;
+
+	i = 0;
+	new_var = ft_strchr3(input, '=');
+	while (envp2[i])
+	{
+		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))// -1?
+		{
+			free(envp2[i]);
+			envp2[i] = ft_strdup(input);
+			return (free(new_var), 1);
+		}
+		i++;
+	}
+	return (free(new_var), 0);
+}
+
+void	newvar_check(t_msh *msh)
+{
+	int		i;
+	char	chr;
+
+	i = 1;
+	msh->exit_status = 0;
+	while (msh->tokens[i])
+	{
+		chr = msh->tokens[i]->value[0];
+		if ((chr < 65 || chr > 90) && (chr < 97 || chr > 122) && chr != '_')// Comincia con char proibito?
+			{
+				ft_printf("bash: export: `%s': not a valid identifier\n", 
+													msh->tokens[i]->value);
+				msh->exit_status = 1;
+				return ;
+			}
+		// Ha +=?
+		else if (check_vardup(msh->envp2, msh->tokens[i]->value))// Esiste gia'?
+			return ;
+		else
+			msh->envp2 = add_var(msh);
+		i++;
+	}
+}
+//-----------------------------------------------------------------------------//
 
 void	ft_export(t_msh *msh)
 {
 	if (!msh->tokens[1])
-		print_declarex(msh->envp2);
+		print_declarex(msh, msh->envp2);
 	if (msh->tokens[1])
-		msh->envp2 = add_var(msh);
+		newvar_check(msh);
+		// msh->envp2 = add_var(msh);
 }
 // nome della variabile deve avere solo char alfanumerici e/o '_'
 // variabile non puo avere $ o | nel contenuto

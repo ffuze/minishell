@@ -100,7 +100,8 @@ void	ft_pwd();
 void	ft_env(char **envp2);
 
 /*                   ft_export.c                 */
-// Prints Environment Vars in ASCII order if no arguments are given
+// Adds the arguments to the environment as new variables.
+// Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh);
 
 #endif
