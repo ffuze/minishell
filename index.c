@@ -58,7 +58,6 @@ int main(int ac, char *av[], char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
-	// char	**envp2;
 	t_msh	msh;
 	int		clearflag;
 
@@ -73,7 +72,7 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	msh.envp2 = ft_envp_dup(envp);// Deve stare fuori dal while()
+	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)

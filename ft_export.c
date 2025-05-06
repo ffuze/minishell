@@ -72,27 +72,28 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i)
 
 char	**add_var(t_msh *msh)
 {
-	size_t		n_vars;
-	size_t		i;
-	char		**nenvp;
+	size_t	n_vars;
+	size_t	i;
+	size_t	j;
+	char	**nenvp;
 
-	i = 0;
 	n_vars = 0;
+	i = 0;
+	j = 1;
 	while (msh->tokens[n_vars])
 		n_vars++;
 	n_vars += ft_mtrxlen(msh->envp2);
-	nenvp = ft_calloc(n_vars + 1, sizeof(msh->envp2));
+	nenvp = ft_calloc(n_vars, sizeof(msh->envp2));
 	if (!nenvp)
 		return (free_dpc(msh->envp2), NULL);
 	envpcpy(msh->envp2, nenvp, &i);
 	if (!nenvp)
 		return (free_dpc(msh->envp2), NULL);
-	while (i < n_vars)
+	while (i < n_vars - 1)
 	{
-		nenvp[i] = ft_strdup(msh->envp2[i]);
-		if (!nenvp[i])
+		nenvp[i] = ft_strdup(msh->tokens[j++]->value);
+		if (!nenvp[i++])
 			return (free_dpc(nenvp), free_dpc(msh->envp2), NULL);
-		i++;
 	}
 	return (free_dpc(msh->envp2), nenvp);
 }
@@ -103,7 +104,6 @@ void	ft_export(t_msh *msh)
 		print_declarex(msh->envp2);
 	if (msh->tokens[1])
 		msh->envp2 = add_var(msh);
-		// printf("dededede\n");//////////////////
 }
 // nome della variabile deve avere solo char alfanumerici e/o '_'
 // variabile non puo avere $ o | nel contenuto
