@@ -61,6 +61,7 @@ int main(int ac, char *av[], char **envp)
 	t_msh	msh;
 	int		clearflag;
 
+	msh.env_existence = true;
 	(void)ac;
 	av = NULL;
 	sa.sa_handler = ft_handler;
@@ -94,12 +95,18 @@ int main(int ac, char *av[], char **envp)
 		{
 			ft_export(&msh);
 			if (!msh.envp2)
-				return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
+				return(ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
+		}
+		else if (ft_strcmp(msh.tokens[0]->value, "unset") == 0)
+		{
+			ft_unset(&msh);
+			if (!msh.envp2)
+				return(ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
 		}
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "pwd") == 0)
 			ft_pwd();
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "env") == 0)
-			ft_env(msh.envp2);
+			ft_env(&msh, msh.envp2);
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
 			ft_echo(msh.tokens);
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD

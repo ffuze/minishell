@@ -9,7 +9,7 @@ void	str_swap(char **s1, char **s2)
 	*s2 = tmp;
 }
 
-// Returns a copy of ENVP sorted according to ASCII
+// Returns a copy of ENVP sorted according to ASCII.
 char	**ft_sortenvp(char	**envp)
 {
 	char	**sorted_envp;
@@ -36,7 +36,7 @@ char	**ft_sortenvp(char	**envp)
 	return (sorted_envp);
 }
 
-// Prints Environment Vars in ASCII order with their value in double quotes
+// Prints Environment Vars in ASCII order with their value in double quotes.
 void	print_declarex(t_msh *msh, char **envp2)
 {
 	int		i;
@@ -56,8 +56,8 @@ void	print_declarex(t_msh *msh, char **envp2)
 		ft_printf("%s", tmp);
 		free(tmp);
 		if (ft_strchr(sorted_envp[i], '='))
-			printf("\"%s\"", ft_strchr2(sorted_envp[i], '='));
-		printf("\n");
+			ft_printf("\"%s\"", ft_strchr2(sorted_envp[i], '='));
+		ft_printf("\n");
 		i++;
 		
 	}
@@ -66,7 +66,7 @@ void	print_declarex(t_msh *msh, char **envp2)
 }
 //-------------------------------------------------------------------------------//
 
-// Copies the old envp to the newly allocated one
+// Copies the old envp to the newly allocated one.
 void	envpcpy(char **envp2, char **nenvp, size_t *i)
 {
 	while (envp2[*i])
@@ -81,7 +81,7 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i)
 	}
 }
 
-// Adds the new variables to the Environment
+// Adds the new variables to the Environment.
 char	**add_var(t_msh *msh)
 {
 	size_t	n_vars;
@@ -111,7 +111,8 @@ char	**add_var(t_msh *msh)
 }
 //---------------------------------------------------------------------------//
 
-int	check_vardup(char **envp2, char *input)
+// Checks whether the new Variable already exists, if so it overwrites it.
+bool	check_vardup(char **envp2, char *input)
 {
 	int		i;
 	char	*new_var;
@@ -120,17 +121,19 @@ int	check_vardup(char **envp2, char *input)
 	new_var = ft_strchr3(input, '=');
 	while (envp2[i])
 	{
-		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))// -1?
+		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
 		{
 			free(envp2[i]);
 			envp2[i] = ft_strdup(input);
-			return (free(new_var), 1);
+			return (free(new_var), true);
 		}
 		i++;
 	}
-	return (free(new_var), 0);
+	return (free(new_var), false);
 }
 
+// Checks whether the new Variable is acceptable or already exists,
+//  then acts accordingly.
 void	newvar_check(t_msh *msh)
 {
 	int		i;
@@ -141,15 +144,14 @@ void	newvar_check(t_msh *msh)
 	while (msh->tokens[i])
 	{
 		chr = msh->tokens[i]->value[0];
-		if ((chr < 65 || chr > 90) && (chr < 97 || chr > 122) && chr != '_')// Comincia con char proibito?
+		if ((chr < 65 || chr > 90) && (chr < 97 || chr > 122) && chr != '_')
 			{
-				ft_printf("bash: export: `%s': not a valid identifier\n", 
-													msh->tokens[i]->value);
+				ft_printf(RED"bash: export: `%s': not a valid identifier\n"\
+												NO_ALL,msh->tokens[i]->value);
 				msh->exit_status = 1;
 				return ;
 			}
-		// Ha +=?
-		else if (check_vardup(msh->envp2, msh->tokens[i]->value))// Esiste gia'?
+		else if (check_vardup(msh->envp2, msh->tokens[i]->value))
 			return ;
 		else
 			msh->envp2 = add_var(msh);
@@ -164,7 +166,5 @@ void	ft_export(t_msh *msh)
 		print_declarex(msh, msh->envp2);
 	if (msh->tokens[1])
 		newvar_check(msh);
-		// msh->envp2 = add_var(msh);
 }
-// nome della variabile deve avere solo char alfanumerici e/o '_'
 // variabile non puo avere $ o | nel contenuto

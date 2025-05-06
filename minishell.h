@@ -13,6 +13,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <limits.h>
+# include <stdbool.h>
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MACROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -68,21 +69,22 @@ typedef struct s_token
 typedef	struct s_msh
 {
 	t_token			**tokens;
-	unsigned char   exit_status;
 	char			**envp2;
+	unsigned char   exit_status;
+	bool			env_existence;
 }	t_msh;
 
 /*                   tokenizer.c                 */
-t_token	**tokenize(char *input/* , int token_count */);
+t_token	**tokenize(char *input);
 
 
 /*                   utils.c                 */
 int		skip_spaces(t_token *input, int i);
 
-// Verifies that the c character is not a symbol recognized from bash
+// Verifies that the c character is not a symbol recognized from bash.
 int     ft_isbashprint(int c);
 
-// Duplicates the pointer to Environment Variables
+// Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
 
 
@@ -96,12 +98,16 @@ void	ft_pwd();
 
 
 /*                   ft_env.c                 */
-// Prints all the environment variables
-void	ft_env(char **envp2);
+// Prints all the environment variables.
+void	ft_env(t_msh *msh, char **envp2);
 
 /*                   ft_export.c                 */
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh);
+
+/*                    ft_unset                   */
+// Removes Variables from the Environment.
+void	ft_unset(t_msh *msh);
 
 #endif
