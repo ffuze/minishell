@@ -89,22 +89,22 @@ void handle_word_block(t_token **tokens, char *input, int *i, int count)
 	doubleq = 0;
 	while (input[*i])
 	{
-		if (input[*i] == '\'' && !doubleq)
-			singleq = !singleq;
-		else if (input[*i] == '"' && !singleq)
-			doubleq = !doubleq;
-		else if (input[*i] == ' ' && !singleq && !doubleq)
-			break;
-		(*i)++;
+		if (input[*i] == '\'')
+		{
+			while (input[++(*i)] != '\'' && input[*i] != '\0')
+				;
+			if (input[*i] == '\'')
+				(*i)++;
+		}
+		else if (input[*i] == '"')
+		{
+			while (input[++(*i)] != '"' && input[*i] != '\0')
+				;
+			if (input[*i] == '"')
+				(*i)++;
+		}
 	}
 	tokens[count] = make_token(TOKEN_WORD, input, start, *i - start);
-	// if ((val[0] == '\'' && val[len - 1] == '\'')
-	// 	|| (val[0] == '"' && val[len - 1] == '"'))
-	// {
-	// 	char *tmp = ft_substr(val, 1, len - 2);
-	// 	free(tokens[count]->value);
-	// 	tokens[count]->value = tmp;
-	// }
 }
 
 void	handle_dollar_sign(t_token **tokens, char *input, int *i)
@@ -115,7 +115,7 @@ void	handle_dollar_sign(t_token **tokens, char *input, int *i)
 	start = 0;
 	end = 0;
 	start = ++(*i);
-	while (input[*i] != '$')
+	while (input[*i] && input[*i] != ' ')
 		(*i)++;
 	*tokens = make_token(TOKEN_VAR, input, start, ft_strlen(input) - 1);
 	(*i)++;

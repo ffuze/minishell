@@ -108,7 +108,9 @@ int main(int ac, char *av[], char **envp)
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "env") == 0)
 			ft_env(&msh, msh.envp2);
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
+		{
 			ft_echo(msh.tokens);
+		}
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
 			&& ft_strcmp(msh.tokens[0]->value, "clear") == 0)
 		{
@@ -116,7 +118,10 @@ int main(int ac, char *av[], char **envp)
 			clearflag = 1;
 		}
 		else
+		{
+			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);
 			printf("Command not found: %s\n", input);
+		}
 		if (!clearflag)
 			add_history(input);
 		free(input);
