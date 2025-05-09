@@ -81,32 +81,26 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i)
 }
 
 // Adds the new variables to the Environment.
-char	**add_var(t_msh *msh)
+char	**add_var(char **envp, char *new_var)
 {
-	size_t	n_vars;
+	size_t	new_len;
 	size_t	i;
 	size_t	j;
 	char	**nenvp;
 
-	n_vars = 0;
 	i = 0;
 	j = 1;
-	while (msh->tokens[n_vars])
-		n_vars++;
-	n_vars += ft_mtrxlen(msh->envp2);
-	nenvp = ft_calloc(n_vars, sizeof(msh->envp2));
+	new_len = ft_mtrxlen(envp) + 1;
+	nenvp = ft_calloc(new_len + 1, sizeof(envp));
 	if (!nenvp)
-		return (free_dpc(msh->envp2), NULL);
-	envpcpy(msh->envp2, nenvp, &i);
+		return (free_dpc(envp), NULL);
+	envpcpy(envp, nenvp, &i);
 	if (!nenvp)
-		return (free_dpc(msh->envp2), NULL);
-	while (i < n_vars - 1)
-	{
-		nenvp[i] = ft_strdup(msh->tokens[j++]->value);
-		if (!nenvp[i++])
-			return (free_dpc(nenvp), free_dpc(msh->envp2), NULL);
-	}
-	return (free_dpc(msh->envp2), nenvp);
+		return (free_dpc(envp), NULL);
+	nenvp[i] = ft_strdup(new_var);
+	if (!nenvp[i])
+		return (free_dpc(nenvp), free_dpc(envp), NULL);
+	return (free_dpc(envp), nenvp);
 }
 //---------------------------------------------------------------------------//
 
@@ -148,14 +142,13 @@ int	var_name_check(t_msh *msh, char *new_var)
 	var_name = ft_strchr3(new_var, '=');
 	while (var_name[j])
 	{
-		chr = var_name[j];
+		chr = var_name[j++];
 		if ((chr < 'A' || chr > 'Z') && (chr < 'a' || chr > 'z') \
 				&& (chr < '0' || chr > '9') && chr != '_' && chr != '=')
 		{
 			msh->exit_status = 1;
 			return (free(var_name), false);
 		}
-		j++;
 	}
 	return (free(var_name), true);
 }
@@ -178,7 +171,7 @@ void	ft_export(t_msh *msh)
 			else if (check_vardup(msh->envp2, msh->tokens[i]->value))
 				;
 			else
-				msh->envp2 = add_var(msh);
+				msh->envp2 = add_var(msh->envp2, msh->tokens[i]->value);
 			i++;
 		}
 	}
