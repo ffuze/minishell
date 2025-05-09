@@ -6,7 +6,6 @@ void	ft_env(t_msh *msh, char **envp2)
 	int	i;
 
 	i = 0;
-	msh->exit_status = 0;
 	if (msh->env_existence == true)
 	{
 		while(envp2[i])

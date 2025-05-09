@@ -37,7 +37,7 @@ char	**ft_sortenvp(char	**envp)
 }
 
 // Prints Environment Vars in ASCII order with their value in double quotes.
-void	print_declarex(t_msh *msh, char **envp2)
+void	print_declarex(char **envp2)
 {
 	int		i;
 	char	*tmp;
@@ -61,7 +61,6 @@ void	print_declarex(t_msh *msh, char **envp2)
 		i++;
 		
 	}
-	msh->exit_status = 0;
 	free_dpc(sorted_envp);
 }
 //-------------------------------------------------------------------------------//
@@ -132,39 +131,59 @@ bool	check_vardup(char **envp2, char *input)
 	return (free(new_var), false);
 }
 
-// Checks whether the new Variable is acceptable or already exists,
-//  then acts accordingly.
-void	newvar_check(t_msh *msh)
+// Checks whether the new Variable's name is acceptable.
+// A var's name cannot start by number or symbol and cannot cointain symbols.
+int	var_name_check(t_msh *msh, char *new_var)
 {
-	int		i;
+	int		j;
 	char	chr;
+	char	*var_name;
 
-	i = 1;
-	msh->exit_status = 0;
-	while (msh->tokens[i])
+	j = 0;
+	if (!ft_isalpha(new_var[0]) && new_var[0]!= '_')
 	{
-		chr = msh->tokens[i]->value[0];
-		if ((chr < 65 || chr > 90) && (chr < 97 || chr > 122) && chr != '_')
-			{
-				ft_printf(RED"bash: export: `%s': not a valid identifier\n"\
-												NO_ALL,msh->tokens[i]->value);
-				msh->exit_status = 1;
-				return ;
-			}
-		else if (check_vardup(msh->envp2, msh->tokens[i]->value))
-			return ;
-		else
-			msh->envp2 = add_var(msh);
-		i++;
+		msh->exit_status = 1;
+		return (false);
 	}
+	while (new_var[j])
+	{
+		var_name = ft_strchr3(new_var, '=');
+		chr = new_var[j];
+		if ((chr < 'A' || chr > 'Z') && (chr < 'a' || chr > 'z') \
+				&& (chr < '0'|| chr > '9') && chr != '_' && chr != '=')
+		{
+			msh->exit_status = 1;
+			return (free(var_name), false);
+		}
+		free(var_name);
+		j++;
+	}
+	return (true);
 }
 //-----------------------------------------------------------------------------//
 
 void	ft_export(t_msh *msh)
 {
+	int	i;
+
+	i = 1;
 	if (!msh->tokens[1])
-		print_declarex(msh, msh->envp2);
-	if (msh->tokens[1])
-		newvar_check(msh);
+		print_declarex(msh->envp2);
+	else
+	{
+		while (msh->tokens[i])
+		{
+			if (!var_name_check(msh, msh->tokens[i]->value))
+			{
+				ft_printf(RED"export: `%s': not a valid identifier\n"
+					NO_ALL, msh->tokens[i]->value);
+				return;
+			}
+			else if (check_vardup(msh->envp2, msh->tokens[i]->value))
+				return ;
+			else
+				msh->envp2 = add_var(msh);
+			i++;
+		}
+	}
 }
-// variabile non puo avere $ o | nel contenuto

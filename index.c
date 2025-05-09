@@ -62,6 +62,7 @@ int main(int ac, char *av[], char **envp)
 	int		clearflag;
 
 	msh.env_existence = true;
+	msh.exit_status = 0;
 	(void)ac;
 	av = NULL;
 	sa.sa_handler = ft_handler;

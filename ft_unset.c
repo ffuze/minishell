@@ -1,38 +1,39 @@
 #include "minishell.h"
 
-char	**delete_var(char **envp, int i/* , char *target */)
+char	**delete_var(char **envp, int *i)
 {
 	char	**nenv;
 	int		j;
 
 	j = 0;
 	nenv = ft_calloc(ft_mtrxlen(envp), sizeof(char *));
-	while (j < i)
+	while (j < *i)
 	{
 		nenv[j] = ft_strdup(envp[j]);
 		free(envp[j]);
 		j++;
 	}
-	if (j == i)
+	if (j == *i)
 	{
 		free(envp[j]);
-		i++;
+		(*i)++;
 	}
-	while (envp[i])
+	while (envp[*i])
 	{
-		nenv[j] = ft_strdup(envp[i]);
-		free(envp[i]);
+		nenv[j] = ft_strdup(envp[*i]);
 		j++;
-		i++;
+		free(envp[j]);
+		(*i)++;
 	}
-	return (free(envp), nenv);
+	return (free(envp),nenv);
 }
 
 // Looks for the target Variable in the Environment.
-void	take_aim(char **envp, char *target)
+char	**take_aim(char **envp, char *target)
 {
 	int		i;
 	char	*var_name;
+	char	**tmp;
 
 	i = 0;
 	var_name = NULL;
@@ -40,16 +41,17 @@ void	take_aim(char **envp, char *target)
 	{
 		var_name = ft_strchr3(envp[i], '=');
 		if (!var_name)
-			return (ft_putstr_fd(RED"Malloc failure"NO_ALL, 2));
+			return (ft_putstr_fd(RED"Malloc failure"NO_ALL, 2), envp);
 		if (ft_strncmp(var_name, target, ft_strlen(target)) == 0)
 		{
-			envp = delete_var(envp, i/* , target */);
+			tmp = delete_var(envp, &i);
 			free(var_name);
-			break ;
+			return (tmp);
 		}
 		i++;
 		free(var_name);
 	}
+	return (envp);
 }
 
 void	ft_unset(t_msh *msh)
@@ -58,21 +60,14 @@ void	ft_unset(t_msh *msh)
 	char	*target;
 
 	i = 1;
-	msh->exit_status = 0;
 	target = NULL;
 	while (msh->tokens[i])
 	{
 		target = ft_strdup(msh->tokens[i]->value);
 		if (!target)
 			return (ft_putstr_fd(RED"Malloc failure"NO_ALL, 2));
-		if (ft_strcmp(target, "PATH") == 0)
-		{
-			msh->env_existence = false;
-			break ;
-		}
-		take_aim(msh->envp2, target);
+		msh->envp2 = take_aim(msh->envp2, target);
 		i++;
 	}
-	
 	return (free(target));
 }
