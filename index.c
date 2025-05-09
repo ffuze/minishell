@@ -85,9 +85,16 @@ int main(int ac, char *av[], char **envp)
 		else if (!(*input))
 			continue;
 		msh.tokens = tokenize(input);
-		
 		for (size_t i = 0; msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);
+		// I want to create another string where to put the first position of the token,
+		// so that I can remove the quotes from the command in order to make it recognizable
+		// to the controls that are right after here, and then transfer the temp string back
+		// to the tokens variable and keep working with it for the rest ot the time
+			// while (msh.tokens[0])
+		// {
+
+		// }
 		if (!msh.tokens)
 			continue ;
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
@@ -110,6 +117,7 @@ int main(int ac, char *av[], char **envp)
 			ft_env(&msh, msh.envp2);
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
 		{
+			printf("valore di msh.tokens[0]->value: %s\n", msh.tokens[0]->value);
 			ft_echo(msh.tokens);
 		}
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
