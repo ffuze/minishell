@@ -61,8 +61,6 @@ int main(int ac, char *av[], char **envp)
 	t_msh	msh;
 	int		clearflag;
 
-	msh.env_existence = true;
-	msh.exit_status = 0;
 	(void)ac;
 	av = NULL;
 	sa.sa_handler = ft_handler;
@@ -79,6 +77,7 @@ int main(int ac, char *av[], char **envp)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
+		msh.exit_status = 0;
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
 		if (!input)
 			return EXIT_FAILURE;
@@ -86,7 +85,7 @@ int main(int ac, char *av[], char **envp)
 			continue;
 		msh.tokens = tokenize(input);
 		for (size_t i = 0; msh.tokens[i] != NULL; i++)
-			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);
+			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		// I want to create another string where to put the first position of the token,
 		// so that I can remove the quotes from the command in order to make it recognizable
 		// to the controls that are right after here, and then transfer the temp string back
@@ -114,10 +113,12 @@ int main(int ac, char *av[], char **envp)
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "pwd") == 0)
 			ft_pwd();
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "env") == 0)
-			ft_env(&msh, msh.envp2);
+			ft_env(msh.envp2);
+		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "cd") == 0)
+			ft_cd(&msh);
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
 		{
-			printf("valore di msh.tokens[0]->value: %s\n", msh.tokens[0]->value);
+			printf("valore di msh.tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
 			ft_echo(msh.tokens);
 		}
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
@@ -128,12 +129,13 @@ int main(int ac, char *av[], char **envp)
 		}
 		else
 		{
-			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);
-			printf("Command not found: %s\n", input);
+			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
+			printf("Command not found: %s\n", input);//////////////
 		}
 		if (!clearflag)
 			add_history(input);
 		free(input);
+		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
 	}
 	free_dpc(msh.envp2);
 	return EXIT_SUCCESS;

@@ -5,7 +5,7 @@ NAME = minishell
 
 OBJ_DIR = obj
 SRC_MAIN = index.c ft_echo.c ft_pwd.c ft_env.c utils.c tokenizer.c ft_export.c \
-			ft_unset.c
+			ft_cd.c ft_unset.c
 #SRC_BONUS = 
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
