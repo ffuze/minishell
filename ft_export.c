@@ -145,20 +145,19 @@ int	var_name_check(t_msh *msh, char *new_var)
 		msh->exit_status = 1;
 		return (false);
 	}
-	while (new_var[j])
+	var_name = ft_strchr3(new_var, '=');
+	while (var_name[j])
 	{
-		var_name = ft_strchr3(new_var, '=');
-		chr = new_var[j];
+		chr = var_name[j];
 		if ((chr < 'A' || chr > 'Z') && (chr < 'a' || chr > 'z') \
-				&& (chr < '0'|| chr > '9') && chr != '_' && chr != '=')
+				&& (chr < '0' || chr > '9') && chr != '_' && chr != '=')
 		{
 			msh->exit_status = 1;
 			return (free(var_name), false);
 		}
-		free(var_name);
 		j++;
 	}
-	return (true);
+	return (free(var_name), true);
 }
 //-----------------------------------------------------------------------------//
 
@@ -174,13 +173,10 @@ void	ft_export(t_msh *msh)
 		while (msh->tokens[i])
 		{
 			if (!var_name_check(msh, msh->tokens[i]->value))
-			{
-				ft_printf(RED"export: `%s': not a valid identifier\n"
-					NO_ALL, msh->tokens[i]->value);
-				return;
-			}
+				ft_printf(RED"export: `%s': not a valid identifier\n"NO_ALL, \
+														msh->tokens[i]->value);
 			else if (check_vardup(msh->envp2, msh->tokens[i]->value))
-				return ;
+				;
 			else
 				msh->envp2 = add_var(msh);
 			i++;
