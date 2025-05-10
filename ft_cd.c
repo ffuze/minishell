@@ -43,3 +43,4 @@ void	ft_cd(t_msh *msh)
 		if (chdir(msh->tokens[1]->value) < 0)
 			cd_err(msh);
 }
+//cd ~ | ls esegue solo ls

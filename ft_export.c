@@ -163,7 +163,7 @@ void	ft_export(t_msh *msh)
 		print_declarex(msh->envp2);
 	else
 	{
-		while (msh->tokens[i])
+		while (msh->tokens[i] && msh->tokens[i]->type == TOKEN_WORD)
 		{
 			if (!var_name_check(msh, msh->tokens[i]->value))
 				ft_printf(RED"export: `%s': not a valid identifier\n"NO_ALL, \

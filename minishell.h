@@ -89,7 +89,7 @@ char	**ft_envp_dup(char **envp);
 
 
 /*                   ft_echo.c                 */
-void	ft_echo(t_token **input);
+void	ft_echo(t_msh *msh);
 
 
 /*                   ft_pwd.c                 */

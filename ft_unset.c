@@ -61,7 +61,7 @@ void	ft_unset(t_msh *msh)
 
 	i = 1;
 	target = NULL;
-	while (msh->tokens[i])
+	while (msh->tokens[i] && msh->tokens[i]->type == TOKEN_WORD)
 	{
 		target = ft_strdup(msh->tokens[i]->value);
 		if (!target)
