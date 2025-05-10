@@ -41,3 +41,5 @@ bash$ cat b
 *vuoto*
 bash$ cat cat
 ciao mondo culo lore
+
+< path.txt cd esegue solo "cd"

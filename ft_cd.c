@@ -12,6 +12,21 @@ void	cd_err(t_msh *msh, char *path)
 	write(2, "\n"NO_ALL, 5);
 }
 
+// Swaps the ~ symbole with HOME path and moves to the indicated directory.
+void	get_dir(t_msh *msh, char *home_path, char *input)
+{
+	char	*path;
+
+	path = NULL;
+	if (strncmp(input, "~/", 2) == 0)
+		path = ft_strjoin(home_path, ft_strchr(input, '/'));
+	else
+		path = ft_strdup(input);
+	if (chdir(path) < 0)
+		cd_err(msh, path);
+	free(path);
+}
+
 // Moves to the previous directory.
 void	to_prev_dir(t_msh *msh, char **envp)
 {
@@ -65,9 +80,8 @@ void	ft_cd(t_msh *msh)
 	else if (ft_strcmp(msh->tokens[1]->value, "-") == 0)
 		to_prev_dir(msh, msh->envp2);
 	else
-		if (chdir(msh->tokens[1]->value) < 0)
-			cd_err(msh, msh->tokens[1]->value);
+		get_dir(msh, home_path, msh->tokens[1]->value);
 }
-//cd ~/Desktop porta a Desktop
-//cd ~ | ls esegue solo ls
-//< path.txt cd esegue solo "cd"
+// cd - Desktop | echo ciao
+// ciao
+// bash: cd: too many arguments

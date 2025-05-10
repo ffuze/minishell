@@ -138,6 +138,16 @@ t_token **tokenize(char *input)
 			tokens[count++] = make_token(TOKEN_PIPE, input, i, 1);
 			i++;
 		}
+		else if (input[i] == '<')
+		{
+			tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
+			i++;
+		}
+		else if (input[i] == '>')
+		{
+			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);
+			i++;
+		}
 		else if (input[i] == '\'' || input[i] == '"')
 		{
 			quote = input[i++];
