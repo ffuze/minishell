@@ -1,11 +1,11 @@
 #include "minishell.h"
 
 // Sets the Exit Status and prints what kind of error was met.
-void	cd_err(t_msh *msh)
+void	cd_err(t_msh *msh, char *path)
 {
 	msh->exit_status = 1;
 	write(2, "\e[31;1m", 7);
-	ft_putstr_fd(msh->tokens[1]->value, 2);
+	ft_putstr_fd(path, 2);
 	write(2, NO_ALL, 4);
 	write(2, RED": ", 7);
 	ft_putstr_fd(strerror(errno), 2);
@@ -18,19 +18,44 @@ void	to_prev_dir(t_msh *msh, char **envp)
 	int	i;
 
 	i = 0;
-	while (ft_strncmp(envp[i], "OLDPWD=", 7) != 0)
+	while (envp[i] && ft_strncmp(envp[i], "OLDPWD=", 7) != 0)
 		i++;
+	if (!envp[i])
+	{
+		ft_printf("OLDPWD not found\n");
+		return ;
+	}
 	if (chdir(ft_strchr2(envp[i], '=')) < 0)
-		cd_err(msh);
+		cd_err(msh, ft_strchr2(envp[i], '='));
 	ft_printf("%s\n", ft_strchr2(envp[i], '='));
+}
+
+char	*find_home(char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i] && ft_strncmp(envp[i], "HOME=", 5) != 0)
+		i++;
+	if (!envp[i])
+	{
+		ft_printf("HOME not found\n");
+		return (NULL);
+	}
+	return (ft_strchr2(envp[i], '='));
 }
 
 void	ft_cd(t_msh *msh)
 {
+	char	*home_path;
+
+	home_path = find_home(msh->envp2);
+	if (!home_path)
+		return ;
 	if (!msh->tokens[1] || ft_strcmp(msh->tokens[1]->value, "~") == 0)
 	{
-		if (chdir("/nfs/homes/lemarino") < 0)
-			cd_err(msh);
+		if (chdir(home_path) < 0)
+			cd_err(msh,home_path);
 	}
 	else if (msh->tokens[2])
 	{
@@ -41,6 +66,8 @@ void	ft_cd(t_msh *msh)
 		to_prev_dir(msh, msh->envp2);
 	else
 		if (chdir(msh->tokens[1]->value) < 0)
-			cd_err(msh);
+			cd_err(msh, msh->tokens[1]->value);
 }
+//cd ~/Desktop porta a Desktop
 //cd ~ | ls esegue solo ls
+//< path.txt cd esegue solo "cd"

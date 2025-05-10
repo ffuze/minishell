@@ -119,7 +119,7 @@ int main(int ac, char *av[], char **envp)
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
 		{
 			printf("valore di msh.tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
-			ft_echo(&msh);
+			ft_echo(msh.tokens);
 		}
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
 			&& ft_strcmp(msh.tokens[0]->value, "clear") == 0)
