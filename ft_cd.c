@@ -12,7 +12,7 @@ void	cd_err(t_msh *msh, char *path)
 	write(2, "\n"NO_ALL, 5);
 }
 
-// Swaps the ~ symbole with HOME path and moves to the indicated directory.
+// Swaps the ~ symbol with HOME path and moves to the indicated directory.
 void	get_dir(t_msh *msh, char *home_path, char *input)
 {
 	char	*path;

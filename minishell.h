@@ -59,7 +59,9 @@ typedef enum s_token_enum
     TOKEN_STRING_DOUBLE, // string with double quotes
     TOKEN_PIPE, // --> | <--
 	TOKEN_RE_INPUT, // --> '<' <--
+	TOKEN_INFILE, // input file
 	TOKEN_RE_OUTPUT, // --> '>' <--
+	TOKEN_OUTFILE, // output file
     TOKEN_ERROR, // invalid token
 }	t_token_enum;
 

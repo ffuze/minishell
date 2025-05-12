@@ -124,6 +124,7 @@ int main(int ac,/*char *av[]*/ char **envp)
 			ft_clear(input);
 			clearflag = 1;
 		}
+		
 		else
 		{
 			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
