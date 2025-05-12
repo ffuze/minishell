@@ -14,6 +14,7 @@ OBJECTS = $(OBJECTS_MAIN)
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
+OTHER_DIRS = -lreadline -ltinfo
 
 NO_COLOR = \033[0m
 RED = \033[31m
@@ -32,7 +33,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
 $(NAME): $(LIBFT) $(SRC_MAIN)
-	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) $(OTHER_DIRS) -o $(NAME) # togli OTHER_DIRS se da fastidio
 	@echo "$(GREEN)Object files created!$(NO_COLOR)"
 
 #bonus: $(LIBFT) $(NAME_BONUS)

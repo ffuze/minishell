@@ -54,7 +54,7 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac, char *av[], char **envp)
+int main(int ac,/*char *av[]*/ char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
@@ -62,12 +62,12 @@ int main(int ac, char *av[], char **envp)
 	int		clearflag;
 
 	(void)ac;
-	av = NULL;
+	// av = NULL;
 	sa.sa_handler = ft_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGTERM, &sa, NULL);
+ 	sigaction(SIGTERM, &sa, NULL);
 	sigaction(SIGSEGV, &sa, NULL);
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
