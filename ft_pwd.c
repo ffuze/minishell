@@ -3,10 +3,10 @@
 // Prints the absolute path to the current directory.
 void	ft_pwd()
 {
-	int		i;
+	// int		i;
 	char	*dir_path;
 
-	i = 0;
+	// i = 0;
 	dir_path = malloc(PATH_MAX);
 	if (!dir_path)
 		return (perror("Operation failed"));

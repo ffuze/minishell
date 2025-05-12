@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stddef.h>
 # include <limits.h>
+# include <stdarg.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int n);

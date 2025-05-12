@@ -63,8 +63,10 @@ char	*remove_outer_quotes(char *str)
 	size_t	len;
 
 	len = ft_strlen(str);
-	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
-		|| (str[0] == '\'' && str[len - 1] == '\'')))
+	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"'
+		&& str[1] == '\'' && str[len - 2] == '\'')
+        || (str[0] == '\'' && str[len - 1] == '\''
+		&& str[1] == '"' && str[len - 2] == '"')))
 		return (ft_substr(str, 1, len - 2));
 	return (ft_strdup(str));
 }
@@ -81,10 +83,10 @@ void	handle_word_block(t_token **tokens, int count)
 void	handle_dollar_sign(t_token **tokens, char *input, int *i)
 {
 	size_t	start;
-	size_t	end;
+	// size_t	end;
 
 	start = 0;
-	end = 0;
+	// end = 0;
 	start = ++(*i);
 	while (input[*i] && input[*i] != ' ')
 		(*i)++;
@@ -122,7 +124,7 @@ t_token **tokenize(char *input)
 
 	i = 0;
 	start = i;
-	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1)); // spazio extra
+	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
 	count = 0;
 	clean_token = NULL;
 	if (!tokens)
@@ -164,3 +166,8 @@ t_token **tokenize(char *input)
 	tokens[count] = NULL;
 	return (tokens);
 }
+// echo "oddio 'no way' sta 'per' funz"i"ona'r'e"
+// dovrebbe stampare
+// oddio 'no way' sta 'per' funziona'r'e
+// ma stampa
+// oddio 'no way' sta 'per' funz i ona'r'e

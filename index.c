@@ -54,7 +54,7 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac, char *av[], char **envp)
+int main(int ac,/*char *av[]*/ char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
@@ -63,12 +63,12 @@ int main(int ac, char *av[], char **envp)
 
 	msh.env_existence = true;
 	(void)ac;
-	av = NULL;
+	// av = NULL;
 	sa.sa_handler = ft_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGTERM, &sa, NULL);
+ 	sigaction(SIGTERM, &sa, NULL);
 	sigaction(SIGSEGV, &sa, NULL);
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
@@ -116,7 +116,7 @@ int main(int ac, char *av[], char **envp)
 			ft_env(&msh, msh.envp2);
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
 		{
-			printf("valore di msh.tokens[0]->value: %s\n", msh.tokens[0]->value);
+			printf("sbopvva valore di msh.tokens[0]->value: %s\n", msh.tokens[0]->value);
 			ft_echo(msh.tokens);
 		}
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
