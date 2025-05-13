@@ -93,7 +93,7 @@ char	**ft_envp_dup(char **envp);
 
 
 /*                   ft_echo.c                 */
-void	ft_echo(t_token **input);
+void	ft_echo(char  **cmd);
 
 
 /*                   ft_pwd.c                 */
@@ -108,14 +108,18 @@ void	ft_env(char **envp2);
 /*                   ft_export.c                 */
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
-void	ft_export(t_msh *msh);
+void	ft_export(t_msh *msh, char  **cmd);
 
 /*                    ft_unset                   */
 // Removes Variables from the Environment.
-void	ft_unset(t_msh *msh);
+void	ft_unset(t_msh *msh, char  **cmd);
 
 /*                    ft_cd.c                     */
 // Canghes the current directory.
-void	ft_cd(t_msh *msh);
+void	ft_cd(t_msh *msh, char  **cmd);
+
+/*                    ft_cd.c                     */
+// Initializes non built-in commands.
+void	non_builtin(t_msh *msh, char  **cmd);
 
 #endif

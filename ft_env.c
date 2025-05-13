@@ -7,8 +7,10 @@ void	ft_env(char **envp2)
 
 	i = 0;
 	while(envp2[i])
-		printf("%s\n", envp2[i++]);
+	{
+		if (ft_strchr(envp2[i], '='))
+			printf("%s\n", envp2[i++]);
+		else
+			i++;
+	}
 }
-// Dopo "unset PATH":
-// bash: env: No such file or directory
-// non deve mostrare variabili vuote

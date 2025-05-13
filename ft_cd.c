@@ -60,28 +60,29 @@ char	*find_home(char **envp)
 	return (ft_strchr2(envp[i], '='));
 }
 
-void	ft_cd(t_msh *msh)
+void	ft_cd(t_msh *msh, char **cmd)
 {
 	char	*home_path;
 
 	home_path = find_home(msh->envp2);
 	if (!home_path)
 		return ;
-	if (!msh->tokens[1] || ft_strcmp(msh->tokens[1]->value, "~") == 0)
-	{
-		if (chdir(home_path) < 0)
-			cd_err(msh,home_path);
-	}
-	else if (msh->tokens[2])
+	if (cmd[2])
 	{
 		msh->exit_status = 1;
 		ft_putstr_fd(RED"cd: too many arguments\n"NO_ALL, 2);
 	}
-	else if (ft_strcmp(msh->tokens[1]->value, "-") == 0)
+	else if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
+	{
+		if (chdir(home_path) < 0)
+			cd_err(msh,home_path);
+	}
+	else if (ft_strcmp(cmd[1], "-") == 0)
 		to_prev_dir(msh, msh->envp2);
 	else
-		get_dir(msh, home_path, msh->tokens[1]->value);
+		get_dir(msh, home_path, cmd[1]);
 }
+// cd . sostituisce OLDPWD con il pwd corrente
 // cd - Desktop | echo ciao
 // ciao
 // bash: cd: too many arguments
