@@ -62,7 +62,10 @@ typedef enum s_token_enum
 	TOKEN_INFILE, // input file
 	TOKEN_RE_OUTPUT, // --> '>' <--
 	TOKEN_OUTFILE, // output file
-    TOKEN_ERROR, // invalid token
+    TOKEN_HEREDOC, // --> '>>'
+	TOKEN_OUTAPPEND,
+	TOKEN_LIMITER,
+	TOKEN_ERROR // invalid token
 }	t_token_enum;
 
 typedef struct s_token
@@ -71,11 +74,22 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
+// typedef struct s_cmds
+// {
+// 	char	**cmd;
+// 	t_cmds 	*next;
+// }	t_cmds;
+
 typedef	struct s_msh
 {
 	t_token			**tokens;
+	char			**cmds;
 	char			**envp2;
-	unsigned char   exit_status;
+	unsigned char	exit_status;
+	char			*infile;
+	char			*outfile;
+	char			*limiter;
+	int				pipe_count;
 }	t_msh;
 
 /*                   tokenizer.c                 */
