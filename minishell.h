@@ -72,6 +72,8 @@ typedef struct s_token
 {
 	t_token_enum	type;
 	char			*value;
+	bool			pipeflag;
+	int				pipefd;
 }	t_token;
 
 // typedef struct s_cmds

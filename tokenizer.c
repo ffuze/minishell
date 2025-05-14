@@ -120,7 +120,7 @@ t_token **tokenize(char *input)
 	int count;
 	size_t	start;
 	char	quote;
-	char	*clean_token;
+	char	*clean_token;	
 
 	i = 0;
 	start = i;
@@ -140,16 +140,28 @@ t_token **tokenize(char *input)
 			tokens[count++] = make_token(TOKEN_PIPE, input, i, 1);
 			i++;
 		}
-		else if (input[i] == '<' && input[i + 1] != '<' && input[i + 1] != ' ')
+		else if (input[i] == '<' && input[i + 1] != '<')
 		{
 			tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
 			i++;
+			while (input[i] && input[i] == ' ')
+				i++;
+			start = i;
+			while (input[i] && input[i] != ' ')
+				i++;
+			tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
 			// Creare Token per file input (TOKEN_INFILE)
 		}
-		else if (input[i] == '>' && input[i + 1] != '>' && input[i + 1] != ' ')
+		else if (input[i] == '>' && input[i + 1] != '>')
 		{
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);
 			i++;
+			while (input[i] && input[i] == ' ')
+				i++;
+			start = i;
+			while (input[i] && input[i] != ' ')
+				i++;
+			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, i - start);
 			// Creare Token per file output (TOKEN_OUTFILE)
 		}
 		else if (input[i] == '\'' || input[i] == '"')
