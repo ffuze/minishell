@@ -54,7 +54,7 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac,/*char *av[]*/ char **envp)
+int main(int ac,char *av[], char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
@@ -62,7 +62,7 @@ int main(int ac,/*char *av[]*/ char **envp)
 	int		clearflag;
 
 	(void)ac;
-	// av = NULL;
+	av = NULL;
 	sa.sa_handler = ft_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
@@ -83,6 +83,7 @@ int main(int ac,/*char *av[]*/ char **envp)
 			return EXIT_FAILURE;
 		else if (!(*input))
 			continue;
+		char **split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(input);
 		for (size_t i = 0; msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
@@ -100,13 +101,13 @@ int main(int ac,/*char *av[]*/ char **envp)
 			return (free_dpc(msh.envp2), EXIT_SUCCESS);
 		else if (ft_strcmp(msh.tokens[0]->value, "export") == 0)
 		{
-			ft_export(&msh);
+			ft_export(&msh, split_input);
 			if (!msh.envp2)
 				return(ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
 		}
 		else if (ft_strcmp(msh.tokens[0]->value, "unset") == 0)
 		{
-			ft_unset(&msh);
+			ft_unset(&msh, split_input);
 			if (!msh.envp2)
 				return(ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
 		}
@@ -115,27 +116,27 @@ int main(int ac,/*char *av[]*/ char **envp)
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "env") == 0)
 			ft_env(msh.envp2);
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "cd") == 0)
-			ft_cd(&msh);
+			ft_cd(&msh, split_input);
 		else if ((ft_strcmp(msh.tokens[0]->value, "echo")) == 0)
-			ft_echo(msh.tokens);
-		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_WORD
-			&& ft_strcmp(msh.tokens[0]->value, "clear") == 0)
+			ft_echo(split_input);
+		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "clear") == 0)
 		{
 			ft_clear(input);
 			clearflag = 1;
 		}
-		
 		else
 		{
+			non_builtin(&msh, split_input);
 			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
-			ft_putstr_fd(RED"Command not found: ", 2);
-			write(2, input, ft_strlen(input));
-			write(2, NO_ALL"\n", 5);
-			msh.exit_status = 1;
+			// ft_putstr_fd(RED"Command not found: ", 2);
+			// write(2, input, ft_strlen(input));
+			// write(2, NO_ALL"\n", 5);
+			// msh.exit_status = 1;
 		}
 		if (!clearflag)
 			add_history(input);
 		free(input);
+		free_dpc(split_input);//////////
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
 	}
 	free_dpc(msh.envp2);

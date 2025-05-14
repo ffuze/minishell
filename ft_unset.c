@@ -54,16 +54,16 @@ char	**take_aim(char **envp, char *target)
 	return (envp);
 }
 
-void	ft_unset(t_msh *msh)
+void	ft_unset(t_msh *msh, char  **cmd)
 {
 	int		i;
 	char	*target;
 
 	i = 1;
 	target = NULL;
-	while (msh->tokens[i] && msh->tokens[i]->type == TOKEN_WORD)
+	while (cmd[i])
 	{
-		target = ft_strdup(msh->tokens[i]->value);
+		target = ft_strdup(cmd[i]);
 		if (!target)
 			return (ft_putstr_fd(RED"Malloc failure"NO_ALL, 2));
 		msh->envp2 = take_aim(msh->envp2, target);

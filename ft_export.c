@@ -154,24 +154,24 @@ int	var_name_check(t_msh *msh, char *new_var)
 }
 //-----------------------------------------------------------------------------//
 
-void	ft_export(t_msh *msh)
+void	ft_export(t_msh *msh, char **cmd)
 {
 	int	i;
 
 	i = 1;
-	if (!msh->tokens[1])
+	if (!cmd[1])
 		print_declarex(msh->envp2);
 	else
 	{
-		while (msh->tokens[i] && msh->tokens[i]->type == TOKEN_WORD)
+		while (cmd[i])
 		{
-			if (!var_name_check(msh, msh->tokens[i]->value))
+			if (!var_name_check(msh, cmd[i]))
 				ft_printf(RED"export: `%s': not a valid identifier\n"NO_ALL, \
-														msh->tokens[i]->value);
-			else if (check_vardup(msh->envp2, msh->tokens[i]->value))
+														cmd[i]);
+			else if (check_vardup(msh->envp2, cmd[i]))
 				;
 			else
-				msh->envp2 = add_var(msh->envp2, msh->tokens[i]->value);
+				msh->envp2 = add_var(msh->envp2, cmd[i]);
 			i++;
 		}
 	}
