@@ -113,7 +113,7 @@ void	handle_dollar_sign(t_token **tokens, char *input, int *i)
 // 	(*i)++;
 // }
 
-t_token **tokenize(char *input)
+t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token **tokens;
 	int i;
@@ -150,7 +150,7 @@ t_token **tokenize(char *input)
 			while (input[i] && input[i] != ' ')
 				i++;
 			tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
-			// Creare Token per file input (TOKEN_INFILE)
+			msh->infile = ft_substr(input, start, i - start);
 		}
 		else if (input[i] == '>' && input[i + 1] != '>')
 		{
@@ -162,7 +162,7 @@ t_token **tokenize(char *input)
 			while (input[i] && input[i] != ' ')
 				i++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, i - start);
-			// Creare Token per file output (TOKEN_OUTFILE)
+			msh->outfile = ft_substr(input, start, i - start);
 		}
 		else if (input[i] == '\'' || input[i] == '"')
 		{

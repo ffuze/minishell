@@ -52,7 +52,7 @@ void	*execute_absrel_path(char *cmd, char **envp)
 		return (NULL);
 	}
 	execve(split_cmd[0], split_cmd, envp);
-	print_err(cmd, ": command not executed.\n");
+	print_err(cmd, ": No such file or directory.\n");
 	return (free_dpc(split_cmd), NULL);
 }
 
@@ -66,13 +66,11 @@ void	*execute_cmd(char **cmd, char **envp)
 	if (ft_strchr(cmd[0], '/'))
 	{
 		execute_absrel_path(cmd[0], envp);
-		exit (1);
-		// return (NULL);
+		exit (127);
 	}
 	cmd_path = find_pathname(cmd[0], envp);
 	if (!cmd_path)
-		exit (1);
-		// return (NULL);
+		exit (127);
 	execve(cmd_path, cmd, envp);
 	print_err(cmd[0], ": command not executed.\n");
 	free(cmd_path);
@@ -85,6 +83,10 @@ void	non_builtin(t_msh *msh, char  **cmd)
 	int status;
 
 	status = 0;
+	if (msh->outfile != NULL)//////////////////////////////////////////////////
+		ft_printf(BRCYAN">>>%s<<<\n"NO_ALL, msh->outfile);
+	else
+		ft_printf(BRCYAN"No infile\n"NO_ALL);//////////////////////////
 	id = fork();
 	if (id < 0)
 	{
@@ -92,10 +94,7 @@ void	non_builtin(t_msh *msh, char  **cmd)
 		return ;
 	}
 	else if (0 == id)
-	{
 		execute_cmd(cmd, msh->envp2);
-		printf(YELLOW"Comando non eseguito, figlio vivo\n"NO_ALL);//////////////
-	}
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))

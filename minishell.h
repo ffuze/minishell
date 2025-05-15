@@ -72,20 +72,20 @@ typedef struct s_token
 {
 	t_token_enum	type;
 	char			*value;
-	bool			pipeflag;
-	int				pipefd;
 }	t_token;
 
-// typedef struct s_cmds
-// {
-// 	char	**cmd;
-// 	t_cmds 	*next;
-// }	t_cmds;
+typedef struct s_cmds
+{
+	char			**cmd;
+	bool			pipeflag;
+	int				pipefd[2];
+	struct t_cmds	*next;
+}	t_cmds;
 
 typedef	struct s_msh
 {
 	t_token			**tokens;
-	char			**cmds;
+	t_cmds			**cmds; // Doppio * ?
 	char			**envp2;
 	unsigned char	exit_status;
 	char			*infile;
@@ -94,11 +94,11 @@ typedef	struct s_msh
 	int				pipe_count;
 }	t_msh;
 
-/*                   tokenizer.c                 */
-t_token	**tokenize(char *input);
+/*_____________________ tokenizer.c _____________________*/
+t_token	**tokenize(t_msh *msh, char *input);
 
 
-/*                   utils.c                 */
+/*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
 
 // Verifies that the c character is not a symbol recognized from bash.
@@ -108,33 +108,32 @@ int     ft_isbashprint(int c);
 char	**ft_envp_dup(char **envp);
 
 
-/*                   ft_echo.c                 */
+/*______________________ ft_echo.c ______________________*/
 void	ft_echo(char  **cmd);
 
 
-/*                   ft_pwd.c                 */
+/*_______________________ ft_pwd.c ______________________*/
 // Prints the absolute path to the current directory.
 void	ft_pwd();
 
-
-/*                   ft_env.c                 */
+/*_______________________ ft_env.c ______________________*/
 // Prints all the environment variables.
 void	ft_env(char **envp2);
 
-/*                   ft_export.c                 */
+/*_____________________ ft_export.c _____________________*/
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh, char  **cmd);
 
-/*                    ft_unset                   */
+/*______________________ ft_unset _______________________*/
 // Removes Variables from the Environment.
 void	ft_unset(t_msh *msh, char  **cmd);
 
-/*                    ft_cd.c                     */
+/*_______________________ ft_cd.c _______________________*/
 // Canghes the current directory.
 void	ft_cd(t_msh *msh, char  **cmd);
 
-/*                    ft_cd.c                     */
+/*_______________________ ft_cd.c _______________________*/
 // Initializes non built-in commands.
 void	non_builtin(t_msh *msh, char  **cmd);
 

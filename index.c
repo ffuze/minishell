@@ -63,6 +63,8 @@ int main(int ac,char *av[], char **envp)
 
 	(void)ac;
 	av = NULL;
+	msh.infile = NULL;
+	msh.outfile = NULL;
 	sa.sa_handler = ft_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
@@ -80,11 +82,11 @@ int main(int ac,char *av[], char **envp)
 		msh.exit_status = 0;
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
 		if (!input)
-			return EXIT_FAILURE;
+			return (EXIT_FAILURE);
 		else if (!(*input))
 			continue;
 		char **split_input = ft_split(input, ' ');///////////////////////////
-		msh.tokens = tokenize(input);
+		msh.tokens = tokenize(&msh, input);
 		for (size_t i = 0; msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		// I want to create another string where to put the first position of the token,
@@ -124,6 +126,10 @@ int main(int ac,char *av[], char **envp)
 			ft_clear(input);
 			clearflag = 1;
 		}
+		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
+		{
+
+		}
 		else
 		{
 			non_builtin(&msh, split_input);
@@ -135,6 +141,16 @@ int main(int ac,char *av[], char **envp)
 		}
 		if (!clearflag)
 			add_history(input);
+		if (msh.infile && msh.infile != NULL)
+		{
+			free(msh.infile);
+			msh.infile = NULL;
+		}
+		if (msh.outfile && msh.outfile != NULL)
+		{
+			free(msh.outfile);
+			msh.outfile = NULL;
+		}
 		free(input);
 		free_dpc(split_input);//////////
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
