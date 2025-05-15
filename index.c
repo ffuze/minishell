@@ -156,5 +156,5 @@ int main(int ac,char *av[], char **envp)
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
 	}
 	free_dpc(msh.envp2);
-	return EXIT_SUCCESS;
+	return (msh.exit_status);
 }

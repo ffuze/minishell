@@ -62,8 +62,8 @@ typedef enum s_token_enum
 	TOKEN_INFILE, // input file
 	TOKEN_RE_OUTPUT, // --> '>' <--
 	TOKEN_OUTFILE, // output file
-    TOKEN_HEREDOC, // --> '>>'
-	TOKEN_OUTAPPEND,
+    TOKEN_HEREDOC, // --> '<<'
+	TOKEN_OUTAPPEND, // --> '>>'
 	TOKEN_LIMITER,
 	TOKEN_ERROR // invalid token
 }	t_token_enum;
@@ -85,7 +85,7 @@ typedef struct s_cmds
 typedef	struct s_msh
 {
 	t_token			**tokens;
-	t_cmds			**cmds; // Doppio * ?
+	t_cmds			*cmds; // Doppio * ?
 	char			**envp2;
 	unsigned char	exit_status;
 	char			*infile;
@@ -102,7 +102,7 @@ t_token	**tokenize(t_msh *msh, char *input);
 int		skip_spaces(t_token *input, int i);
 
 // Verifies that the c character is not a symbol recognized from bash.
-int     ft_isbashprint(int c);
+int		ft_isbashprint(int c);
 
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
