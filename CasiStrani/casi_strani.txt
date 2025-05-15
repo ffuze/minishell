@@ -32,9 +32,6 @@ ls-l: command not found
 bash$ ls|wc -l
 9
 
-bash$ echo ciao mondo > b culo
-bash$ cat b
-ciao mondo culo
 
 bash$ echo ciao mondo > b culo > cat lore (cat dopo > sara' il nome di un file)
 bash$ cat b
@@ -42,9 +39,8 @@ bash$ cat b
 bash$ cat cat
 ciao mondo culo lore
 
-< path.txt cd esegue solo "cd"
+bash$ < path.txt cd esegue solo "cd"
 
-< utils.c < b wc -l (esegue il comando solo sul file b)
-1
 
-echo ssss >c > a > b (scrive solo sul file b, ma prima controlla i permessi di tutti gli outfile)
+
+

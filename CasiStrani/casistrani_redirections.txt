@@ -1,0 +1,8 @@
+<bash$  utils.c < b wc -l (esegue il comando solo sul file b)
+1
+
+bash$ echo ssss >c > a > b (scrive solo sul file b, ma prima controlla i permessi di tutti gli outfile)
+
+bash$ echo ciao mondo > b culo
+bash$ cat b
+ciao mondo culo
