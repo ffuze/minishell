@@ -72,7 +72,7 @@ typedef struct s_token
 {
 	t_token_enum	type;
 	char			*value;
-}	t_token;
+}					t_token;
 
 typedef struct s_cmds
 {
@@ -80,22 +80,40 @@ typedef struct s_cmds
 	bool			pipeflag;
 	int				pipefd[2];
 	struct t_cmds	*next;
-}	t_cmds;
+}					t_cmds;
+
+typedef struct s_inf
+{
+	char		*outfile;
+	bool		heredoc_flag; // 0 for '<', 1 for '<<'.
+	char		*limiter; // String to signal the end of the input in heredoc.
+	struct t_of	*next;
+}				t_inf;
+
+typedef struct s_outf
+{
+	char		*outfile;
+	bool		append_flag; // 0 for '>', 1 for '>>'.
+	struct t_of	*next;
+}				t_outf;
 
 typedef	struct s_msh
 {
 	t_token			**tokens;
 	t_cmds			*cmds; // Doppio * ?
 	char			**envp2;
-	unsigned char	exit_status;
-	char			*infile;
-	char			*outfile;
+	// char			*infile;
+	// char			*outfile; // Output file from redirection.
 	char			*limiter;
-	int				pipe_count;
-}	t_msh;
+	t_inf			*infiles; // Input files from redirection.
+	t_outf			*outfiles; // Output files from redirection.
+	// char			**limiter_mx; // HereDocs limiter.
+	// int				pipe_count;
+	unsigned char	exit_status;
+}					t_msh;
 
 /*_____________________ tokenizer.c _____________________*/
-t_token	**tokenize(t_msh *msh, char *input);
+t_token	**tokenize(/* t_msh *msh,  */char *input);
 
 
 /*_______________________ utils.c _______________________*/

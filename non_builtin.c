@@ -83,10 +83,6 @@ void	non_builtin(t_msh *msh, char  **cmd)
 	int status;
 
 	status = 0;
-	if (msh->outfile != NULL)//////////////////////////////////////////////////
-		ft_printf(BRCYAN">>>%s<<<\n"NO_ALL, msh->outfile);
-	else
-		ft_printf(BRCYAN"No infile\n"NO_ALL);//////////////////////////
 	id = fork();
 	if (id < 0)
 	{

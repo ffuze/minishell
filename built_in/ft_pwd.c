@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // Prints the absolute path to the current directory.
 void	ft_pwd()

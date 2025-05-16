@@ -41,6 +41,7 @@ ciao mondo culo lore
 
 bash$ < path.txt cd esegue solo "cd"
 
-
+bash$ < utils.c cat | | | |  cat
+bash: syntax error near unexpected token `|'
 
 

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // int	handle_double_quotes_echo(t_token *token)
 // {
