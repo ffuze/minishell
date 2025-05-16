@@ -87,7 +87,7 @@ int main(int ac,char *av[], char **envp)
 		else if (!(*input))
 			continue;
 		char **split_input = ft_split(input, ' ');///////////////////////////
-		msh.tokens = tokenize(/* &msh,  */input);
+		msh.tokens = tokenize(&msh, input);
 		for (size_t i = 0; msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		// I want to create another string where to put the first position of the token,
@@ -129,7 +129,8 @@ int main(int ac,char *av[], char **envp)
 		}
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
 		{
-
+			handle_input_redirection(&msh);
+			non_builtin_redirect(&msh, split_input);
 		}
 		else
 		{

@@ -10,7 +10,9 @@ SRC_MAIN = index.c \
 			built_in/ft_cd.c built_in/ft_unset.c \
 			tokenize/tokenizer.c  \
 			utils.c \
-			non_builtin/execute_regular.c
+			non_builtin/execute_regular.c \
+			redirection/redirection.c \
+			non_builtin_copy.c
 #SRC_BONUS = 
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
