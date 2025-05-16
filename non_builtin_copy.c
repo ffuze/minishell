@@ -92,6 +92,7 @@ void	non_builtin_redirect(t_msh *msh, char  **cmd)
 	}
 	else if (0 == id)
 	{
+		ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);
 		while (msh->infiles)
 		{
 			if (fd)

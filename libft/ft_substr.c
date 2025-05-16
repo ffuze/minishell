@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:16:33 by adegl-in          #+#    #+#             */
-/*   Updated: 2024/11/27 10:18:45 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:12:33 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		subs[i] = s[start + i];
 		i++;
 	}
+	subs[i] = '\0';
 	return (subs);
 }
 

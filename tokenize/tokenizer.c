@@ -48,14 +48,14 @@ t_token **tokenize(t_msh *msh, char *input)
 	size_t	start;
 	char	quote;
 	char	*clean_token;
-	t_inf	*infiles;
+	// t_inf	*infiles;
 
 	i = 0;
 	start = i;
 	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
 	count = 0;
 	clean_token = NULL;
-	infiles = NULL;
+	// infiles = NULL;
 	if (!tokens)
 		return (NULL);
 	while (input[i])
@@ -79,9 +79,20 @@ t_token **tokenize(t_msh *msh, char *input)
 			while (input[i] && input[i] != ' ')
 				i++;
 			tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
-			if (!infiles)
-				infiles = ft_calloc(1, sizeof(t_inf));
-			infiles->infile = ft_substr(input, start, i - start);
+			if (!msh)
+				return (NULL);
+			if (!msh->infiles)
+			{
+				msh->infiles = ft_calloc(1, sizeof(t_inf));
+				if (!msh->infiles)
+				{
+					perror("ft_calloc");
+					return (NULL);
+				}
+			}
+			msh->infiles->infile = ft_substr(input, start, i - start);
+			if (!msh->infiles->infile)
+				return (NULL);
 		}
 		else if (input[i] == '>' && input[i + 1] != '>')
 		{

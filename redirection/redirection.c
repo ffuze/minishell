@@ -4,10 +4,8 @@ int handle_input_redirection(t_msh *msh)
 {
 	int i;
 	t_inf *new;
-	t_inf *last;
 
 	i = 0;
-	last = NULL;
 	if (!msh->infiles)
 	{
 		printf("Missing input file for redirection\n");
@@ -26,7 +24,6 @@ int handle_input_redirection(t_msh *msh)
 			new->next = NULL;
 			if (!msh->infiles)
 				msh->infiles = new;
-			last = new;
 		}
 		i++;
 	}
