@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void	print_err(char *s1, char *err_type)
 {
@@ -77,7 +77,7 @@ void	*execute_cmd(char **cmd, char **envp)
 	exit (1);
 }
 
-void	non_builtin(t_msh *msh, char  **cmd)
+void	execute_regular(t_msh *msh, char  **cmd)
 {
 	pid_t	id;
 	int status;

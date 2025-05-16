@@ -143,6 +143,9 @@ void	ft_env(char **envp2);
 // Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh, char  **cmd);
 
+// Prints Environment Vars in ASCII order with their value in double quotes.
+void	print_declarex(char **envp2);
+
 /*______________________ ft_unset _______________________*/
 // Removes Variables from the Environment.
 void	ft_unset(t_msh *msh, char  **cmd);
@@ -153,6 +156,6 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*_______________________ ft_cd.c _______________________*/
 // Initializes non built-in commands.
-void	non_builtin(t_msh *msh, char  **cmd);
+void	execute_regular(t_msh *msh, char  **cmd);
 
 #endif

@@ -1,34 +1,5 @@
 #include "../minishell.h"
 
-// int	handle_double_quotes_echo(t_token *token)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (token->value[i] != '\0' && token->value[i] != '"')
-// 	{
-// 		printf("token value: %c\n", token->value[i]);
-// 		printf("%c", token->value[i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// int	handle_single_quotes_echo(t_token *token)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (token->value[i] != '\0' && token->value[i] != '\'')
-// 	{
-// 		printf("%c", token->value[i]);
-// 		i++;
-// 		if (token->value[i] == '"')
-// 			handle_double_quotes_echo(token);
-// 	}
-// 	return (0);
-// }
-
 int	check_flag(char **cmd, int j)
 {
 	int	i;

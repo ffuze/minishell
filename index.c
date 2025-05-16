@@ -132,7 +132,7 @@ int main(int ac,char *av[], char **envp)
 		}
 		else
 		{
-			non_builtin(&msh, split_input);
+			execute_regular(&msh, split_input);
 			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
 			// ft_putstr_fd(RED"Command not found: ", 2);
 			// write(2, input, ft_strlen(input));

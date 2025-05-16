@@ -6,3 +6,13 @@ bash$ echo ssss >c > a > b (scrive solo sul file b, ma prima controlla i permess
 bash$ echo ciao mondo > b culo
 bash$ cat b
 ciao mondo culo
+
+bash$ < index.c cat < utils.c wc
+cat: wc: No such file or directory
+
+bash$ < index.c cat < c wc
+bash: c: No such file or directory
+
+bash$ < index.c cat < utils.c
+(cat di utils.c)
+
