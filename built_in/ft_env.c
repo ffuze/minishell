@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // Prints all the environment variables
 void	ft_env(char **envp2)

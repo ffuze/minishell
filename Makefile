@@ -4,8 +4,12 @@ NAME = minishell
 #NAME_BONUS =
 
 OBJ_DIR = obj
-SRC_MAIN = index.c ft_echo.c ft_pwd.c ft_env.c utils.c tokenizer.c ft_export.c \
-			ft_cd.c ft_unset.c non_builtin.c
+SRC_MAIN = index.c \
+			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c built_in/ft_export.c \
+			built_in/ft_cd.c built_in/ft_unset.c \
+			tokenize/tokenizer.c  \
+			utils.c \
+			non_builtin.c
 #SRC_BONUS = 
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
@@ -33,7 +37,8 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
 $(NAME): $(LIBFT) $(SRC_MAIN)
-	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) $(OTHER_DIRS) -o $(NAME) # togli OTHER_DIRS se da fastidio
+	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) $(OTHER_DIRS) -o $(NAME)
+# togli OTHER_DIRS se da fastidio
 	@echo "$(GREEN)Object files created!$(NO_COLOR)"
 
 #bonus: $(LIBFT) $(NAME_BONUS)

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // Sets the Exit Status and prints what kind of error was met.
 void	cd_err(t_msh *msh, char *path)
