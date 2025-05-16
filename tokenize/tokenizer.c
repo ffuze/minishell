@@ -40,7 +40,7 @@ void	handle_dollar_sign(t_token **tokens, char *input, int *i)
 	(*i)++;
 }
 
-t_token **tokenize(/* t_msh *msh,  */char *input)
+t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token **tokens;
 	int i;
@@ -67,30 +67,30 @@ t_token **tokenize(/* t_msh *msh,  */char *input)
 			tokens[count++] = make_token(TOKEN_PIPE, input, i, 1);
 			i++;
 		}
-		// else if (input[i] == '<' && input[i + 1] != '<')
-		// {
-		// 	tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
-		// 	i++;
-		// 	while (input[i] && input[i] == ' ')
-		// 		i++;
-		// 	start = i;
-		// 	while (input[i] && input[i] != ' ')
-		// 		i++;
-		// 	tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
-		// 	msh->infile = ft_substr(input, start, i - start);
-		// }
-		// else if (input[i] == '>' && input[i + 1] != '>')
-		// {
-		// 	tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);
-		// 	i++;
-		// 	while (input[i] && input[i] == ' ')
-		// 		i++;
-		// 	start = i;
-		// 	while (input[i] && input[i] != ' ')
-		// 		i++;
-		// 	tokens[count++] = make_token(TOKEN_OUTFILE, input, start, i - start);
-		// 	msh->outfile = ft_substr(input, start, i - start);
-		// }
+		else if (input[i] == '<' && input[i + 1] != '<')
+		{
+			tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
+			i++;
+			while (input[i] && input[i] == ' ')
+				i++;
+			start = i;
+			while (input[i] && input[i] != ' ')
+				i++;
+			tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
+			msh->infiles = (t_inf *)ft_substr(input, start, i - start);
+		}
+		else if (input[i] == '>' && input[i + 1] != '>')
+		{
+			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);
+			i++;
+			while (input[i] && input[i] == ' ')
+				i++;
+			start = i;
+			while (input[i] && input[i] != ' ')
+				i++;
+			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, i - start);
+			msh->outfiles = (t_outf *)ft_substr(input, start, i - start);
+		}
 		else if (input[i] == '\'' || input[i] == '"')
 		{
 			quote = input[i++];

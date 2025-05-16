@@ -58,12 +58,10 @@ typedef enum s_token_enum
     TOKEN_STRING_SINGLE, // string with single quotes
     TOKEN_STRING_DOUBLE, // string with double quotes
     TOKEN_PIPE, // --> | <--
-	TOKEN_RE_INPUT, // --> '<' <--
+	TOKEN_RE_INPUT, // --> '<' o '<<' <--
 	TOKEN_INFILE, // input file
-	TOKEN_RE_OUTPUT, // --> '>' <--
+	TOKEN_RE_OUTPUT, // --> '>' o '>>' <--
 	TOKEN_OUTFILE, // output file
-    TOKEN_HEREDOC, // --> '<<'
-	TOKEN_OUTAPPEND, // --> '>>'
 	TOKEN_LIMITER,
 	TOKEN_ERROR // invalid token
 }	t_token_enum;
@@ -84,18 +82,18 @@ typedef struct s_cmds
 
 typedef struct s_inf
 {
-	char		*outfile;
-	bool		heredoc_flag; // 0 for '<', 1 for '<<'.
-	char		*limiter; // String to signal the end of the input in heredoc.
-	struct t_of	*next;
-}				t_inf;
+	char			*infile;
+	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
+	char			*limiter; // String to signal the end of the input in heredoc.
+	struct s_inf	*next;
+}					t_inf;
 
 typedef struct s_outf
 {
-	char		*outfile;
-	bool		append_flag; // 0 for '>', 1 for '>>'.
-	struct t_of	*next;
-}				t_outf;
+	char			*outfile;
+	bool			append_flag; // 0 for '>', 1 for '>>'.
+	struct s_outf	*next;
+}					t_outf;
 
 typedef	struct s_msh
 {
@@ -113,7 +111,7 @@ typedef	struct s_msh
 }					t_msh;
 
 /*_____________________ tokenizer.c _____________________*/
-t_token	**tokenize(/* t_msh *msh,  */char *input);
+t_token	**tokenize(t_msh *msh, char *input);
 
 
 /*_______________________ utils.c _______________________*/
@@ -154,5 +152,8 @@ void	ft_cd(t_msh *msh, char  **cmd);
 /*_______________________ ft_cd.c _______________________*/
 // Initializes non built-in commands.
 void	non_builtin(t_msh *msh, char  **cmd);
+
+int		handle_input_redirection(t_msh *msh);
+void	non_builtin_redirect(t_msh *msh, char  **cmd);
 
 #endif
