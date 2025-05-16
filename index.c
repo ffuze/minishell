@@ -80,6 +80,7 @@ int main(int ac,char *av[], char **envp)
 	while (1)
 	{
 		msh.exit_status = 0;
+		// funzione per aggiornare ogni volta il path da stampare accanto a powershell
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
 		if (!input)
 			return (EXIT_FAILURE);
