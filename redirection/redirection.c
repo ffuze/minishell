@@ -18,7 +18,7 @@ int handle_input_redirection(t_msh *msh)
 	{
 		if (msh->tokens[i]->type == TOKEN_RE_INPUT && msh->tokens[i + 1])
 		{
-			new = malloc(sizeof(t_inf));
+			new = malloc(sizeof(t_inf *));
 			if (!new)
 				return (1);
 			new->infile = msh->tokens[i + 1]->value;
@@ -26,8 +26,6 @@ int handle_input_redirection(t_msh *msh)
 			new->next = NULL;
 			if (!msh->infiles)
 				msh->infiles = new;
-			else
-				last->next = new;
 			last = new;
 		}
 		i++;

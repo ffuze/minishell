@@ -92,15 +92,23 @@ void	non_builtin_redirect(t_msh *msh, char  **cmd)
 	}
 	else if (0 == id)
 	{
-		fd = open(msh->infiles->infile, O_RDONLY);
-		if (fd < 0)
+		while (msh->infiles)
 		{
-			printf("An error has occurred while opening the file\n");
-			msh->exit_status = 1;
-			exit(1);
+			if (fd)
+				close(fd);
+			// printf("valore di infile: %s\n", msh->infiles->infile);
+			fd = open(msh->infiles->infile, O_RDONLY);
+			if (fd < 0)
+			{
+				// printf("An error has occurred while opening the file\n");
+				msh->exit_status = 1;
+				exit(1);
+			}
+			msh->infiles = msh->infiles->next;
 		}
 		execute_cmd(cmd, msh->envp2);
 	}
+	ft_printf("father before wait\n");
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))

@@ -51,6 +51,7 @@ void	ft_handler(int signum)
 	write(1, "\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
+	ft_printf("-----------------------\n");
     rl_redisplay();
 }
 
@@ -69,8 +70,8 @@ int main(int ac,char *av[], char **envp)
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
- 	sigaction(SIGTERM, &sa, NULL);
-	sigaction(SIGSEGV, &sa, NULL);
+ 	// sigaction(SIGTERM, &sa, NULL);
+	// sigaction(SIGSEGV, &sa, NULL);
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
@@ -86,6 +87,7 @@ int main(int ac,char *av[], char **envp)
 			return (EXIT_FAILURE);
 		else if (!(*input))
 			continue;
+		ft_printf("aaa\n");
 		char **split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
 		for (size_t i = 0; msh.tokens[i] != NULL; i++)
