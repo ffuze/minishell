@@ -109,7 +109,7 @@ void	non_builtin_redirect(t_msh *msh, char  **cmd)
 		execute_cmd(cmd, msh->envp2);
 	}
 	ft_printf("father before wait\n");
-	while (waitpid(id, &status, 0) > 0)
+git 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
