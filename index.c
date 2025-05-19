@@ -74,7 +74,7 @@ int main(int ac,char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	msh.cmds = crealista("wc -l");///////////// Creazione temporanea della lista
+	msh.cmds = crealista("wc -l");///////////// Creazione della lista temporanea
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
@@ -132,13 +132,13 @@ int main(int ac,char *av[], char **envp)
 		{
 			handle_input_redirection(&msh);
 			if (split_input[0] && split_input[0][0] == '<')
-				non_builtin_redirect_in(&msh/* , split_input */);
+				non_builtin_redirect_in(&msh);
 		}
 		// else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_OUTPUT)
 		// {
 		// 	handle_input_redirection(&msh);
 		// 	if (split_input[0] && split_input[0][0] != '>')
-		// 		non_builtin_redirect(&msh/* , split_input */);
+		// 		non_builtin_redirect(&msh);
 		// }
 		else
 		{

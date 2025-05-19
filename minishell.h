@@ -98,15 +98,12 @@ typedef struct s_outf
 typedef	struct s_msh
 {
 	t_token			**tokens;
-	t_cmds			*cmds; // Doppio * ?
+	t_cmds			*cmds;
 	char			**envp2;
-	// char			*infile;
-	// char			*outfile; // Output file from redirection.
-	// char			*limiter;
 	t_inf			*infiles; // Input files from redirection.
 	t_outf			*outfiles; // Output files from redirection.
-	// char			**limiter_mx; // HereDocs limiter.
-	// int				pipe_count;
+	// int				pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
+	// int				pipefd[2];
 	unsigned char	exit_status;
 }					t_msh;
 
@@ -114,7 +111,7 @@ typedef	struct s_msh
 t_token	**tokenize(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 	size_t end);
-int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t	*i);
+int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
