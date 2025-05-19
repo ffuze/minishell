@@ -74,6 +74,7 @@ int main(int ac,char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
+	msh.cmds = crealista("wc -l");///////////// Creazione temporanea della lista
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
@@ -141,7 +142,7 @@ int main(int ac,char *av[], char **envp)
 		// }
 		else
 		{
-			execute_regular(&msh, split_input);
+			execute_regular(&msh);
 			// ft_putstr_fd(RED"Command not found: ", 2);
 			// write(2, input, ft_strlen(input));
 			// write(2, NO_ALL"\n", 5);

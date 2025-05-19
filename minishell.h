@@ -77,7 +77,7 @@ typedef struct s_cmds
 	char			**cmd;
 	bool			pipeflag;
 	int				pipefd[2];
-	struct t_cmds	*next;
+	struct s_cmds	*next;
 }					t_cmds;
 
 typedef struct s_inf
@@ -102,7 +102,7 @@ typedef	struct s_msh
 	char			**envp2;
 	// char			*infile;
 	// char			*outfile; // Output file from redirection.
-	char			*limiter;
+	// char			*limiter;
 	t_inf			*infiles; // Input files from redirection.
 	t_outf			*outfiles; // Output files from redirection.
 	// char			**limiter_mx; // HereDocs limiter.
@@ -150,11 +150,19 @@ void	ft_unset(t_msh *msh, char  **cmd);
 void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
-// Initializes non built-in commands.
-void	execute_regular(t_msh *msh, char  **cmd);
+// Initializes a non built-in command.
+void	execute_regular(t_msh *msh);
 
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
-void	non_builtin_redirect_in(t_msh *msh/* , char  **cmd */);
+
+// Redirects the input from a file and then initializes a non built-in command.
+void	non_builtin_redirect_in(t_msh *msh);
+
+
+
+/*_______________________________ test_setup.c ______________________________*/
+t_cmds	*crealista(char *s);
+void printList(t_cmds *head);
 
 #endif
