@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void	print_err(char *s1, char *err_type)
+static void	print_err(char *s1, char *err_type)
 {
 	write(2, RED"", 5);
 	write(2, s1, ft_strlen(s1));
@@ -9,7 +9,7 @@ void	print_err(char *s1, char *err_type)
 }
 
 // Looks for the path of the command "cmd" in the Environment (envp)
-char	*find_pathname(char *cmd, char **envp)
+static char	*find_pathname(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*pathname;
@@ -38,7 +38,7 @@ char	*find_pathname(char *cmd, char **envp)
 }
 
 // Executes a command with the given absolute or relative path
-void	*execute_absrel_path(char *cmd, char **envp)
+static void	*execute_absrel_path(char *cmd, char **envp)
 {
 	char	**split_cmd;
 
@@ -58,7 +58,7 @@ void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-void	*execute_cmd(char **cmd, char **envp)
+static void	*execute_cmd(char **cmd, char **envp)
 {
 	char	*cmd_path;
 
@@ -77,7 +77,7 @@ void	*execute_cmd(char **cmd, char **envp)
 	exit (1);
 }
 
-void	execute_regular(t_msh *msh, char  **cmd)
+void	execute_regular(t_msh *msh)
 {
 	pid_t	id;
 	int status;
@@ -90,7 +90,7 @@ void	execute_regular(t_msh *msh, char  **cmd)
 		return ;
 	}
 	else if (0 == id)
-		execute_cmd(cmd, msh->envp2);
+		execute_cmd(msh->cmds->cmd, msh->envp2);
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))

@@ -12,7 +12,8 @@ SRC_MAIN = index.c \
 			utils.c \
 			non_builtin/execute_regular.c \
 			redirection/redirection.c \
-			non_builtin_copy.c \
+			non_builtin_redirect_in.c \
+			test_setup.c \
 
 #SRC_BONUS = 
 

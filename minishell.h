@@ -77,7 +77,7 @@ typedef struct s_cmds
 	char			**cmd;
 	bool			pipeflag;
 	int				pipefd[2];
-	struct t_cmds	*next;
+	struct s_cmds	*next;
 }					t_cmds;
 
 typedef struct s_inf
@@ -98,15 +98,12 @@ typedef struct s_outf
 typedef	struct s_msh
 {
 	t_token			**tokens;
-	t_cmds			*cmds; // Doppio * ?
+	t_cmds			*cmds;
 	char			**envp2;
-	// char			*infile;
-	// char			*outfile; // Output file from redirection.
-	char			*limiter;
 	t_inf			*infiles; // Input files from redirection.
 	t_outf			*outfiles; // Output files from redirection.
-	// char			**limiter_mx; // HereDocs limiter.
-	// int				pipe_count;
+	// int				pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
+	// int				pipefd[2];
 	unsigned char	exit_status;
 }					t_msh;
 
@@ -114,7 +111,7 @@ typedef	struct s_msh
 t_token	**tokenize(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 	size_t end);
-int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t	*i);
+int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
@@ -150,11 +147,19 @@ void	ft_unset(t_msh *msh, char  **cmd);
 void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
-// Initializes non built-in commands.
-void	execute_regular(t_msh *msh, char  **cmd);
+// Initializes a non built-in command.
+void	execute_regular(t_msh *msh);
 
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
-void	non_builtin_redirect_in(t_msh *msh/* , char  **cmd */);
+
+// Redirects the input from a file and then initializes a non built-in command.
+void	non_builtin_redirect_in(t_msh *msh);
+
+
+
+/*_______________________________ test_setup.c ______________________________*/
+t_cmds	*crealista(char *s);
+void printList(t_cmds *head);
 
 #endif
