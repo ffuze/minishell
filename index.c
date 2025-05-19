@@ -130,19 +130,18 @@ int main(int ac,char *av[], char **envp)
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
 		{
 			handle_input_redirection(&msh);
-			if (split_input[0] && split_input[0][0] != '<')
-				non_builtin_redirect(&msh/* , split_input */);
+			if (split_input[0] && split_input[0][0] == '<')
+				non_builtin_redirect_in(&msh/* , split_input */);
 		}
-		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_OUTPUT)
-		{
-			handle_input_redirection(&msh);
-			if (split_input[0] && split_input[0][0] != '>')
-				non_builtin_redirect(&msh/* , split_input */);
-		}
+		// else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_OUTPUT)
+		// {
+		// 	handle_input_redirection(&msh);
+		// 	if (split_input[0] && split_input[0][0] != '>')
+		// 		non_builtin_redirect(&msh/* , split_input */);
+		// }
 		else
 		{
 			execute_regular(&msh, split_input);
-			printf("valore di tokens[0]->value: %s\n", msh.tokens[0]->value);//////////////
 			// ft_putstr_fd(RED"Command not found: ", 2);
 			// write(2, input, ft_strlen(input));
 			// write(2, NO_ALL"\n", 5);

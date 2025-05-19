@@ -126,19 +126,16 @@ int		ft_isbashprint(int c);
 char	**ft_envp_dup(char **envp);
 
 
-/*______________________ ft_echo.c ______________________*/
+/*_______________________________ built_in ______________________________*/
+
 void	ft_echo(char  **cmd);
 
-
-/*_______________________ ft_pwd.c ______________________*/
 // Prints the absolute path to the current directory.
 void	ft_pwd();
 
-/*_______________________ ft_env.c ______________________*/
 // Prints all the environment variables.
 void	ft_env(char **envp2);
 
-/*_____________________ ft_export.c _____________________*/
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh, char  **cmd);
@@ -146,19 +143,18 @@ void	ft_export(t_msh *msh, char  **cmd);
 // Prints Environment Vars in ASCII order with their value in double quotes.
 void	print_declarex(char **envp2);
 
-/*______________________ ft_unset _______________________*/
 // Removes Variables from the Environment.
 void	ft_unset(t_msh *msh, char  **cmd);
 
-/*_______________________ ft_cd.c _______________________*/
 // Canghes the current directory.
 void	ft_cd(t_msh *msh, char  **cmd);
 
-/*_______________________ ft_cd.c _______________________*/
+/*________________________________ non_builtin ______________________________*/
 // Initializes non built-in commands.
 void	execute_regular(t_msh *msh, char  **cmd);
 
+/*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
-void	non_builtin_redirect(t_msh *msh/* , char  **cmd */);
+void	non_builtin_redirect_in(t_msh *msh/* , char  **cmd */);
 
 #endif

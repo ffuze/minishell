@@ -60,68 +60,58 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 //  to the command from input and it won't be searched in the Environment
 static void	*execute_cmd(t_cmds *cmdlist, char **envp)
 {
-	char	**cmds;
 	char	*cmd_path;
 
-	cmds = NULL;
 	cmd_path = NULL;
-	if (ft_strchr(*cmdlist->cmd, '/'))
+	// printf(YELLOW"Muuuuuuuuu\n"NO_ALL);///////////////////////
+	if (ft_strchr(cmdlist->cmd[0], '/'))
 	{
 		execute_absrel_path(cmdlist->cmd[0], envp);
 		exit (127);
 	}
+	// printf(YELLOW"Mooooooooo\n"NO_ALL);///////////////////////
 	cmd_path = find_pathname(cmdlist->cmd[0], envp);
-	if (!cmds)
+	if (!cmd_path)
 		exit (127);
-	execve(*cmds, cmdlist->cmd, envp);
+	execve(cmd_path, cmdlist->cmd, envp);
 	print_err(*cmdlist->cmd, ": command not executed.\n");
-	free(cmds);
+	free(cmd_path);
 	exit (1);
 }
 
-// void	execute_cmd2(t_cmds *cmds)
-// {
-// 	char	**cmds;
-
-// 	cmds = NULL;
-// 	while 
-// }
-
-void	non_builtin_redirect(t_msh *msh/*, char  **cmd*/)
+void	non_builtin_redirect_in(t_msh *msh/*, char  **cmd*/)
 {
 	pid_t	id;
 	int 	status;
-	int		fd;
+	int		infile_fd;
 
 	status = 0;
+	infile_fd = 0;
 	id = fork();
-	fd = 0;
 	if (id < 0)
 	{
 		ft_putstr_fd("Fork failed.\n", 2);
+		msh->exit_status = 1;
 		return ;
 	}
 	else if (0 == id)
 	{
-		ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);
+		ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);/////////////
 		while (msh->infiles)
 		{
-			ft_printf("valore di infile: %s\n", msh->infiles->infile);
-			if (fd)
-				close(fd);
-			// printf("valore di infile: %s\n", msh->infiles->infile);
-			fd = open(msh->infiles->infile, O_RDONLY);
-			if (fd < 0)
+			infile_fd = open(msh->infiles->infile, O_RDONLY);
+			if (infile_fd < 0)
 			{
-				// printf("An error has occurred while opening the file\n");
-				msh->exit_status = 1;
+				print_err(msh->infiles->infile, ": Permission denied.\n");
 				exit(1);
 			}
 			msh->infiles = msh->infiles->next;
 		}
+		dup2(0, infile_fd);
+		close(infile_fd);
 		execute_cmd(msh->cmds, msh->envp2);
 	}
-	ft_printf("father before wait\n");
+	ft_printf("father before wait\n");/////////////////
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))

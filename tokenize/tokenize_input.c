@@ -33,7 +33,7 @@ int	tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		temp = temp->next;
 	while (infiles)
 	{
-		ft_printf("valore di infiles: %s\n", infiles->infile);
+		ft_printf("valore di infiles: %s\n", infiles->infile);//////////////////
 		infiles = infiles->next;
 	}
 	temp->next = infiles;
