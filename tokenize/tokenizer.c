@@ -26,7 +26,7 @@ char	*remove_outer_quotes(char *str)
 	return (ft_strdup(str));
 }
 
-void	handle_dollar_sign(t_token **tokens, char *input, int *i)
+void	handle_dollar_sign(t_token **tokens, char *input, size_t *i)
 {
 	size_t	start;
 	// size_t	end;
@@ -43,20 +43,18 @@ void	handle_dollar_sign(t_token **tokens, char *input, int *i)
 t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token **tokens;
-	int i;
+	size_t i;
 	int count;
 	size_t	start;
 	char	quote;
 	char	*clean_token;
-	// t_inf	*infiles;
 
 	i = 0;
 	start = i;
 	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
 	count = 0;
 	clean_token = NULL;
-	// infiles = NULL;
-	if (!tokens)
+    if (!tokens)
 		return (NULL);
 	while (input[i])
 	{
@@ -70,30 +68,7 @@ t_token **tokenize(t_msh *msh, char *input)
 			i++;
 		}
 		else if (input[i] == '<' && input[i + 1] != '<')
-		{
-			tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
-			i++;
-			while (input[i] && input[i] == ' ')
-				i++;
-			start = i;
-			while (input[i] && input[i] != ' ')
-				i++;
-			tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
-			if (!msh)
-				return (NULL);
-			if (!msh->infiles)
-			{
-				msh->infiles = ft_calloc(1, sizeof(t_inf));
-				if (!msh->infiles)
-				{
-					perror("ft_calloc");
-					return (NULL);
-				}
-			}
-			msh->infiles->infile = ft_substr(input, start, i - start);
-			if (!msh->infiles->infile)
-				return (NULL);
-		}
+            count += tokenize_input(msh, tokens, input, &i);
 		else if (input[i] == '>' && input[i + 1] != '>')
 		{
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);

@@ -112,7 +112,9 @@ typedef	struct s_msh
 
 /*_____________________ tokenizer.c _____________________*/
 t_token	**tokenize(t_msh *msh, char *input);
-
+t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
+	size_t end);
+int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t	*i);
 
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
@@ -157,6 +159,6 @@ void	ft_cd(t_msh *msh, char  **cmd);
 void	execute_regular(t_msh *msh, char  **cmd);
 
 int		handle_input_redirection(t_msh *msh);
-void	non_builtin_redirect(t_msh *msh, char  **cmd);
+void	non_builtin_redirect(t_msh *msh/* , char  **cmd */);
 
 #endif
