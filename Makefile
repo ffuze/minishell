@@ -8,7 +8,7 @@ SRC_MAIN = index.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \
 			built_in/ft_export.c built_in/ft_export_print.c \
 			built_in/ft_cd.c built_in/ft_unset.c \
-			tokenize/tokenizer.c tokenize/tokenize_input.c\
+			tokenize/tokenizer.c tokenize/tokenize_input.c tokenize/tokenize_output.c\
 			utils.c \
 			non_builtin/execute_regular.c \
 			redirection/redirection.c \
