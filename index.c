@@ -132,7 +132,14 @@ int main(int ac,char *av[], char **envp)
 		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
 		{
 			handle_input_redirection(&msh);
-			non_builtin_redirect(&msh, split_input);
+			if (split_input[0] && split_input[0][0] != '<')
+				non_builtin_redirect(&msh/* , split_input */);
+		}
+		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_OUTPUT)
+		{
+			handle_input_redirection(&msh);
+			if (split_input[0] && split_input[0][0] != '>')
+				non_builtin_redirect(&msh/* , split_input */);
 		}
 		else
 		{

@@ -12,17 +12,16 @@ int handle_input_redirection(t_msh *msh)
 	{
 		printf("Missing input file for redirection\n");
 		msh->exit_status = 1;
-		return (1);
+		return (0);
 	}
 	while (msh->tokens[i])
 	{
 		if (msh->tokens[i]->type == TOKEN_RE_INPUT && msh->tokens[i + 1])
 		{
-			new = malloc(sizeof(t_inf *));
+			new = malloc(sizeof(t_inf));
 			if (!new)
-				return (1);
+				return (0);
 			new->infile = msh->tokens[i + 1]->value;
-			printf("valore di infile: %s\n", new->infile);
 			new->next = NULL;
 			if (!msh->infiles)
 				msh->infiles = new;
@@ -30,5 +29,5 @@ int handle_input_redirection(t_msh *msh)
 		}
 		i++;
 	}
-	return (0);
+	return (1);
 }

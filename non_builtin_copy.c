@@ -58,26 +58,36 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-static void	*execute_cmd(char **cmd, char **envp)
+static void	*execute_cmd(t_cmds *cmdlist, char **envp)
 {
+	char	**cmds;
 	char	*cmd_path;
 
+	cmds = NULL;
 	cmd_path = NULL;
-	if (ft_strchr(cmd[0], '/'))
+	if (ft_strchr(*cmdlist->cmd, '/'))
 	{
-		execute_absrel_path(cmd[0], envp);
+		execute_absrel_path(cmdlist->cmd[0], envp);
 		exit (127);
 	}
-	cmd_path = find_pathname(cmd[0], envp);
-	if (!cmd_path)
+	cmd_path = find_pathname(cmdlist->cmd[0], envp);
+	if (!cmds)
 		exit (127);
-	execve(cmd_path, cmd, envp);
-	print_err(cmd[0], ": command not executed.\n");
-	free(cmd_path);
+	execve(*cmds, cmdlist->cmd, envp);
+	print_err(*cmdlist->cmd, ": command not executed.\n");
+	free(cmds);
 	exit (1);
 }
 
-void	non_builtin_redirect(t_msh *msh, char  **cmd)
+// void	execute_cmd2(t_cmds *cmds)
+// {
+// 	char	**cmds;
+
+// 	cmds = NULL;
+// 	while 
+// }
+
+void	non_builtin_redirect(t_msh *msh/*, char  **cmd*/)
 {
 	pid_t	id;
 	int 	status;
@@ -85,6 +95,7 @@ void	non_builtin_redirect(t_msh *msh, char  **cmd)
 
 	status = 0;
 	id = fork();
+	fd = 0;
 	if (id < 0)
 	{
 		ft_putstr_fd("Fork failed.\n", 2);
@@ -94,6 +105,7 @@ void	non_builtin_redirect(t_msh *msh, char  **cmd)
 	{
 		while (msh->infiles)
 		{
+			ft_printf("valore di infile: %s\n", msh->infiles->infile);
 			if (fd)
 				close(fd);
 			// printf("valore di infile: %s\n", msh->infiles->infile);
@@ -106,10 +118,10 @@ void	non_builtin_redirect(t_msh *msh, char  **cmd)
 			}
 			msh->infiles = msh->infiles->next;
 		}
-		execute_cmd(cmd, msh->envp2);
+		execute_cmd(msh->cmds, msh->envp2);
 	}
 	ft_printf("father before wait\n");
-git 	while (waitpid(id, &status, 0) > 0)
+	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
