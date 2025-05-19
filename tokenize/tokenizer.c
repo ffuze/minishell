@@ -47,14 +47,20 @@ t_token **tokenize(t_msh *msh, char *input)
 	int count;
 	size_t	start;
 	char	quote;
-	char	*clean_token;	
+	char	*clean_token;
+	t_inf	*infiles;
+    t_inf   *temp;
 
 	i = 0;
 	start = i;
 	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
 	count = 0;
 	clean_token = NULL;
-	if (!tokens)
+	infiles = malloc(sizeof(t_inf));
+    temp = malloc(sizeof(t_inf));
+    if (!infiles)
+        return (NULL);
+    if (!tokens)
 		return (NULL);
 	while (input[i])
 	{
@@ -68,17 +74,31 @@ t_token **tokenize(t_msh *msh, char *input)
 			i++;
 		}
 		else if (input[i] == '<' && input[i + 1] != '<')
-		{
-			tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
-			i++;
-			while (input[i] && input[i] == ' ')
-				i++;
-			start = i;
-			while (input[i] && input[i] != ' ')
-				i++;
-			tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
-			msh->infiles = (t_inf *)ft_substr(input, start, i - start);
-		}
+        {
+            tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 1);
+            i++;
+            while (input[i] && input[i] == ' ')
+                i++;
+            start = i;
+            while (input[i] && input[i] != ' ')
+                i++;
+            tokens[count++] = make_token(TOKEN_INFILE, input, start, i - start);
+            infiles = malloc(sizeof(t_inf));
+            if (!infiles)
+                return (NULL);
+            infiles->infile = ft_substr(input, start, i - start);
+            if (!infiles->infile)
+            {
+                free(infiles);
+                return (NULL);
+            }
+            infiles->next = NULL;
+            msh->infiles = infiles;
+            temp = msh->infiles;
+            while (temp->next)
+                temp = temp->next;
+            temp->next = infiles;
+        }
 		else if (input[i] == '>' && input[i + 1] != '>')
 		{
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);
