@@ -113,7 +113,7 @@ t_token	**tokenize(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 	size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
-
+int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
 
@@ -123,8 +123,7 @@ int		ft_isbashprint(int c);
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
 
-
-/*________________________________ built_in ________________________________*/
+/*_______________________________ built_in ______________________________*/
 
 void	ft_echo(char  **cmd);
 

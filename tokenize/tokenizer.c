@@ -105,6 +105,8 @@ t_token **tokenize(t_msh *msh, char *input)
 				i++;
 			tokens[count++] = make_token(TOKEN_WORD, input, start, i - start);
 		}
+		// if (tokens && tokens[count] && tokens[count]->type != TOKEN_PIPE)
+		// 	msh->cmds->cmd = tokens[count];
 	}
 	tokens[count] = NULL;
 	return (tokens);

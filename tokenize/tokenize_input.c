@@ -18,7 +18,7 @@ int	tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
 	(*i)++;
 	while (input[*i] && input[*i] == ' ')
-	(*i)++;
+		(*i)++;
 	start = *i;
 	while (input[*i] && input[*i] != ' ')
 		(*i)++;
