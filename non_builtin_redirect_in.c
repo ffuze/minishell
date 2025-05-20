@@ -9,7 +9,7 @@ static void	print_err(char *s1, char *err_type)
 }
 
 // Looks for the path of the command "cmd" in the Environment (envp)
-static char	*find_pathname(char *cmd, char **envp)
+/* static char	*find_pathname(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*pathname;
@@ -58,70 +58,62 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-static void	*execute_cmd(t_cmds *cmdlist, char **envp)
+static void	*execute_cmd(char **cmd, char **envp)
 {
-	char	**cmds;
 	char	*cmd_path;
 
-	cmds = NULL;
 	cmd_path = NULL;
-	if (ft_strchr(*cmdlist->cmd, '/'))
+	if (ft_strchr(cmd[0], '/'))
 	{
-		execute_absrel_path(cmdlist->cmd[0], envp);
+		execute_absrel_path(cmd[0], envp);
 		exit (127);
 	}
-	cmd_path = find_pathname(cmdlist->cmd[0], envp);
-	if (!cmds)
+	cmd_path = find_pathname(cmd[0], envp);
+	if (!cmd_path)
 		exit (127);
-	execve(*cmds, cmdlist->cmd, envp);
-	print_err(*cmdlist->cmd, ": command not executed.\n");
-	free(cmds);
+	execve(cmd_path, cmd, envp);
+	print_err(cmd[0], ": command not executed.\n");
+	free(cmd_path);
 	exit (1);
+} */
+
+static void	child_exec(t_msh *msh, int infile_fd)
+{
+	ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);/////////////
+	while (msh->infiles)
+	{
+		infile_fd = open(msh->infiles->infile, O_RDONLY);
+		if (infile_fd < 0)
+		{
+			print_err(msh->infiles->infile, ": Could not be opened.\n");
+			exit(1);
+		}
+		msh->infiles = msh->infiles->next;
+	}
+	dup2(infile_fd, 0);
+	close(infile_fd);
+	execute_cmd(msh->cmds->cmd, msh->envp2);
 }
 
-// void	execute_cmd2(t_cmds *cmds)
-// {
-// 	char	**cmds;
-
-// 	cmds = NULL;
-// 	while 
-// }
-
-void	non_builtin_redirect(t_msh *msh/*, char  **cmd*/)
+void	non_builtin_redirect_in(t_msh *msh)
 {
 	pid_t	id;
 	int 	status;
-	int		fd;
+	int		infile_fd;
 
 	status = 0;
+	infile_fd = 0;
 	id = fork();
-	fd = 0;
 	if (id < 0)
 	{
 		ft_putstr_fd("Fork failed.\n", 2);
+		msh->exit_status = 1;
 		return ;
 	}
 	else if (0 == id)
 	{
-		ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);
-		while (msh->infiles)
-		{
-			ft_printf("valore di infile: %s\n", msh->infiles->infile);
-			if (fd)
-				close(fd);
-			// printf("valore di infile: %s\n", msh->infiles->infile);
-			fd = open(msh->infiles->infile, O_RDONLY);
-			if (fd < 0)
-			{
-				// printf("An error has occurred while opening the file\n");
-				msh->exit_status = 1;
-				exit(1);
-			}
-			msh->infiles = msh->infiles->next;
-		}
-		execute_cmd(msh->cmds, msh->envp2);
+		child_exec(msh, infile_fd);
 	}
-	ft_printf("father before wait\n");
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))

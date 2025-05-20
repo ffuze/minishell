@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-/* static void	print_err(char *s1, char *err_type)
+static void	print_err(char *s1, char *err_type)
 {
 	write(2, RED"", 5);
 	write(2, s1, ft_strlen(s1));
@@ -58,7 +58,7 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-static void	*execute_cmd(char **cmd, char **envp)
+void	*execute_cmd(char **cmd, char **envp)
 {
 	char	*cmd_path;
 
@@ -75,25 +75,4 @@ static void	*execute_cmd(char **cmd, char **envp)
 	print_err(cmd[0], ": command not executed.\n");
 	free(cmd_path);
 	exit (1);
-} */
-
-void	execute_regular(t_msh *msh)
-{
-	pid_t	id;
-	int status;
-
-	status = 0;
-	id = fork();
-	if (id < 0)
-	{
-		ft_putstr_fd("Fork failed.\n", 2);
-		return ;
-	}
-	else if (0 == id)
-		execute_cmd(msh->cmds->cmd, msh->envp2);
-	while (waitpid(id, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			msh->exit_status = WEXITSTATUS(status);
-	}
 }

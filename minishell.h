@@ -75,9 +75,9 @@ typedef struct s_token
 typedef struct s_cmds
 {
 	char			**cmd;
-	bool			pipeflag;
-	int				pipefd[2];
-	struct t_cmds	*next;
+	// bool			pipeflag;
+	// int				pipefd[2];
+	struct s_cmds	*next;
 }					t_cmds;
 
 typedef struct s_inf
@@ -98,15 +98,12 @@ typedef struct s_outf
 typedef	struct s_msh
 {
 	t_token			**tokens;
-	t_cmds			*cmds; // Doppio * ?
+	t_cmds			*cmds;
 	char			**envp2;
-	// char			*infile;
-	// char			*outfile; // Output file from redirection.
-	char			*limiter;
 	t_inf			*infiles; // Input files from redirection.
 	t_outf			*outfiles; // Output files from redirection.
-	// char			**limiter_mx; // HereDocs limiter.
-	// int				pipe_count;
+	unsigned int	pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
+	int				pipefd[2];
 	unsigned char	exit_status;
 }					t_msh;
 
@@ -116,7 +113,6 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 	size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
-
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
 
@@ -126,18 +122,16 @@ int		ft_isbashprint(int c);
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
 
-/*______________________ ft_echo.c ______________________*/
+/*_______________________________ built_in ______________________________*/
+
 void	ft_echo(char  **cmd);
 
-/*_______________________ ft_pwd.c ______________________*/
 // Prints the absolute path to the current directory.
 void	ft_pwd();
 
-/*_______________________ ft_env.c ______________________*/
 // Prints all the environment variables.
 void	ft_env(char **envp2);
 
-/*_____________________ ft_export.c _____________________*/
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh, char  **cmd);
@@ -145,19 +139,29 @@ void	ft_export(t_msh *msh, char  **cmd);
 // Prints Environment Vars in ASCII order with their value in double quotes.
 void	print_declarex(char **envp2);
 
-/*______________________ ft_unset _______________________*/
 // Removes Variables from the Environment.
 void	ft_unset(t_msh *msh, char  **cmd);
 
-/*_______________________ ft_cd.c _______________________*/
 // Canghes the current directory.
 void	ft_cd(t_msh *msh, char  **cmd);
 
-/*_______________________ ft_cd.c _______________________*/
-// Initializes non built-in commands.
-void	execute_regular(t_msh *msh, char  **cmd);
+/*________________________________ non_builtin ______________________________*/
+// Initializes a non built-in command.
+void	execute_regular(t_msh *msh);
 
+// Executes the given command
+void	*execute_cmd(char **cmd, char **envp);
+
+/*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
-void	non_builtin_redirect(t_msh *msh/* , char  **cmd */);
+
+// Redirects the input from a file and then initializes a non built-in command.
+void	non_builtin_redirect_in(t_msh *msh);
+
+
+
+/*_______________________________ test_setup.c ______________________________*/
+t_cmds	*crealista(char *s);
+void printList(t_cmds *head);
 
 #endif
