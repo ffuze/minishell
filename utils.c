@@ -36,3 +36,11 @@ int	ft_isbashprint(int c)
 		return (1);
 	return (0);
 }
+
+void	print_err(char *s1, char *err_type)
+{
+	write(2, RED"", 5);
+	write(2, s1, ft_strlen(s1));
+	write(2, err_type, ft_strlen(err_type));
+	write(2, NO_ALL"", 4);
+}

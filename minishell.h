@@ -98,12 +98,14 @@ typedef	struct s_msh
 {
 	t_token			**tokens;
 	t_cmds			*cmds;
+	unsigned int	cmds_count; // Number of commands.
 	char			**envp2;
 	t_inf			*infiles; //   Input files from redirection.
 	t_outf			*outfiles; //  Output files from redirection.
 	bool			outfi_flag; // Tells whether the output must be redirected.
-	unsigned int	pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
-	int				pipefd[2];
+	unsigned int	pipe_count; // Number of pipes.
+	int				**fd_mrx;
+	// int				pipefd[2];
 	bool			pipeflag; //   Tells whether a pipe has been opened. 
 	unsigned char	exit_status;
 }					t_msh;
@@ -122,6 +124,9 @@ int		ft_isbashprint(int c);
 
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
+
+// Prints an error message in red color.
+void	print_err(char *s1, char *err_type);
 
 /*_______________________________ built_in ______________________________*/
 
@@ -164,7 +169,7 @@ void	pipe_check(t_msh *msh);
 
 
 /*_______________________________ test_setup.c ______________________________*/
-t_cmds	*crealista();
+t_cmds	*crealista(t_msh *msh);
 void printList(t_cmds *head);
 void freeList(t_cmds *head);
 

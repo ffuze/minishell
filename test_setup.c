@@ -1,10 +1,12 @@
 #include "../minishell.h"
 
 //-----------------------------------------------------------------------
-void freeList(t_cmds *head) {
+void freeList(t_cmds *head)
+{
     t_cmds *current = head;
     t_cmds *next_node;
     int i;
+
     while (current != NULL) {
         next_node = current->next;
         // Free each string in the cmd array
@@ -36,7 +38,7 @@ void printList(t_cmds *head) {
     }
 }
 
-t_cmds	*crealista()
+t_cmds	*crealista(t_msh *msh)
 {
 	t_cmds	*new_node;
 	t_cmds	*root;
@@ -68,6 +70,8 @@ t_cmds	*crealista()
     
 	// Print the list
     printList(root);
+
+    msh->cmds_count = 3;
     return root;
 }
 
