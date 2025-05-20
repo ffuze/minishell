@@ -36,6 +36,6 @@ int	tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		ft_printf("valore di infiles: %s\n", infiles->infile);//////////////////
 		infiles = infiles->next;
 	}
-	temp->next = infiles;
+	temp->next = NULL;
 	return (free(temp), count);
 }

@@ -74,7 +74,7 @@ int main(int ac,char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	msh.cmds = crealista("wc -l");///////////// Creazione della lista temporanea
+	// msh.cmds = crealista("wc -l");///////////// Creazione della lista temporanea
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
