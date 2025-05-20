@@ -74,7 +74,7 @@ int main(int ac,char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	msh.cmds = crealista("wc -l");///////////// Creazione della lista temporanea
+	msh.cmds = crealista();///////////// Creazione della lista temporanea
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
@@ -99,10 +99,11 @@ int main(int ac,char *av[], char **envp)
 		// {
 
 		// }
+		printf(GREEN"pipe_count: %d\n"NO_ALL, msh.pipe_count);//////////////////
 		if (!msh.tokens)
 			continue ;
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
-			return (free_dpc(msh.envp2), EXIT_SUCCESS);
+			return (freeList(msh.cmds), free_dpc(split_input), free_dpc(msh.envp2), EXIT_SUCCESS);
 		else if (ft_strcmp(msh.tokens[0]->value, "export") == 0)
 		{
 			ft_export(&msh, split_input);
@@ -162,6 +163,7 @@ int main(int ac,char *av[], char **envp)
 		// }
 		free(input);
 		free_dpc(split_input);//////////
+		freeList(msh.cmds),/////////////
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
 	}
 	free_dpc(msh.envp2);

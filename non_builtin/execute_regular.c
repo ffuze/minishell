@@ -83,6 +83,7 @@ void	execute_regular(t_msh *msh)
 	int status;
 
 	status = 0;
+	// if (msh->pipe_count > 0) || pipe_check()
 	id = fork();
 	if (id < 0)
 	{

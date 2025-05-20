@@ -54,6 +54,7 @@ t_token **tokenize(t_msh *msh, char *input)
 	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
 	count = 0;
 	clean_token = NULL;
+	msh->pipe_count = 0;
     if (!tokens)
 		return (NULL);
 	while (input[i])
@@ -66,6 +67,7 @@ t_token **tokenize(t_msh *msh, char *input)
 		{
 			tokens[count++] = make_token(TOKEN_PIPE, input, i, 1);
 			i++;
+			msh->pipe_count++;
 		}
 		else if (input[i] == '<' && input[i + 1] != '<')
             count += tokenize_input(msh, tokens, input, &i);

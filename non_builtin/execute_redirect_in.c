@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	print_err(char *s1, char *err_type)
 {
@@ -92,7 +92,6 @@ static void	child_exec(t_msh *msh, int infile_fd)
 	}
 	dup2(infile_fd, 0);
 	close(infile_fd);
-	execute_cmd(msh->cmds->cmd, msh->envp2);
 }
 
 void	non_builtin_redirect_in(t_msh *msh)
@@ -103,6 +102,7 @@ void	non_builtin_redirect_in(t_msh *msh)
 
 	status = 0;
 	infile_fd = 0;
+	// if (msh->pipe_count > 0) || pipe_check(msh)
 	id = fork();
 	if (id < 0)
 	{
@@ -113,6 +113,7 @@ void	non_builtin_redirect_in(t_msh *msh)
 	else if (0 == id)
 	{
 		child_exec(msh, infile_fd);
+		execute_cmd(msh->cmds->cmd, msh->envp2);
 	}
 	while (waitpid(id, &status, 0) > 0)
 	{

@@ -11,8 +11,9 @@ SRC_MAIN = index.c \
 			tokenize/tokenizer.c tokenize/tokenize_input.c\
 			utils.c \
 			non_builtin/execute_cmd.c non_builtin/execute_regular.c \
+			non_builtin/execute_redirect_in.c \
 			redirection/redirection.c \
-			non_builtin_redirect_in.c \
+			pipes/pipe_check.c \
 			test_setup.c \
 
 #SRC_BONUS = 
