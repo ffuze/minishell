@@ -75,8 +75,8 @@ typedef struct s_token
 typedef struct s_cmds
 {
 	char			**cmd;
-	bool			pipeflag;
-	int				pipefd[2];
+	// bool			pipeflag;
+	// int				pipefd[2];
 	struct s_cmds	*next;
 }					t_cmds;
 
@@ -102,8 +102,8 @@ typedef	struct s_msh
 	char			**envp2;
 	t_inf			*infiles; // Input files from redirection.
 	t_outf			*outfiles; // Output files from redirection.
-	// int				pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
-	// int				pipefd[2];
+	unsigned int	pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
+	int				pipefd[2];
 	unsigned char	exit_status;
 }					t_msh;
 
@@ -149,6 +149,9 @@ void	ft_cd(t_msh *msh, char  **cmd);
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
 void	execute_regular(t_msh *msh);
+
+// Executes the given command
+void	*execute_cmd(char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);

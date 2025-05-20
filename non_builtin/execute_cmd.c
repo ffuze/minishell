@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	print_err(char *s1, char *err_type)
 {
@@ -9,7 +9,7 @@ static void	print_err(char *s1, char *err_type)
 }
 
 // Looks for the path of the command "cmd" in the Environment (envp)
-/* static char	*find_pathname(char *cmd, char **envp)
+static char	*find_pathname(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*pathname;
@@ -58,7 +58,7 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-static void	*execute_cmd(char **cmd, char **envp)
+void	*execute_cmd(char **cmd, char **envp)
 {
 	char	*cmd_path;
 
@@ -75,48 +75,4 @@ static void	*execute_cmd(char **cmd, char **envp)
 	print_err(cmd[0], ": command not executed.\n");
 	free(cmd_path);
 	exit (1);
-} */
-
-static void	child_exec(t_msh *msh, int infile_fd)
-{
-	ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);/////////////
-	while (msh->infiles)
-	{
-		infile_fd = open(msh->infiles->infile, O_RDONLY);
-		if (infile_fd < 0)
-		{
-			print_err(msh->infiles->infile, ": Could not be opened.\n");
-			exit(1);
-		}
-		msh->infiles = msh->infiles->next;
-	}
-	dup2(infile_fd, 0);
-	close(infile_fd);
-	execute_cmd(msh->cmds->cmd, msh->envp2);
-}
-
-void	non_builtin_redirect_in(t_msh *msh)
-{
-	pid_t	id;
-	int 	status;
-	int		infile_fd;
-
-	status = 0;
-	infile_fd = 0;
-	id = fork();
-	if (id < 0)
-	{
-		ft_putstr_fd("Fork failed.\n", 2);
-		msh->exit_status = 1;
-		return ;
-	}
-	else if (0 == id)
-	{
-		child_exec(msh, infile_fd);
-	}
-	while (waitpid(id, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			msh->exit_status = WEXITSTATUS(status);
-	}
 }

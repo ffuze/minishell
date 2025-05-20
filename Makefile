@@ -10,7 +10,7 @@ SRC_MAIN = index.c \
 			built_in/ft_cd.c built_in/ft_unset.c \
 			tokenize/tokenizer.c tokenize/tokenize_input.c\
 			utils.c \
-			non_builtin/execute_regular.c \
+			non_builtin/execute_cmd.c non_builtin/execute_regular.c \
 			redirection/redirection.c \
 			non_builtin_redirect_in.c \
 			test_setup.c \

@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	print_err(char *s1, char *err_type)
+/* static void	print_err(char *s1, char *err_type)
 {
 	write(2, RED"", 5);
 	write(2, s1, ft_strlen(s1));
@@ -75,7 +75,7 @@ static void	*execute_cmd(char **cmd, char **envp)
 	print_err(cmd[0], ": command not executed.\n");
 	free(cmd_path);
 	exit (1);
-}
+} */
 
 void	execute_regular(t_msh *msh)
 {
