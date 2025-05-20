@@ -113,14 +113,21 @@ void	pipe_check(t_msh *msh)
 	if (msh->pipe_count > 0)
 	{
 		msh->fd_mrx = fd_matrix_creator(msh->pipe_count);
+
+		if (-1 == pipe(msh->fd_mrx[i]))
+		return (print_err("Failed to create pipe.", "\n"));
+
 		id1 = fork();
 		if (id1 < 0)
 			return (print_err("Fork failed for id1.", "\n"));
 		if (0 == id1)
 			first_cmd_process(msh->cmds->cmd, msh->envp2, msh->fd_mrx[i]);
+		msh->cmds = msh->cmds->next;
+
 		close(msh->fd_mrx[i][1]);
 		msh->pipe_count--;
 		i = middle_child_generator(msh);
+		msh->cmds = msh->cmds->next;
 
 		id3 = fork();
 		if (id3 < 0)
