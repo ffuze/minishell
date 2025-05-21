@@ -74,7 +74,7 @@ int main(int ac,char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	// msh.cmds = crealista("wc -l");///////////// Creazione della lista temporanea
+	msh.cmds = crealista();///////////// Creazione della lista temporanea
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
@@ -99,10 +99,11 @@ int main(int ac,char *av[], char **envp)
 		// {
 
 		// }
+		ft_printf(GREEN"pipe_count: %d\n"NO_ALL, msh.pipe_count);//////////////////
 		if (!msh.tokens)
 			continue ;
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
-			return (free_dpc(msh.envp2), EXIT_SUCCESS);
+			return (freeList(msh.cmds), free_dpc(split_input), free_dpc(msh.envp2), EXIT_SUCCESS);
 		else if (ft_strcmp(msh.tokens[0]->value, "export") == 0)
 		{
 			ft_export(&msh, split_input);
@@ -128,12 +129,12 @@ int main(int ac,char *av[], char **envp)
 			ft_clear(input);
 			clearflag = 1;
 		}
-		else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
-		{
-			handle_input_redirection(&msh);
-			if (split_input[0] && split_input[0][0] == '<')
-				non_builtin_redirect_in(&msh);
-		}
+		// else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
+		// {
+		// 	handle_input_redirection(&msh);
+		// 	if (split_input[0] && split_input[0][0] == '<')
+		// 		non_builtin_redirect_in(&msh);
+		// }
 		// else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_OUTPUT)
 		// {
 		// 	handle_input_redirection(&msh);
@@ -142,11 +143,8 @@ int main(int ac,char *av[], char **envp)
 		// }
 		else
 		{
-			execute_regular(&msh);
-			// ft_putstr_fd(RED"Command not found: ", 2);
-			// write(2, input, ft_strlen(input));
-			// write(2, NO_ALL"\n", 5);
-			// msh.exit_status = 1;
+			pipe_check(&msh);
+			// execute_regular(&msh);
 		}
 		if (!clearflag)
 			add_history(input);

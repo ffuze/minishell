@@ -1,21 +1,19 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
 NAME = minishell
-#NAME_BONUS =
 
 OBJ_DIR = obj
 SRC_MAIN = index.c \
+			utils.c \
+			test_setup.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \
 			built_in/ft_export.c built_in/ft_export_print.c \
 			built_in/ft_cd.c built_in/ft_unset.c \
-			tokenize/tokenizer.c tokenize/tokenize_input.c tokenize/tokenize_output.c tokenize/tokenize_commands.c\
-			utils.c \
-			non_builtin/execute_cmd.c non_builtin/execute_regular.c \
+			tokenize/tokenizer.c tokenize/tokenize_input.c tokenize/tokenize_output.c\
+			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
 			redirection/redirection.c \
-			non_builtin_redirect_in.c \
-			test_setup.c \
-
-#SRC_BONUS = 
+			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \
+			pipes/middle_cmds.c\
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
@@ -46,12 +44,6 @@ $(NAME): $(LIBFT) $(SRC_MAIN)
 # togli OTHER_DIRS se da fastidio
 	@echo "$(GREEN)Object files created!$(NO_COLOR)"
 
-#bonus: $(LIBFT) $(NAME_BONUS)
-
-#$(NAME_BONUS): $(LIBFT) $(SRC_BONUS)
-#	$(CC) $(CFLAGS) $(SRC_BONUS) $(LIBFT) -o name_bonus
-#	@echo "$(CYAN)bonus compiled!$(NO_COLOR)"
-
 clean:
 	@echo "$(YELLOW)Cleaning...$(NO_COLOR)"
 	@	$(MAKE) -C $(LIBFT_DIR) clean --quiet
@@ -65,4 +57,4 @@ re: fclean all
 
 libft: $(LIBFT)
 
-.PHONY: all clean fclean re libft #bonus
+.PHONY: all clean fclean re libft

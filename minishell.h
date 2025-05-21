@@ -54,10 +54,10 @@
 typedef enum s_token_enum
 {
 	TOKEN_WORD, // simple strings
-    TOKEN_VAR, // all variables starting with the $
-    TOKEN_STRING_SINGLE, // string with single quotes
-    TOKEN_STRING_DOUBLE, // string with double quotes
-    TOKEN_PIPE, // --> | <--
+	TOKEN_VAR, // all variables starting with the $
+	TOKEN_STRING_SINGLE, // string with single quotes
+	TOKEN_STRING_DOUBLE, // string with double quotes
+	TOKEN_PIPE, // --> | <--
 	TOKEN_RE_INPUT, // --> '<' o '<<' <--
 	TOKEN_INFILE, // input file
 	TOKEN_RE_OUTPUT, // --> '>' o '>>' <--
@@ -75,7 +75,6 @@ typedef struct s_token
 typedef struct s_cmds
 {
 	char			**cmd;
-	// bool			pipeflag;
 	// int				pipefd[2];
 	struct s_cmds	*next;
 }					t_cmds;
@@ -84,7 +83,7 @@ typedef struct s_inf
 {
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
-	char			*limiter; // String to signal the end of the input in heredoc.
+	char			*limiter; // Signal the end of the input in heredoc.
 	struct s_inf	*next;
 }					t_inf;
 
@@ -100,14 +99,17 @@ typedef	struct s_msh
 	t_token			**tokens;
 	t_cmds			*cmds;
 	char			**envp2;
-	t_inf			*infiles; // Input files from redirection.
-	t_outf			*outfiles; // Output files from redirection.
-	unsigned int	pipe_count; // pipe_count-- fino ad arrivare a 0 invece che usare il flag?
-	int				pipefd[2];
+	t_inf			*infiles; //   Input files from redirection.
+	t_outf			*outfiles; //  Output files from redirection.
+	bool			outfi_flag; // Tells whether the output must be redirected.
+	unsigned int	pipe_count; // Number of pipes.
+	int				**fd_mrx;
+	// int				pipefd[2];
+	bool			pipeflag; //   Tells whether a pipe has been opened. 
 	unsigned char	exit_status;
 }					t_msh;
 
-/*_____________________ tokenizer.c _____________________*/
+/*_______________________________ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 	size_t end);
@@ -123,6 +125,9 @@ int		ft_isbashprint(int c);
 
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
+
+// Prints an error message in red color.
+void	print_err(char *s1, char *err_type);
 
 /*_______________________________ built_in ______________________________*/
 
@@ -149,21 +154,36 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
-void	execute_regular(t_msh *msh);
+void	execute_single_cmd(t_msh *msh);
 
 // Executes the given command
 void	*execute_cmd(char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
+void	redirect_input(t_msh *msh);
 
-// Redirects the input from a file and then initializes a non built-in command.
-void	non_builtin_redirect_in(t_msh *msh);
+/*__________________________________ pipes __________________________________*/
+// Determines whether a single command or more have to be executed.
+void	pipe_check(t_msh *msh);
 
+// Closes all file descriptors and liberates the allocated memory
+void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
+
+// Creates an FD for each pipe in the command line.
+int	**fd_matrix_creator(int pipe_count);
+
+int	first_cmd_process(t_msh *msh, int *pipefd);
+int	last_cmd_process(char **cmd, char **envp, int *pipefd);
+
+// Creates a child process and a pipe for each command to be executed
+//  between the first and last.
+int	middle_child_generator(t_msh *msh);
 
 
 /*_______________________________ test_setup.c ______________________________*/
-t_cmds	*crealista(char *s);
+t_cmds	*crealista();
 void printList(t_cmds *head);
+void freeList(t_cmds *head);
 
 #endif

@@ -1,13 +1,5 @@
 #include "../minishell.h"
 
-static void	print_err(char *s1, char *err_type)
-{
-	write(2, RED"", 5);
-	write(2, s1, ft_strlen(s1));
-	write(2, err_type, ft_strlen(err_type));
-	write(2, NO_ALL"", 4);
-}
-
 // Looks for the path of the command "cmd" in the Environment (envp)
 static char	*find_pathname(char *cmd, char **envp)
 {
