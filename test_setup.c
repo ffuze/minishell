@@ -38,12 +38,12 @@ void printList(t_cmds *head) {
     }
 }
 
-t_cmds	*crealista(t_msh *msh)
+t_cmds	*crealista()
 {
 	t_cmds	*new_node;
 	t_cmds	*root;
 	t_cmds *current; // Pointer to keep track of the current node
-    char *s = "ls -l";
+    char *s = "grep e";
     char *s2 = "wc -l";
     char *s3 = "cat";
    
@@ -71,7 +71,6 @@ t_cmds	*crealista(t_msh *msh)
 	// Print the list
     printList(root);
 
-    msh->cmds_count = 3;
     return root;
 }
 

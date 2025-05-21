@@ -1,5 +1,25 @@
 #include "../minishell.h"
 
+void	redirect_input(t_msh *msh)
+{
+	int		infile_fd;
+
+	infile_fd = 0;
+	ft_printf(BRCYAN"infile: %s\n"NO_ALL, msh->infiles->infile);/////////////
+	while (msh->infiles)
+	{
+		infile_fd = open(msh->infiles->infile, O_RDONLY);
+		if (infile_fd < 0)
+		{
+			print_err(msh->infiles->infile, ": Could not be opened.\n");
+			exit(1);
+		}
+		msh->infiles = msh->infiles->next;
+	}
+	dup2(infile_fd, 0);
+	close(infile_fd);
+}
+
 int handle_input_redirection(t_msh *msh)
 {
 	int i;

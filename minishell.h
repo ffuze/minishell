@@ -98,7 +98,6 @@ typedef	struct s_msh
 {
 	t_token			**tokens;
 	t_cmds			*cmds;
-	unsigned int	cmds_count; // Number of commands.
 	char			**envp2;
 	t_inf			*infiles; //   Input files from redirection.
 	t_outf			*outfiles; //  Output files from redirection.
@@ -153,23 +152,35 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
-void	execute_regular(t_msh *msh);
+void	execute_single_cmd(t_msh *msh);
 
 // Executes the given command
 void	*execute_cmd(char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
-
-// Redirects the input from a file and then initializes a non built-in command.
-void	non_builtin_redirect_in(t_msh *msh);
+void	redirect_input(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/
+// Determines whether a single command or more have to be executed.
 void	pipe_check(t_msh *msh);
+
+// Closes all file descriptors and liberates the allocated memory
+void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
+
+// Creates an FD for each pipe in the command line.
+int	**fd_matrix_creator(int pipe_count);
+
+int	first_cmd_process(t_msh *msh, int *pipefd);
+int	last_cmd_process(char **cmd, char **envp, int *pipefd);
+
+// Creates a child process and a pipe for each command to be executed
+//  between the first and last.
+int	middle_child_generator(t_msh *msh);
 
 
 /*_______________________________ test_setup.c ______________________________*/
-t_cmds	*crealista(t_msh *msh);
+t_cmds	*crealista();
 void printList(t_cmds *head);
 void freeList(t_cmds *head);
 
