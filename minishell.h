@@ -140,6 +140,10 @@ void	ft_env(char **envp2);
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
 void	ft_export(t_msh *msh, char  **cmd);
+// Handles the "+=" option for export.
+void	append_handle(char **envp2, char *var);
+// Copies the old envp to the newly allocated one.
+void	envpcpy(char **envp2, char **nenvp, size_t *i);
 
 // Prints Environment Vars in ASCII order with their value in double quotes.
 void	print_declarex(char **envp2);

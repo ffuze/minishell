@@ -16,7 +16,7 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i)
 }
 
 // Adds the new variables to the Environment.
-char	**add_var(char **envp, char *new_var)
+static char	**add_var(char **envp, char *new_var)
 {
 	size_t	new_len;
 	size_t	i;
@@ -40,7 +40,7 @@ char	**add_var(char **envp, char *new_var)
 //---------------------------------------------------------------------------//
 
 // Checks whether the new Variable already exists, if so it overwrites it.
-bool	check_vardup(char **envp2, char *input)
+static bool	check_vardup(char **envp2, char *input)
 {
 	int		i;
 	char	*new_var;
@@ -62,9 +62,9 @@ bool	check_vardup(char **envp2, char *input)
 
 // Checks whether the new Variable's name is acceptable.
 // A var's name cannot start by number or symbol and cannot cointain symbols.
-int	var_name_check(t_msh *msh, char *new_var)
+static int	var_name_check(t_msh *msh, char *new_var)
 {
-	int		j;
+	size_t	j;
 	char	chr;
 	char	*var_name;
 
@@ -78,6 +78,8 @@ int	var_name_check(t_msh *msh, char *new_var)
 	while (var_name[j])
 	{
 		chr = var_name[j++];
+		// if (j == ft_strlen(var_name) - 1 && chr =='+')
+		// 	break ;
 		if ((chr < 'A' || chr > 'Z') && (chr < 'a' || chr > 'z') \
 				&& (chr < '0' || chr > '9') && chr != '_' && chr != '=')
 		{
@@ -88,6 +90,7 @@ int	var_name_check(t_msh *msh, char *new_var)
 	return (free(var_name), true);
 }
 //-----------------------------------------------------------------------------//
+
 
 void	ft_export(t_msh *msh, char **cmd)
 {
@@ -103,8 +106,10 @@ void	ft_export(t_msh *msh, char **cmd)
 			if (!var_name_check(msh, cmd[i]))
 				ft_printf(RED"export: `%s': not a valid identifier\n"NO_ALL, \
 														cmd[i]);
+			// else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
+			// 	append_handle(msh->envp2, cmd[i]);
 			else if (check_vardup(msh->envp2, cmd[i]))
-				;
+				break ;
 			else
 				msh->envp2 = add_var(msh->envp2, cmd[i]);
 			i++;
