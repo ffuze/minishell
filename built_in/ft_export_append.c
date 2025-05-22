@@ -10,7 +10,6 @@ static char	**add_var(char **envp, char *new_var)
 
 	i = 0;
 	j = 1;
-	ft_printf(MAGENTA"%s\n"NO_ALL, new_var);///////////
 	new_len = ft_mtrxlen(envp) + 1;
 	nenvp = ft_calloc(new_len + 1, sizeof(envp));
 	if (!nenvp)
@@ -32,15 +31,10 @@ static bool	check_vardup(char **envp2, char *input)
 
 	i = 0;
 	new_var = ft_substr(input, 0, ft_strlen(ft_strchr3(input, '+')) - 1);
-	ft_printf(MAGENTA"%s\n"NO_ALL, new_var);///////////
 	while (envp2[i])
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
-		{
-			free(envp2[i]);
-			envp2[i] = ft_strdup(input);
 			return (free(new_var), true);
-		}
 		i++;
 	}
 	return (free(new_var), false);
@@ -60,9 +54,10 @@ static void	append_var(char **envp2, char *var)
 	{
 		if (ft_strnstr(envp2[i], var_name, ft_strlen(var_name)))
 		{
+			tmp = ft_strdup(envp2[i]);
 			free(envp2[i]);
-			envp2[i] = ft_strjoin(var_name, ft_strchr2(var, '='));
-			return (free(var_name));
+			envp2[i] = ft_strjoin(tmp, ft_strchr2(var, '='));
+			return (free(var_name), free(tmp));
 		}
 		i++;
 	}

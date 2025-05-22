@@ -51,8 +51,11 @@ static bool	check_vardup(char **envp2, char *input)
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
 		{
-			free(envp2[i]);
-			envp2[i] = ft_strdup(input);
+			if(ft_strchr2(input, '='))
+			{
+				free(envp2[i]);
+				envp2[i] = ft_strdup(input);
+			}
 			return (free(new_var), true);
 		}
 		i++;
@@ -78,8 +81,8 @@ static int	var_name_check(t_msh *msh, char *new_var)
 	while (var_name[j])
 	{
 		chr = var_name[j++];
-		// if (j == ft_strlen(var_name) - 1 && chr =='+')
-		// 	break ;
+		if (j == ft_strlen(var_name) - 1 && chr =='+')
+			break ;
 		if ((chr < 'A' || chr > 'Z') && (chr < 'a' || chr > 'z') \
 				&& (chr < '0' || chr > '9') && chr != '_' && chr != '=')
 		{
@@ -106,8 +109,8 @@ void	ft_export(t_msh *msh, char **cmd)
 			if (!var_name_check(msh, cmd[i]))
 				ft_printf(RED"export: `%s': not a valid identifier\n"NO_ALL, \
 														cmd[i]);
-			// else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
-			// 	append_handle(msh->envp2, cmd[i]);
+			else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
+				append_handle(msh->envp2, cmd[i]);
 			else if (check_vardup(msh->envp2, cmd[i]))
 				break ;
 			else
