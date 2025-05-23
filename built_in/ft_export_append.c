@@ -1,11 +1,37 @@
 #include "../minishell.h"
 
+static char	*remove_plus(char *new_var)
+{
+	int		i;
+	int		j;
+	char	*clean_var;
+
+	i = 0;
+	clean_var = ft_calloc(ft_strlen(new_var), 1);
+	if(!clean_var)
+		return (NULL);
+	while (new_var[i] && new_var[i] != '+')
+	{
+		clean_var[i] = new_var[i];
+		i++;
+	}
+	j = i;
+	i++;
+	while (new_var[i])
+	{
+		clean_var[j++] = new_var[i];
+		i++;
+	}
+	return (clean_var);
+}
+
 // Adds the new variable to the Environment.
 static char	**add_var(char **envp, char *new_var)
 {
 	size_t	new_len;
 	size_t	i;
 	size_t	j;
+	char	*clean_var;
 	char	**nenvp;
 
 	i = 0;
@@ -17,10 +43,13 @@ static char	**add_var(char **envp, char *new_var)
 	envpcpy(envp, nenvp, &i);
 	if (!nenvp)
 		return (free_dpc(envp), NULL);
-	nenvp[i] = ft_strdup(new_var);
-	if (!nenvp[i])
+	clean_var = remove_plus(new_var);
+	if (!clean_var)
 		return (free_dpc(nenvp), free_dpc(envp), NULL);
-	return (free_dpc(envp), nenvp);
+	nenvp[i] = ft_strdup(clean_var);
+	if (!nenvp[i])
+		return (free(clean_var), free_dpc(nenvp), free_dpc(envp), NULL);
+	return (free(clean_var), free_dpc(envp), nenvp);
 }
 
 // Checks whether the new Variable already exists, if so it overwrites it.
@@ -68,5 +97,8 @@ void	append_handle(char **envp2, char *var)
 	if (check_vardup(envp2, var))
 		append_var(envp2, var);
 	else
+	{
+		ft_printf(YELLOW"%s\n"NO_ALL, var);///////////////////////////////
 		envp2 = add_var(envp2, var);
+	}
 }
