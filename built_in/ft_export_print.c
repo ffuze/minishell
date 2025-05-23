@@ -47,7 +47,6 @@ void	print_declarex(char **envp2)
 	sorted_envp = ft_sortenvp(envp2);
 	if (!sorted_envp)
 		return ;
-	ft_printf(BRCYAN"%s\n"NO_ALL, sorted_envp[0]);///////////////////////////////
 	while (sorted_envp[i])
 	{
 		ft_printf("declare -x ");
@@ -60,7 +59,6 @@ void	print_declarex(char **envp2)
 			ft_printf("\"%s\"", ft_strchr2(sorted_envp[i], '='));
 		ft_printf("\n");
 		i++;
-		
 	}
 	free_dpc(sorted_envp);
 }

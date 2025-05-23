@@ -110,7 +110,7 @@ void	ft_export(t_msh *msh, char **cmd)
 				ft_printf(RED"export: `%s': not a valid identifier\n"NO_ALL, \
 														cmd[i]);
 			else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
-				append_handle(msh->envp2, cmd[i]);
+				append_handle(msh, cmd[i]);
 			else if (check_vardup(msh->envp2, cmd[i]))
 				break ;
 			else

@@ -57,9 +57,17 @@ static bool	check_vardup(char **envp2, char *input)
 {
 	int		i;
 	char	*new_var;
+	char	*new_var_name;
 
 	i = 0;
-	new_var = ft_substr(input, 0, ft_strlen(ft_strchr3(input, '+')) - 1);
+	new_var_name = ft_strchr3(input, '+');
+	if (!new_var_name)
+		return (print_err("check_vardup: ", "first malloc failed\n"), false);
+	new_var = ft_substr(input, 0, ft_strlen(new_var_name) - 1);
+	if (!new_var)
+		return (print_err("check_vardup: ", "second malloc failed\n"), free(new_var_name), 
+																		false);
+	free(new_var_name);
 	while (envp2[i])
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
@@ -92,13 +100,10 @@ static void	append_var(char **envp2, char *var)
 	}
 }
 
-void	append_handle(char **envp2, char *var)
+void	append_handle(t_msh *msh, char *var)
 {
-	if (check_vardup(envp2, var))
-		append_var(envp2, var);
+	if (check_vardup(msh->envp2, var))
+		append_var(msh->envp2, var);
 	else
-	{
-		ft_printf(YELLOW"%s\n"NO_ALL, var);///////////////////////////////
-		envp2 = add_var(envp2, var);
-	}
+		msh->envp2 = add_var(msh->envp2, var);
 }
