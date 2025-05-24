@@ -59,7 +59,6 @@ void	print_declarex(char **envp2)
 			ft_printf("\"%s\"", ft_strchr2(sorted_envp[i], '='));
 		ft_printf("\n");
 		i++;
-		
 	}
 	free_dpc(sorted_envp);
 }
