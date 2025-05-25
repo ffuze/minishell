@@ -10,6 +10,11 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 		return (NULL);
 	token->type = token_type;
 	token->value = ft_substr(input, start, end);
+    if (!token->value)
+    {
+        free(token);
+        return (NULL);
+    }
 	return (token);
 }
 
@@ -89,7 +94,7 @@ t_token **tokenize(t_msh *msh, char *input)
 			start = i;
 			while (input[i] && input[i] != quote)
 				i++;
-			tokens[count] = make_token(TOKEN_WORD, input, start, i - start);
+            tokens[count] = make_token(TOKEN_WORD, input, start, i - start);
 			clean_token = remove_outer_quotes(tokens[count]->value);
 			free(tokens[count]->value);
 			tokens[count]->value = clean_token;
@@ -107,7 +112,7 @@ t_token **tokenize(t_msh *msh, char *input)
 		}
 	}
 	// tokenize_commands(msh);
-	tokens[count] = NULL;
+    tokens[count] = NULL;
 	return (tokens);
 }
 // echo "oddio 'no way' sta 'per' funz"i"ona'r'e"

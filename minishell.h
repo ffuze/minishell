@@ -184,10 +184,13 @@ int	last_cmd_process(char **cmd, char **envp, int *pipefd);
 //  between the first and last.
 int	middle_child_generator(t_msh *msh);
 
-
 /*_______________________________ test_setup.c ______________________________*/
 t_cmds	*crealista();
 void printList(t_cmds *head);
 void freeList(t_cmds *head);
+
+/*_______________________________ free_memory ______________________________*/
+void	free_tokens(t_token **tokens);
+void    free_everything(t_msh msh, char **split_input, char *input);
 
 #endif

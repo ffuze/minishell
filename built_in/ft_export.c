@@ -20,11 +20,11 @@ static char	**add_var(char **envp, char *new_var)
 {
 	size_t	new_len;
 	size_t	i;
-	size_t	j;
+	// size_t	j;
 	char	**nenvp;
 
 	i = 0;
-	j = 1;
+	// j = 1;
 	new_len = ft_mtrxlen(envp) + 1;
 	nenvp = ft_calloc(new_len + 1, sizeof(envp));
 	if (!nenvp)

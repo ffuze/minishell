@@ -54,15 +54,16 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac,char *av[], char **envp)
+int main(int ac,/*char *av[],*/ char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
 	t_msh	msh;
 	int		clearflag;
+    char    **split_input; 
 
 	(void)ac;
-	av = NULL;
+	// av = NULL;
 	// msh.infile = NULL;
 	// msh.outfile = NULL;
 	sa.sa_handler = ft_handler;
@@ -84,12 +85,20 @@ int main(int ac,char *av[], char **envp)
 		// funzione per aggiornare ogni volta il path da stampare accanto a powershell
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
 		if (!input)
+		{
+			if (msh.tokens)
+				free_tokens(msh.tokens);
+			free_dpc(msh.envp2);
 			return (EXIT_FAILURE);
+		}
 		else if (!(*input))
+		{
+			free(input);
 			continue;
-		char **split_input = ft_split(input, ' ');///////////////////////////
+		}
+		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
-		for (size_t i = 0; msh.tokens[i] != NULL; i++)
+		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		// I want to create another string where to put the first position of the token,
 		// so that I can remove the quotes from the command in order to make it recognizable
@@ -101,20 +110,33 @@ int main(int ac,char *av[], char **envp)
 		// }
 		ft_printf(GREEN"pipe_count: %d\n"NO_ALL, msh.pipe_count);//////////////////
 		if (!msh.tokens)
+		{
+			free(input);
+			free_dpc(split_input);
 			continue ;
+		}
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
-			return (/* freeList(msh.cmds),  */free_dpc(split_input), free_dpc(msh.envp2), EXIT_SUCCESS);
+		{
+			free_everything(msh, split_input, input);
+			return (EXIT_SUCCESS);
+		}
 		else if (ft_strcmp(msh.tokens[0]->value, "export") == 0)
 		{
 			ft_export(&msh, split_input);
 			if (!msh.envp2)
-				return(ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
+			{
+				free_everything(msh, split_input, input);
+				return (ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
+			}
 		}
 		else if (ft_strcmp(msh.tokens[0]->value, "unset") == 0)
 		{
 			ft_unset(&msh, split_input);
 			if (!msh.envp2)
+			{
+				free_everything(msh, split_input, input);
 				return(ft_putstr_fd(RED"Failed envp2"NO_ALL, 2), EXIT_FAILURE);
+			}
 		}
 		else if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "pwd") == 0)
 			ft_pwd();
@@ -160,8 +182,10 @@ int main(int ac,char *av[], char **envp)
 		// }
 		free(input);
 		free_dpc(split_input);//////////
+		free_tokens(msh.tokens); // Free tokens after each iteration
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
 	}
 	free_dpc(msh.envp2);
+    free_tokens(msh.tokens);
 	return (msh.exit_status);
 }

@@ -13,7 +13,8 @@ SRC_MAIN = index.c \
 			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
 			redirection/redirection.c \
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \
-			pipes/middle_cmds.c\
+			pipes/middle_cmds.c \
+			free_memory/free_memory.c
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
