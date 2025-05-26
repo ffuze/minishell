@@ -76,8 +76,13 @@ t_token **tokenize(t_msh *msh, char *input)
 		}
 		else if (input[i] == '<' && input[i + 1] != '<')
             count += tokenize_input(msh, tokens, input, &i);
+        else if (input[i] == '<' && input[i + 1] == '<')
+        {
+            tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 2);
+            i += 2;
+        }
 		else if (input[i] == '>' && input[i + 1] != '>')
-		{
+		{ 
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 1);
 			i++;
 			while (input[i] && input[i] == ' ')
@@ -88,6 +93,11 @@ t_token **tokenize(t_msh *msh, char *input)
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, i - start);
 			msh->outfiles = (t_outf *)ft_substr(input, start, i - start);
 		}
+        else if (input[i] == '>' && input[i + 1] == '>')
+        {
+            tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 2);
+            i += 2;
+        }
 		else if (input[i] == '\'' || input[i] == '"')
 		{
 			quote = input[i++];

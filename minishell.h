@@ -192,5 +192,6 @@ void freeList(t_cmds *head);
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
 void    free_everything(t_msh msh, char **split_input, char *input);
+void    free_infiles(t_inf *infiles);
 
 #endif
