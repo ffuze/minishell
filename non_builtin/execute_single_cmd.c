@@ -19,8 +19,11 @@ void	execute_single_cmd(t_msh *msh)
 			handle_input_redirection(msh);
 			redirect_input(msh);
 		}
-		// if (msh->outfi_flag)
-		// {}
+		if (msh->outfi_flag)
+		{
+			// handle_output_redirection(msh);
+			redirect_output(msh);
+		}
 		execute_cmd(msh->cmds->cmd, msh->envp2);
 	}
 	while (waitpid(id, &status, 0) > 0)

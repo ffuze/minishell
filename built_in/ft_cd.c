@@ -77,8 +77,8 @@ void	ft_cd(t_msh *msh, char **cmd)
 		if (chdir(home_path) < 0)
 			cd_err(msh,home_path);
 	}
-	else if (ft_strcmp(cmd[1], "-") == 0)
-		to_prev_dir(msh, msh->envp2);
+	// else if (ft_strcmp(cmd[1], "-") == 0) // OLDPWD non sta venendo copiato dall'envp
+	// 	to_prev_dir(msh, msh->envp2);
 	else
 		get_dir(msh, home_path, cmd[1]);
 }

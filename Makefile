@@ -11,7 +11,7 @@ SRC_MAIN = index.c \
 			built_in/ft_export_append.c built_in/ft_cd.c built_in/ft_unset.c \
 			tokenize/tokenizer.c tokenize/tokenize_input.c tokenize/tokenize_output.c\
 			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
-			redirection/redirection.c \
+			redirection/redirection_in.c redirection/redirection_out.c \
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \
 			pipes/middle_cmds.c \
 			free_memory/free_memory.c

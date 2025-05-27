@@ -163,6 +163,7 @@ void	*execute_cmd(char **cmd, char **envp);
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
 void	redirect_input(t_msh *msh);
+void	redirect_output(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/
 // Determines whether a single command or more have to be executed.
@@ -175,7 +176,7 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
 int	**fd_matrix_creator(int pipe_count);
 
 int	first_cmd_process(t_msh *msh, int *pipefd);
-int	last_cmd_process(char **cmd, char **envp, int *pipefd);
+int	last_cmd_process(t_msh *msh, int *pipefd);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
