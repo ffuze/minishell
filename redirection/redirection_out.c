@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+// Esegue un solo redirection. Non gestisce outfile multipli.
 void	redirect_output(t_msh *msh)
 {
 	int		outfile_fd;

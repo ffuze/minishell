@@ -1,5 +1,20 @@
 #include "../minishell.h"
 
+static void	child_proc(t_msh *msh)
+{
+	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
+		{
+			handle_input_redirection(msh);
+			redirect_input(msh);
+		}
+	if (msh->outfi_flag)
+		{
+			// handle_output_redirection(msh);
+			redirect_output(msh);
+		}
+		execute_cmd(msh->cmds->cmd, msh->envp2);
+}
+
 void	execute_single_cmd(t_msh *msh)
 {
 	pid_t	id;
@@ -14,17 +29,7 @@ void	execute_single_cmd(t_msh *msh)
 	}
 	else if (0 == id)
 	{
-		if (msh->tokens[0]->type == TOKEN_RE_INPUT)
-		{
-			handle_input_redirection(msh);
-			redirect_input(msh);
-		}
-		if (msh->outfi_flag)
-		{
-			// handle_output_redirection(msh);
-			redirect_output(msh);
-		}
-		execute_cmd(msh->cmds->cmd, msh->envp2);
+		child_proc(msh);
 	}
 	while (waitpid(id, &status, 0) > 0)
 	{
