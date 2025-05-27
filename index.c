@@ -100,6 +100,7 @@ int main(int ac,/*char *av[],*/ char **envp)
 		msh.tokens = tokenize(&msh, input);
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
+		ft_printf(BRCYAN"Outfile: %s\n"NO_ALL, msh.outfiles->outfile);
 		// I want to create another string where to put the first position of the token,
 		// so that I can remove the quotes from the command in order to make it recognizable
 		// to the controls that are right after here, and then transfer the temp string back
