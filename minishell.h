@@ -75,7 +75,6 @@ typedef struct s_token
 typedef struct s_cmds
 {
 	char			**cmd;
-	// int				pipefd[2];
 	struct s_cmds	*next;
 }					t_cmds;
 
@@ -103,16 +102,14 @@ typedef	struct s_msh
 	t_outf			*outfiles; //  Output files from redirection.
 	bool			outfi_flag; // Tells whether the output must be redirected.
 	unsigned int	pipe_count; // Number of pipes.
-	int				**fd_mrx;
-	// int				pipefd[2];
-	bool			pipeflag; //   Tells whether a pipe has been opened. 
+	int				**fd_mrx; //   Array of FDs used by the pipeline.
 	unsigned char	exit_status;
 }					t_msh;
 
 /*_______________________________ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
-	size_t end);
+																size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
@@ -166,6 +163,7 @@ void	*execute_cmd(char **cmd, char **envp);
 /*_______________________________ redirection ______________________________*/
 int		handle_input_redirection(t_msh *msh);
 void	redirect_input(t_msh *msh);
+void	redirect_output(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/
 // Determines whether a single command or more have to be executed.
@@ -178,7 +176,7 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
 int	**fd_matrix_creator(int pipe_count);
 
 int	first_cmd_process(t_msh *msh, int *pipefd);
-int	last_cmd_process(char **cmd, char **envp, int *pipefd);
+int	last_cmd_process(t_msh *msh, int *pipefd);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.

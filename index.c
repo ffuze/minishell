@@ -75,12 +75,13 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	// msh.cmds = crealista();///////////// Creazione della lista temporanea
+	
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
+		// msh.cmds = crealista();///////////// Creazione della lista temporanea
 		msh.exit_status = 0;
 		// funzione per aggiornare ogni volta il path da stampare accanto a powershell
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
@@ -100,6 +101,8 @@ int main(int ac, char *av[], char **envp)
 		msh.tokens = tokenize(&msh, input);
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
+		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////
+
 		// I want to create another string where to put the first position of the token,
 		// so that I can remove the quotes from the command in order to make it recognizable
 		// to the controls that are right after here, and then transfer the temp string back
@@ -108,7 +111,6 @@ int main(int ac, char *av[], char **envp)
 		// {
 
 		// }
-		ft_printf(GREEN"pipe_count: %d\n"NO_ALL, msh.pipe_count);//////////////////
 		if (!msh.tokens)
 		{
 			free(input);
@@ -117,6 +119,7 @@ int main(int ac, char *av[], char **envp)
 		}
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
 		{
+			// freeList(msh.cmds);////////////////////////////////
 			free_everything(msh, split_input, input);
 			return (EXIT_SUCCESS);
 		}
@@ -166,7 +169,6 @@ int main(int ac, char *av[], char **envp)
 		else
 		{
 			pipe_check(&msh);
-			// execute_regular(&msh);
 		}
 		if (!clearflag)
 			add_history(input);
@@ -184,6 +186,7 @@ int main(int ac, char *av[], char **envp)
 		free_dpc(split_input);//////////
 		free_tokens(msh.tokens); // Free tokens after each iteration
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
+		// freeList(msh.cmds);////////////////////////////////
 	}
 	free_dpc(msh.envp2);
     free_tokens(msh.tokens);

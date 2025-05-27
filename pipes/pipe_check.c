@@ -19,7 +19,7 @@ static void	init_lastcmd(t_msh *msh, int *i)
 	if (id3 < 0)
 		return (print_err("Fork failed for id3.", "\n"));
 	else if (0 == id3)
-		last_cmd_process(msh->cmds->cmd, msh->envp2, msh->fd_mrx[*i]);
+		last_cmd_process(msh, msh->fd_mrx[*i]);
 }
 
 static void	init_pipeline(t_msh *msh)
