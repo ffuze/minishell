@@ -56,7 +56,7 @@ t_token **tokenize(t_msh *msh, char *input)
 
 	i = 0;
 	start = i;
-	tokens = malloc(sizeof(t_token *) * (ft_strlen(input) + 1));
+	tokens = ft_calloc((ft_strlen(input) + 1), sizeof(t_token *));
 	count = 0;
 	clean_token = NULL;
 	msh->pipe_count = 0;
@@ -95,7 +95,7 @@ t_token **tokenize(t_msh *msh, char *input)
 		}
         else if (input[i] == '>' && input[i + 1] == '>')
         {
-            tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 2);
+            tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, i, 2);
             i += 2;
         }
 		else if (input[i] == '\'' || input[i] == '"')

@@ -8,8 +8,10 @@ static char	*find_pathname(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
+	if (!envp[i])
+		return (NULL);
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
 		return (NULL);

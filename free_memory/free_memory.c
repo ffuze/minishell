@@ -24,11 +24,12 @@ void    free_everything(t_msh msh, char **split_input, char *input)
 void free_infiles(t_inf *infiles)
 {
     t_inf *temp;
+
     while (infiles)
     {
         temp = infiles;
         infiles = infiles->next;
-        free(temp->infile); // Free the infile string
-        free(temp); // Free the t_inf structure
+        free(temp->infile);
+        free(temp);
     }
 }

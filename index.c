@@ -54,7 +54,7 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac,/*char *av[],*/ char **envp)
+int main(int ac, char *av[], char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
@@ -63,7 +63,7 @@ int main(int ac,/*char *av[],*/ char **envp)
     char    **split_input; 
 
 	(void)ac;
-	// av = NULL;
+	av = NULL;
 	// msh.infile = NULL;
 	// msh.outfile = NULL;
 	sa.sa_handler = ft_handler;

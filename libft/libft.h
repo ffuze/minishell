@@ -84,5 +84,6 @@ size_t	ft_mtrxlen(char **mtrx);
 char	*ft_strchr2(const char *s, int c);
 char	*ft_strchr3(const char *s, int c);
 void	ft_strchr3_print(const char *s, int c);
+int		count_words(const char *str, char c);
 
 #endif
