@@ -16,7 +16,6 @@ int	tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	size_t	start = 0;
 	t_outf	*new_outfile;
 	t_outf	*temp;
-	t_outf	*current;
 
 	if (!tokens || !input || !msh)
 		return (0);
@@ -45,10 +44,7 @@ int	tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 	new_outfile->outfile = ft_substr(input, start, *i - start);
 	if (!new_outfile->outfile)
-	{
-		free(new_outfile);
-		return (count_tokens(tokens));
-	}
+		return (free(new_outfile), count_tokens(tokens));
 	new_outfile->next = NULL;
 	if (!msh->outfiles)
 		msh->outfiles = new_outfile;
@@ -59,13 +55,14 @@ int	tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			temp = temp->next;
 		temp->next = new_outfile;
 	}
+	//----------------------------------------------------------------_
+	t_outf	*current;
 	current = msh->outfiles;
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++_
 	while (current)
 	{
 		ft_printf("Valore di outfiles: %s. Append_flag: %d\n", current->outfile, current->append_flag);
 		current = current->next;
 	}
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++_
+	//----------------------------------------------------------------_
 	return (count);
 }

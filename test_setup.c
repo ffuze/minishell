@@ -43,7 +43,7 @@ t_cmds	*crealista()
 	t_cmds	*new_node;
 	t_cmds	*root;
 	t_cmds *current; // Pointer to keep track of the current node
-    char *s = "ls -l";
+    char *s = "grep e";//"ls -l"
     char *s2 = "wc -l";
     char *s3 = "cat";
    
