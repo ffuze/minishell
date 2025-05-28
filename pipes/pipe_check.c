@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	init_firstcmd(t_msh *msh, int *i)
+static void	init_firstcmd(t_msh *msh, t_cmds *current, int *i)
 {
 	int	id1;
 
@@ -8,10 +8,10 @@ static void	init_firstcmd(t_msh *msh, int *i)
 	if (id1 < 0)
 		return (print_err("Fork failed for id1.", "\n"));
 	if (0 == id1)
-		first_cmd_process(msh, msh->fd_mrx[*i]);
+		first_cmd_process(msh, current, msh->fd_mrx[*i]);
 }
 
-static void	init_lastcmd(t_msh *msh, int *i)
+static void	init_lastcmd(t_msh *msh, t_cmds *current, int *i)
 {
 	int	id3;
 
@@ -19,25 +19,27 @@ static void	init_lastcmd(t_msh *msh, int *i)
 	if (id3 < 0)
 		return (print_err("Fork failed for id3.", "\n"));
 	else if (0 == id3)
-		last_cmd_process(msh, msh->fd_mrx[*i]);
+		last_cmd_process(msh, current, msh->fd_mrx[*i]);
 }
 
 static void	init_pipeline(t_msh *msh)
 {
-	int	i;
-	int status;
+	int		i;
+	int 	status;
+	t_cmds	*current;
 
+	current = msh->cmds;
 	status = 0;
 	i = 0;
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_count);
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
-	init_firstcmd(msh, &i);
-	msh->cmds = msh->cmds->next;
+	init_firstcmd(msh, current, &i);
+	current = current->next;
 	close(msh->fd_mrx[i][1]);
 	msh->pipe_count--;
-	i = middle_child_generator(msh);
-	init_lastcmd(msh, &i);
+	i = middle_child_generator(msh, current);
+	init_lastcmd(msh, current, &i);
 	liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
 	while (waitpid(-1, &status, 0) > 0)
 	{

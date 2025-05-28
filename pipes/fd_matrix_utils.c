@@ -6,7 +6,7 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count)
 	int	j;
 
 	j = 0;
-	while (j < pipe_count)
+	while (j <= pipe_count)
 	{
 		close(fd_mrx[j][0]);
 		close(fd_mrx[j][1]);
@@ -25,14 +25,14 @@ int	**fd_matrix_creator(int pipe_count)
 	i = 0;
 	fd_matrix = ft_calloc((pipe_count + 1), sizeof(int *));
 	if (!fd_matrix)
-		exit(0);
+		exit(1);
 	while (i < (pipe_count))
 	{
 		fd_matrix[i] = ft_calloc(2, sizeof(int));
 		if (!fd_matrix[i])
 		{
 			liberate_fdmatrix(fd_matrix, i);
-			exit(0);
+			exit(1);
 		}
 		i++;
 	}

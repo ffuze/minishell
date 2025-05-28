@@ -15,15 +15,13 @@ int	middle_cmd_process(char **cmd, char **envp2, int *pipefd1, int *pipefd2)
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int	middle_child_generator(t_msh *msh)
+int	middle_child_generator(t_msh *msh, t_cmds *current)
 {
-	t_cmds *current;
 	int		id2;
 	int		i;
 
 	i = 0;
-	current = msh->cmds;
-	while (msh->pipe_count/* i < (msh->cmds_count - 1) */)
+	while (msh->pipe_count)
 	{
 		i++;
 		if (-1 == pipe(msh->fd_mrx[i]))
@@ -34,6 +32,7 @@ int	middle_child_generator(t_msh *msh)
 							close(msh->fd_mrx[i][0]), close(msh->fd_mrx[i][1]), i - 1);
 		else if (0 == id2)
 			middle_cmd_process(current->cmd, msh->envp2, msh->fd_mrx[i - 1], msh->fd_mrx[i]);
+		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);
 		msh->pipe_count--;
 		current = current->next;

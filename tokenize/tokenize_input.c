@@ -18,7 +18,7 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
     while (input[*i] && input[*i] == ' ')
         (*i)++;
     start = *i;
-    while (input[*i] && input[*i] != ' ')
+    while (input[*i] && input[*i] != ' ')// ft_isbashprint?
         (*i)++;
     tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
     new_infile = malloc(sizeof(t_inf));
@@ -46,6 +46,6 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
         ft_printf("valore di infiles: %s\n", current->infile);
         current = current->next;
     }
-    free_infiles(new_infile);
+    free_infiles(new_infile);// riga 35: msh->infiles = new_infile;
     return (count);
 }

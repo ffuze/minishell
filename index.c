@@ -81,7 +81,7 @@ int main(int ac, char *av[], char **envp)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
-		// msh.cmds = crealista();///////////// Creazione della lista temporanea
+		msh.cmds = crealista();///////////// Creazione della lista temporanea
 		msh.exit_status = 0;
 		// funzione per aggiornare ogni volta il path da stampare accanto a powershell
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
@@ -119,7 +119,7 @@ int main(int ac, char *av[], char **envp)
 		}
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
 		{
-			// freeList(msh.cmds);////////////////////////////////
+			freeList(msh.cmds);////////////////////////////////
 			free_everything(msh, split_input, input);
 			return (EXIT_SUCCESS);
 		}
@@ -186,7 +186,7 @@ int main(int ac, char *av[], char **envp)
 		free_dpc(split_input);//////////
 		free_tokens(msh.tokens); // Free tokens after each iteration
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
-		// freeList(msh.cmds);////////////////////////////////
+		freeList(msh.cmds);////////////////////////////////
 	}
 	free_dpc(msh.envp2);
     free_tokens(msh.tokens);

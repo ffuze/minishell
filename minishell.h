@@ -175,12 +175,12 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
 // Creates an FD for each pipe in the command line.
 int	**fd_matrix_creator(int pipe_count);
 
-int	first_cmd_process(t_msh *msh, int *pipefd);
-int	last_cmd_process(t_msh *msh, int *pipefd);
+int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
+int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int	middle_child_generator(t_msh *msh);
+int	middle_child_generator(t_msh *msh, t_cmds *current);
 
 /*_______________________________ test_setup.c ______________________________*/
 t_cmds	*crealista();
