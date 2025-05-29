@@ -40,7 +40,7 @@ int	handle_input_redirection(t_msh *msh)
 		{
 			new = malloc(sizeof(t_inf));
 			if (!new)
-				return 0;
+				return (0);
 			new->infile = msh->tokens[i + 1]->value;
 			new->next = NULL;
 			if (!msh->infiles)

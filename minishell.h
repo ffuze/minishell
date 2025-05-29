@@ -106,13 +106,14 @@ typedef	struct s_msh
 	unsigned char	exit_status;
 }					t_msh;
 
-/*_______________________________ tokenizer _________________________________*/
+/*___________________________N____ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
+int		insert_input(t_msh *msh, t_token **tokens);
 
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);

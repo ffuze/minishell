@@ -7,7 +7,7 @@ int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
 	{
 		// ft_printf(MAGENTA"//////////////\n"NO_ALL);/////////////
-		handle_input_redirection(msh);
+		insert_input(msh, msh->tokens);
 		redirect_input(msh);
 	}
 	if (dup2(pipefd[1], STDOUT_FILENO) < 0)
