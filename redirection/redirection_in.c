@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+// Substitutes the standard input with a file
 void	redirect_input(t_msh *msh)
 {
 	int infile_fd;
@@ -22,38 +23,30 @@ void	redirect_input(t_msh *msh)
 	close(infile_fd);
 }
 
-int	handle_input_redirection(t_msh *msh)
+// Fill the infile structure with the appropriate file name, and determines
+// wether there is an input file or a heredoc
+int	setup_input_redirection(t_msh *msh)
 {
-	int i;
-	t_inf *new;
-	i = 0;
+	int		i;
+	t_inf	*infile;
 	
+	i = 0;
+	infile = NULL;
 	if (!msh->infiles)
 	{
 		printf("Missing input file for redirection\n");
 		msh->exit_status = 1;
 		return (0);
 	}
-	while (msh->tokens[i])
+	infile = ft_strdup(msh->tokens[i + 1]->value);
+	if (!infile)
+		return (0);
+	if (ft_strcmp(msh->tokens[0]->value, ">") == 0)
+		msh->infiles->heredoc_flag = false;
+	else if (ft_strcmp(msh->tokens[0]->value, ">>") == 0)
 	{
-		if (msh->tokens[i]->type == TOKEN_RE_INPUT && msh->tokens[i + 1])
-		{
-			new = malloc(sizeof(t_inf));
-			if (!new)
-				return 0;
-			new->infile = msh->tokens[i + 1]->value;
-			new->next = NULL;
-			if (!msh->infiles)
-				msh->infiles = new;
-			else
-			{
-				t_inf *temp = msh->infiles;
-				while (temp->next)
-					temp = temp->next;
-				temp->next = new;
-			}
-		}
-		i++;
+		// prende il delimitatore
+		msh->infiles->heredoc_flag = true;
 	}
 	return (1);
 }

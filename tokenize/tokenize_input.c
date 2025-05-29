@@ -1,53 +1,57 @@
 #include "../minishell.h"
 
-int	tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
+// Check if the fd has got permissions or not
+static bool	check_fd(t_msh *msh, t_token *tokens)
+{
+	int	fd;
+	if (!msh || !tokens || tokens->type != TOKEN_INFILE)
+		return (false);
+	fd = open(tokens->value, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("minishell: %s: Permission denied\n", tokens->value);
+		msh->exit_status = 1;
+		return (false);
+	}
+	close(fd);
+	return (true);
+}
+
+// Check for every command block divided by a pipe that has an input redirection wether
+// the input file exists or not; if it does not, print an error message and skip the whole
+// block until a next pipe is found
+int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		count;
 	size_t	start;
-	t_inf	*new_infile;
-	t_inf	*temp;
-
+	
 	count = 0;
-	start = 0;
 	if (!tokens || !input || !msh)
-		return (0);
-	msh->infiles = NULL;
-	tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
-	(*i)++;
-	while (input[*i] && input[*i] == ' ')
-		(*i)++;
-	start = *i;
-	while (input[*i] && input[*i] != ' ')// ft_isbashprint?
-		(*i)++;
-	tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
-	new_infile = malloc(sizeof(t_inf));
-	if (!new_infile)
-		return (0);
-	new_infile->infile = ft_substr(input, start, *i - start);
-	if (!new_infile->infile)
+		return 0;
+	while (input[*i])
 	{
-		free(new_infile);
-		return (0);
+		while (input[*i] && input[*i] == ' ')
+			(*i)++;
+		if (input[*i] == '<')
+		{
+			tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
+			(*i)++;
+			while (input[*i] && input[*i] == ' ')
+				(*i++);
+			start = *i;
+			while (input[*i] && input[*i] != ' ' && input[*i] != '|')
+				(*i++);
+			tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
+			if (!check_fd(msh, tokens[count - 1]))
+			{
+				free(tokens);
+				while (input[*i] && input[*i] != '|')
+					(*i)++;
+				if (input[*i] == '|')
+					(*i)++;
+				return (0);
+			}
+		}
 	}
-	new_infile->next = NULL;
-	if (!msh->infiles)
-		msh->infiles = new_infile;
-	else
-	{
-		temp = msh->infiles;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_infile;
-	}
-	//----------------------------------------------------------------_
-	t_inf   *current;
-	current = msh->infiles;
-	while (current)
-	{
-		ft_printf("valore di infiles: %s\n", current->infile);
-		current = current->next;
-	}
-	//----------------------------------------------------------------_
-	// free_infiles(new_infile);// riga 35: msh->infiles = new_infile;
 	return (count);
 }

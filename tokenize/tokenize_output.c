@@ -1,68 +1,68 @@
 #include "../minishell.h"
 
-static int	count_tokens(t_token **tokens)
+// Check if the fd has got permissions or not
+static bool	check_fd(t_msh *msh, t_token *tokens)
 {
-	int	i;
-
-	i = 0;
-	while (tokens && tokens[i])
-		i++;
-	return (i);
+	int	fd;
+	if (!msh || !tokens || tokens->type != TOKEN_OUTFILE)
+		return (false);
+	fd = open(tokens->value, O_WRONLY, O_CREAT, 0644);
+	if (fd < 0)
+	{
+		ft_printf("minishell: %s: Permission denied\n", tokens->value);
+		msh->exit_status = 1;
+		return (false);
+	}
+	close(fd);
+	return (true);
 }
 
-int	tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
+// Check for every command block divided by a pipe that has an output redirection wether
+// the output file exists or not; if it does not, print an error message and skip the whole
+// block until a next pipe is found
+int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
-	int		count = 0;
-	size_t	start = 0;
-	t_outf	*new_outfile;
-	t_outf	*temp;
-
+	int		count;
+	size_t	start;
+	
+	count = 0;
 	if (!tokens || !input || !msh)
-		return (0);
-	count = count_tokens(tokens);
-	msh->outfiles = NULL;
-	new_outfile = malloc(sizeof(t_outf));
-	if (!new_outfile)
-		return (count_tokens(tokens));
-	if (input[*i + 1] != '>')
+		return 0;
+	while (input[*i])
 	{
-		tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 1);
-		(*i)++;
-		new_outfile->append_flag = false;
+		while (input[*i] && input[*i] == ' ')
+			(*i)++;
+		if (input[*i] == '>' && input[*i + 1] != '>')
+		{
+			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 1);
+			(*i)++;
+			while (input[*i] && input[*i] == ' ')
+				(*i++);
+			start = *i;
+			while (input[*i] && input[*i] != ' ' && input[*i] != '|') // ft_isbashprint ?
+				(*i++);
+			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
+		}
+		else if (input[*i] == '>' && input[*i + 1] == '>')
+		{
+			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 2);
+			(*i) += 2;
+			while (input[*i] && input[*i] == ' ')
+				(*i++);
+			start = *i;
+			while (input[*i] && input[*i] != ' ' && input[*i] != '|') // ft_isbashprint ?
+				(*i++);
+			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
+		}
+		if (!check_fd(msh, tokens[count - 1]))
+		{
+			free(tokens);
+			while (input[*i] && input[*i] != '|')
+				(*i)++;
+			if (input[*i] == '|')
+				(*i)++;
+			return (0);
+		}
 	}
-	else if (input[*i + 1] == '>')
-	{
-		tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 2);
-		(*i) += 2;
-		new_outfile->append_flag = true;
-	}
-	while (input[*i] && input[*i] == ' ')
-		(*i)++;
-	start = *i;
-	while (input[*i] && input[*i] != ' ')// ft_isbashprint?
-		(*i)++;
-	tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
-	new_outfile->outfile = ft_substr(input, start, *i - start);
-	if (!new_outfile->outfile)
-		return (free(new_outfile), count_tokens(tokens));
-	new_outfile->next = NULL;
-	if (!msh->outfiles)
-		msh->outfiles = new_outfile;
-	else
-	{
-		temp = msh->outfiles;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_outfile;
-	}
-	//----------------------------------------------------------------_
-	t_outf	*current;
-	current = msh->outfiles;
-	while (current)
-	{
-		ft_printf("Valore di outfiles: %s. Append_flag: %d\n", current->outfile, current->append_flag);
-		current = current->next;
-	}
-	//----------------------------------------------------------------_
 	return (count);
 }
