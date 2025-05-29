@@ -37,10 +37,10 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 1);
 			(*i)++;
 			while (input[*i] && input[*i] == ' ')
-				(*i++);
+				(*i)++;
 			start = *i;
 			while (input[*i] && input[*i] != ' ' && input[*i] != '|') // ft_isbashprint ?
-				(*i++);
+				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
 		else if (input[*i] == '>' && input[*i + 1] == '>')
@@ -48,10 +48,10 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 2);
 			(*i) += 2;
 			while (input[*i] && input[*i] == ' ')
-				(*i++);
+				(*i)++;
 			start = *i;
 			while (input[*i] && input[*i] != ' ' && input[*i] != '|') // ft_isbashprint ?
-				(*i++);
+				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
 		if (!check_fd(msh, tokens[count - 1]))

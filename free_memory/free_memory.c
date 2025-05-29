@@ -20,16 +20,3 @@ void    free_everything(t_msh msh, char **split_input, char *input)
 	free_dpc(msh.envp2);
 	free(input);
 }
-
-void free_infiles(t_inf *infiles)
-{
-    t_inf *temp;
-
-    while (infiles)
-    {
-        temp = infiles;
-        infiles = infiles->next;
-        free(temp->infile);
-        free(temp);
-    }
-}

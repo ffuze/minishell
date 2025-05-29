@@ -77,11 +77,11 @@ t_token **tokenize(t_msh *msh, char *input)
 		}
 		else if (input[i] == '<' && input[i + 1] != '<')
 			count += tokenize_input(msh, tokens, input, &i);
-		else if (input[i] == '<' && input[i + 1] == '<')
-		{
-			tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 2);
-			i += 2;
-		}
+		// else if (input[i] == '<' && input[i + 1] == '<')
+		// {
+		// 	tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 2);
+		// 	i += 2;
+		// }
 		else if (input[i] == '>')
 		{
 			msh->outfi_flag = true;

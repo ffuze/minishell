@@ -27,30 +27,30 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	
 	count = 0;
 	if (!tokens || !input || !msh)
-		return 0;
-	while (input[*i])
 	{
+		ft_printf("<<<<<<<<<<<");//////////////////////
+		return (0);
+	}
+	while (input[*i] && input[*i] == ' ')
+		(*i)++;
+	if (input[*i] == '<')
+	{
+		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
+		(*i)++;
 		while (input[*i] && input[*i] == ' ')
 			(*i)++;
-		if (input[*i] == '<')
-		{
-			tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
+		start = *i;
+		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
 			(*i)++;
-			while (input[*i] && input[*i] == ' ')
-				(*i++);
-			start = *i;
-			while (input[*i] && input[*i] != ' ' && input[*i] != '|')
-				(*i++);
-			tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
-			if (!check_fd(msh, tokens[count - 1]))
-			{
-				free(tokens);
-				while (input[*i] && input[*i] != '|')
-					(*i)++;
-				if (input[*i] == '|')
-					(*i)++;
-				return (0);
-			}
+		tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
+		if (!check_fd(msh, tokens[count - 1]))
+		{
+			free(tokens);
+			while (input[*i] && input[*i] != '|')
+				(*i)++;
+			if (input[*i] == '|')
+				(*i)++;
+			return (0);
 		}
 	}
 	return (count);

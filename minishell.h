@@ -83,14 +83,12 @@ typedef struct s_inf
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
 	char			*limiter; // Signal the end of the input in heredoc.
-	struct s_inf	*next;
 }					t_inf;
 
 typedef struct s_outf
 {
 	char			*outfile;
 	bool			append_flag; // 0 for '>', 1 for '>>'.
-	struct s_outf	*next;
 }					t_outf;
 
 typedef	struct s_msh
@@ -161,8 +159,13 @@ void	execute_single_cmd(t_msh *msh);
 void	*execute_cmd(char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
-int		handle_input_redirection(t_msh *msh);
+// Fill the infile structure with the appropriate file name, and determines
+// wether there is an input file or a heredoc.
+int	setup_input_redirection(t_msh *msh);
+
+// Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh);
+
 void	redirect_output(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/
@@ -190,6 +193,5 @@ void freeList(t_cmds *head);
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
 void    free_everything(t_msh msh, char **split_input, char *input);
-void    free_infiles(t_inf *infiles);
 
 #endif

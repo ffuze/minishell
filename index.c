@@ -111,7 +111,7 @@ int main(int ac, char *av[], char **envp)
 		// {
 
 		// }
-		if (!msh.tokens)
+		if (!msh.tokens || !msh.tokens[0])
 		{
 			free(input);
 			free_dpc(split_input);
