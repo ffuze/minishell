@@ -6,7 +6,7 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	int	fd;
 	if (!msh || !tokens || tokens->type != TOKEN_OUTFILE)
 		return (false);
-	fd = open(tokens->value, O_WRONLY, O_CREAT, 0644);
+	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		ft_printf("minishell: %s: Permission denied\n", tokens->value);

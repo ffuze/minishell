@@ -166,6 +166,11 @@ int	setup_input_redirection(t_msh *msh);
 // Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh);
 
+// Fills the outfile structure with the appropriate file name, and determines
+// whether to overwrite or append the content.
+int	setup_output_redirection(t_msh *msh);
+
+// Substitutes the standard output with a file.
 void	redirect_output(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/

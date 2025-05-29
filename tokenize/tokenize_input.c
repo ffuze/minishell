@@ -27,10 +27,7 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	
 	count = 0;
 	if (!tokens || !input || !msh)
-	{
-		ft_printf("<<<<<<<<<<<");//////////////////////
 		return (0);
-	}
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
 	if (input[*i] == '<')
