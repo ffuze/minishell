@@ -28,9 +28,9 @@ void printList(t_cmds *head) {
 
     while (current != NULL) {
 		i = 0;
-		printf(RED"##\n"NO_ALL);
+		printf(RED"##"NO_ALL);
 		while (current->cmd[i]){
-        	printf(YELLOW"%s\n"NO_ALL, current->cmd[i]);
+        	printf(YELLOW"%s"NO_ALL, current->cmd[i]);
 			i++;
 		}
 		printf(GREEN"##\n"NO_ALL);

@@ -54,9 +54,9 @@
 typedef enum s_token_enum
 {
 	TOKEN_WORD, // simple strings
-	TOKEN_VAR, // all variables starting with the $
 	TOKEN_STRING_SINGLE, // string with single quotes
 	TOKEN_STRING_DOUBLE, // string with double quotes
+	TOKEN_VAR, // Expands variables starting with the $
 	TOKEN_PIPE, // --> | <--
 	TOKEN_RE_INPUT, // --> '<' o '<<' <--
 	TOKEN_INFILE, // input file
@@ -110,6 +110,8 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
+// Handles $ sign for environment vars expansion.
+int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 
 /*_______________________ utils.c _______________________*/

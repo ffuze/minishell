@@ -31,20 +31,6 @@ char	*remove_outer_quotes(char *str)
 	return (ft_strdup(str));
 }
 
-void	handle_dollar_sign(t_token **tokens, char *input, size_t *i)
-{
-	size_t	start;
-	// size_t	end;
-
-	start = 0;
-	// end = 0;
-	start = ++(*i);
-	while (input[*i] && input[*i] != ' ')
-		(*i)++;
-	*tokens = make_token(TOKEN_VAR, input, start, ft_strlen(input) - 1);
-	(*i)++;
-}
-
 t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token	**tokens;
@@ -75,14 +61,14 @@ t_token **tokenize(t_msh *msh, char *input)
 			i++;
 			msh->pipe_count++;
 		}
-		else if (input[i] == '<' && input[i + 1] != '<')
+		else if (input[i] == '<' && input[i + 1] != '<')// TOKEN_RE_INPUT
 			count += tokenize_input(msh, tokens, input, &i);
 		// else if (input[i] == '<' && input[i + 1] == '<')
 		// {
 		// 	tokens[count++] = make_token(TOKEN_RE_INPUT, input, i, 2);
 		// 	i += 2;
 		// }
-		else if (input[i] == '>')
+		else if (input[i] == '>')// TOKEN_RE_OUTPUT
 		{
 			msh->outfi_flag = true;
 			count = tokenize_output(msh, tokens, input, &i);
@@ -100,8 +86,8 @@ t_token **tokenize(t_msh *msh, char *input)
 			count++;
 			i++;
 		}
-		else if (input[i] == '$')
-			handle_dollar_sign(tokens, input, &i);
+		else if (input[i] == '$')// TOKEN_VAR
+			count += tokenize_env_var(msh, tokens, input, &i);
 		else
 		{
 			start = i;
