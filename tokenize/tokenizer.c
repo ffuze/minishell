@@ -61,7 +61,7 @@ t_token **tokenize(t_msh *msh, char *input)
 			i++;
 			msh->pipe_count++;
 		}
-		else if (input[i] == '<' && input[i + 1] != '<')// TOKEN_RE_INPUT
+		else if (input[i] == '<')// TOKEN_RE_INPUT
 			count += tokenize_input(msh, tokens, input, &i);
 		// else if (input[i] == '<' && input[i + 1] == '<')
 		// {

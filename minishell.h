@@ -82,7 +82,6 @@ typedef struct s_inf
 {
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
-	char			*limiter; // Signal the end of the input in heredoc.
 }					t_inf;
 
 typedef struct s_outf
@@ -102,6 +101,7 @@ typedef	struct s_msh
 	unsigned int	pipe_count; // Number of pipes.
 	int				**fd_mrx; //   Array of FDs used by the pipeline.
 	unsigned char	exit_status;
+	char			*limiter; // Signal the end of the input in heredoc.
 }					t_msh;
 
 /*_______________________________ tokenizer _________________________________*/
@@ -200,5 +200,8 @@ void freeList(t_cmds *head);
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
 void    free_everything(t_msh msh, char **split_input, char *input);
+
+/*_______________________________ heredocs ______________________________*/
+void    read_heredoc(t_msh *msh);
 
 #endif

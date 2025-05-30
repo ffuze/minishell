@@ -32,13 +32,8 @@ int	setup_input_redirection(t_msh *msh)
 	}
 	msh->infiles->heredoc_flag = malloc(sizeof(bool));
 	if (ft_strcmp(msh->tokens[0]->value, "<") == 0)
-	{
-		msh->infiles->heredoc_flag = false;
-	}
+		redirect_input(msh);
 	else if (ft_strcmp(msh->tokens[0]->value, "<<") == 0)
-	{
-		// prende il delimitatore
-		msh->infiles->heredoc_flag = true;
-	}
+		read_heredoc(msh);
 	return (1);
 }

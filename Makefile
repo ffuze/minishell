@@ -15,7 +15,8 @@ SRC_MAIN = index.c \
 			redirection/redirection_in.c redirection/redirection_out.c \
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \
 			pipes/middle_cmds.c \
-			free_memory/free_memory.c
+			free_memory/free_memory.c \
+			heredocs/heredoc_in.c
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)

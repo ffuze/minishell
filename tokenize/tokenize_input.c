@@ -30,7 +30,7 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		return (0);
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
-	if (input[*i] == '<')
+	if (input[*i] == '<' && input[*i + 1] != '<')
 	{
 		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
 		(*i)++;
@@ -49,6 +49,17 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 				(*i)++;
 			return (0);
 		}
+	}
+	else if (input[*i] == '<' && input[*i + 1] == '<')
+	{
+		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 2);
+		(*i) += 2;
+		while (input[*i] && input[*i] == ' ')
+			(*i)++;
+		start = *i;
+		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
+			(*i)++;
+		tokens[count++] = make_token(TOKEN_LIMITER, input, start, *i - start);	
 	}
 	return (count);
 }
