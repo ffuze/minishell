@@ -28,8 +28,7 @@ int	setup_output_redirection(t_msh *msh)
 	i = 0;
 	while (msh->tokens[i] && msh->tokens[i]->type != TOKEN_OUTFILE)
 		i++;
-	// ft_printf(BRCYAN">>>>>>>>>>>>>\n"NO_ALL);/////////////////
-	msh->outfiles = malloc(sizeof(t_outf) * 2);// *2?
+	msh->outfiles = malloc(sizeof(t_outf));
 	if (!msh->outfiles)
 		exit(0);
 	msh->outfiles->outfile = ft_strdup(msh->tokens[i]->value);
@@ -39,13 +38,9 @@ int	setup_output_redirection(t_msh *msh)
 		exit(0);
 	}
 	msh->outfiles->append_flag = malloc(sizeof(bool));
-	if (ft_strcmp(msh->tokens[0]->value, ">") == 0)
-	{
+	if (ft_strcmp(msh->tokens[i - 1]->value, ">") == 0)
 		msh->outfiles->append_flag = false;
-	}
-	else if (ft_strcmp(msh->tokens[0]->value, ">>") == 0)
-	{
+	else if (ft_strcmp(msh->tokens[i - 1]->value, ">>") == 0)
 		msh->outfiles->append_flag = true;
-	}
 	return (1);
 }

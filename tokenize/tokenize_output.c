@@ -17,6 +17,16 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	return (true);
 }
 
+static int	count_tokens(t_token **tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens && tokens[count])
+		count++;
+	return (count);
+}
+
 // Check for every command block divided by a pipe that has an output redirection wether
 // the output file exists or not; if it does not, print an error message and skip the whole
 // block until a next pipe is found
@@ -24,8 +34,8 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		count;
 	size_t	start;
-	
-	count = 0;
+
+	count = count_tokens(tokens);
 	if (!tokens || !input || !msh)
 		return 0;
 	while (input[*i])

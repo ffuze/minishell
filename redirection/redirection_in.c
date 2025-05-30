@@ -21,7 +21,7 @@ void	redirect_input(t_msh *msh)
 // whether there is an input file or a heredoc.
 int	setup_input_redirection(t_msh *msh)
 {
-	msh->infiles = malloc(sizeof(t_inf) * 2);
+	msh->infiles = malloc(sizeof(t_inf));
 	if (!msh->infiles)
 		exit(0);
 	msh->infiles->infile = ft_strdup(msh->tokens[1]->value);
