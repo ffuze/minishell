@@ -39,7 +39,7 @@ char	**take_aim(char **envp, char *target)
 	var_name = NULL;
 	while (envp[i])
 	{
-		var_name = ft_strchr3(envp[i], '=');
+		var_name = ft_until_chr(envp[i], '=');
 		if (!var_name)
 			return (ft_putstr_fd(RED"Malloc failure"NO_ALL, 2), envp);
 		if (ft_strncmp(var_name, target, ft_strlen(target)) == 0)

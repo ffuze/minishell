@@ -9,7 +9,9 @@ SOURCES = \
 	ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c get_next_line.c ft_printf.c ft_printf_hex.c \
 	ft_printf_ints.c ft_printf_strs.c ft_strcmp.c free_dp.c ft_realloc.c \
-	ft_mtrxlen.c ft_strchr2.c ft_strchr3.c count_words.c
+	ft_mtrxlen.c ft_strchr2.c ft_until_chr.c count_words.c \
+	ft_printfd.c fd_print_p.c fd_print_u.c fd_print_hex.c fd_print_n.c \
+
 BSOURCES = \
 	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 	ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c

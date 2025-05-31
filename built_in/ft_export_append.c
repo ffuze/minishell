@@ -60,7 +60,7 @@ static bool	check_vardup(char **envp2, char *input)
 	char	*new_var_name;
 
 	i = 0;
-	new_var_name = ft_strchr3(input, '+');
+	new_var_name = ft_until_chr(input, '+');
 	if (!new_var_name)
 		return (print_err("check_vardup: ", "first malloc failed\n"), false);
 	new_var = ft_substr(input, 0, ft_strlen(new_var_name) - 1);
@@ -84,7 +84,7 @@ static void	append_var(char **envp2, char *var)
 	char	*tmp;
 
 	i = 0;
-	tmp = ft_strchr3(var, '+');
+	tmp = ft_until_chr(var, '+');
 	var_name = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
 	free (tmp);
 	while (envp2[i])

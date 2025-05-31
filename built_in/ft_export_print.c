@@ -50,7 +50,7 @@ void	print_declarex(char **envp2)
 	while (sorted_envp[i])
 	{
 		ft_printf("declare -x ");
-		tmp = ft_strchr3(sorted_envp[i], '=');
+		tmp = ft_until_chr(sorted_envp[i], '=');
 		if (!tmp)
 			return ;
 		ft_printf("%s", tmp);

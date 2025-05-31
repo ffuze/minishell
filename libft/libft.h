@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:17:36 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/05/06 15:13:44 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/05/31 10:56:31 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stddef.h>
 # include <limits.h>
+# include <stdint.h>
 # include <stdarg.h>
 
 int		ft_isalpha(int c);
@@ -82,8 +83,13 @@ void	**free_dpc(char **double_pointer_char);
 void	*ft_realloc(void *ptr, size_t old_size, size_t size);
 size_t	ft_mtrxlen(char **mtrx);
 char	*ft_strchr2(const char *s, int c);
-char	*ft_strchr3(const char *s, int c);
-void	ft_strchr3_print(const char *s, int c);
+char	*ft_until_chr(const char *s, int c);
+void	ft_until_chr_print(const char *s, int c);
 int		count_words(const char *str, char c);
+int		ft_printfd(int fd, const char *input, ...);
+int		fd_print_p(int fd, intptr_t *p);
+int		fd_print_hex(int fd, unsigned int nbr, const char input);
+int		fd_print_u(int fd, unsigned int n);
+int		fd_print_n(int fd, int n);
 
 #endif
