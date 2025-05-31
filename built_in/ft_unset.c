@@ -65,7 +65,10 @@ void	ft_unset(t_msh *msh, char  **cmd)
 	{
 		target = ft_strdup(cmd[i]);
 		if (!target)
-			return (ft_putstr_fd(RED"Malloc failure"NO_ALL, 2));
+		{
+			ft_putstr_fd(RED"Malloc failure"NO_ALL, 2);
+			return ;
+		}
 		msh->envp2 = take_aim(msh->envp2, target);
 		i++;
 	}

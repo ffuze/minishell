@@ -56,7 +56,6 @@ typedef enum s_token_enum
 	TOKEN_WORD, // simple strings
 	TOKEN_STRING_SINGLE, // string with single quotes
 	TOKEN_STRING_DOUBLE, // string with double quotes
-	TOKEN_VAR, // Expands variables starting with the $
 	TOKEN_PIPE, // --> | <--
 	TOKEN_RE_INPUT, // --> '<' o '<<' <--
 	TOKEN_INFILE, // input file
@@ -106,6 +105,9 @@ typedef	struct s_msh
 
 /*_______________________________ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
+
+char	*ft_remove_quotes(char *input);
+
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
@@ -117,8 +119,10 @@ void	tokenize_commands(t_msh *msh);
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
 
-// Verifies that the c character is not a symbol recognized from bash.
+// Verifies whether the c character is a symbol recognized from bash.
 int		ft_isbashprint(int c);
+// Verifies whether the c character is printable and an operator.
+int		ft_isoperator(int c);
 
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
