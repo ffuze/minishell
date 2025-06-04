@@ -37,6 +37,13 @@ int	ft_isbashprint(int c)
 	return (0);
 }
 
+int	ft_isoperator(int c)
+{
+	if (c == '<' || c == '>' || c == '|')
+		return (1);
+	return (0);
+}
+
 void	print_err(char *s1, char *err_type)
 {
 	write(2, RED"", 5);

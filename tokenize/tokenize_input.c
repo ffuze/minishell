@@ -1,60 +1,65 @@
 #include "../minishell.h"
 
-// Insert the input file into the infiles linked list
-// Create a token for each input file name found
+// Check if the fd has got permissions or not
+static bool	check_fd(t_msh *msh, t_token *tokens)
+{
+	int	fd;
+	if (!msh || !tokens || tokens->type != TOKEN_INFILE)
+		return (false);
+	fd = open(tokens->value, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("minishell: %s: Permission denied\n", tokens->value);
+		msh->exit_status = 1;
+		return (false);
+	}
+	close(fd);
+	return (true);
+}
+
+// Check for every command block divided by a pipe that has an input redirection wether
+// the input file exists or not; if it does not, print an error message and skip the whole
+// block until a next pipe is found
 int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
-	int     count;
-	size_t  start;
-
+	int		count;
+	size_t	start;
+	
 	count = 0;
 	if (!tokens || !input || !msh)
 		return (0);
-	msh->infiles = NULL;
-	tokens[count] = make_token(TOKEN_RE_INPUT, input, *i, 1);
-	if (!tokens[count])
-		return (0);
-	count++;
-	(*i)++;
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
-	start = *i;
-	while (input[*i] && input[*i] != ' ')
+	if (input[*i] == '<' && input[*i + 1] != '<')
+	{
+		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
 		(*i)++;
-	tokens[count] = make_token(TOKEN_INFILE, input, start, *i - start);
-	if (!tokens[count])
-		return (0);
-	count++;
-	return (count);
-}
-
-int insert_input(t_msh *msh, t_token **tokens, size_t *i)
-{
-	t_inf   *new_infile;
-	int     count;
-
-	count = tokenize_input(msh, tokens, tokens[0]->value, &tokens[0]->value);
-	if (count <= 0)
-		return (0);
-	new_infile = malloc(sizeof(t_inf));
-	if (!new_infile)
-		return (0);
-	new_infile->infile = tokens[count - 1]->value;
-	new_infile->next = NULL;
-	if (!msh->infiles)
-		msh->infiles = new_infile;
-	else
-	{
-		t_inf *temp = msh->infiles;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_infile;
+		while (input[*i] && input[*i] == ' ')
+			(*i)++;
+		start = *i;
+		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
+			(*i)++;
+		tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
+		if (!check_fd(msh, tokens[count - 1]))
+		{
+			free(tokens);
+			while (input[*i] && input[*i] != '|')
+				(*i)++;
+			if (input[*i] == '|')
+				(*i)++;
+			return (0);
+		}
 	}
-	t_inf *current = msh->infiles;
-	while (current)
+	else if (input[*i] == '<' && input[*i + 1] == '<')
 	{
-		ft_printf("valore di infiles: %s\n", current->infile);
-		current = current->next;
+		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 2);
+		(*i) += 2;
+		while (input[*i] && input[*i] == ' ')
+			(*i)++;
+		start = *i;
+		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
+			(*i)++;
+		tokens[count++] = make_token(TOKEN_LIMITER, input, start, *i - start);	
 	}
 	return (count);
 }

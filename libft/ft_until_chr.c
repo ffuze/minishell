@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr3.c                                       :+:      :+:    :+:   */
+/*   ft_until_chr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #include "libft.h"
 
 // Allocates memory and return a duplicate of the string s up until the first c
-char	*ft_strchr3(const char *s, int c)
+char	*ft_until_chr(const char *s, int c)
 {
 	char	*nstr;
 	char	chr;
@@ -37,7 +37,7 @@ char	*ft_strchr3(const char *s, int c)
 }
 
 //Prints the string s until the first occurrence of the character c
-void	ft_strchr3_print(const char *s, int c)
+void	ft_until_chr_print(const char *s, int c)
 {
 	char	chr;
 	int		i;

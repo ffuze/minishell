@@ -54,15 +54,14 @@
 typedef enum s_token_enum
 {
 	TOKEN_WORD, // simple strings
-	TOKEN_VAR, // all variables starting with the $
 	TOKEN_STRING_SINGLE, // string with single quotes
 	TOKEN_STRING_DOUBLE, // string with double quotes
 	TOKEN_PIPE, // --> | <--
 	TOKEN_RE_INPUT, // --> '<' o '<<' <--
 	TOKEN_INFILE, // input file
+	TOKEN_LIMITER,
 	TOKEN_RE_OUTPUT, // --> '>' o '>>' <--
 	TOKEN_OUTFILE, // output file
-	TOKEN_LIMITER,
 	TOKEN_ERROR // invalid token
 }	t_token_enum;
 
@@ -82,15 +81,12 @@ typedef struct s_inf
 {
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
-	char			*limiter; // Signal the end of the input in heredoc.
-	struct s_inf	*next;
 }					t_inf;
 
 typedef struct s_outf
 {
 	char			*outfile;
 	bool			append_flag; // 0 for '>', 1 for '>>'.
-	struct s_outf	*next;
 }					t_outf;
 
 typedef	struct s_msh
@@ -104,22 +100,30 @@ typedef	struct s_msh
 	unsigned int	pipe_count; // Number of pipes.
 	int				**fd_mrx; //   Array of FDs used by the pipeline.
 	unsigned char	exit_status;
+	char			*limiter; // Signal the end of the input in heredoc.
 }					t_msh;
 
 /*___________________________N____ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
+
+char	*ft_remove_quotes(char *input);
+
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
+// Handles $ sign for environment vars expansion.
+int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 int		insert_input(t_msh *msh, t_token **tokens);
 
 /*_______________________ utils.c _______________________*/
 int		skip_spaces(t_token *input, int i);
 
-// Verifies that the c character is not a symbol recognized from bash.
+// Verifies whether the c character is a symbol recognized from bash.
 int		ft_isbashprint(int c);
+// Verifies whether the c character is printable and an operator.
+int		ft_isoperator(int c);
 
 // Duplicates the pointer to Environment Variables.
 char	**ft_envp_dup(char **envp);
@@ -162,8 +166,18 @@ void	execute_single_cmd(t_msh *msh);
 void	*execute_cmd(char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
-int		handle_input_redirection(t_msh *msh);
+// Fill the infile structure with the appropriate file name, and determines
+// wether there is an input file or a heredoc.
+int	setup_input_redirection(t_msh *msh);
+
+// Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh);
+
+// Fills the outfile structure with the appropriate file name, and determines
+// whether to overwrite or append the content.
+int	setup_output_redirection(t_msh *msh);
+
+// Substitutes the standard output with a file.
 void	redirect_output(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/
@@ -191,6 +205,11 @@ void freeList(t_cmds *head);
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
 void    free_everything(t_msh msh, char **split_input, char *input);
-void    free_infiles(t_inf *infiles);
+
+/*_______________________________ heredocs ______________________________*/
+void    read_heredoc(t_msh *msh);
+
+/*_______________________________ cmds_list ______________________________*/
+void	insert_commands_to_list(t_msh *msh);
 
 #endif

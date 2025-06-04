@@ -4,12 +4,12 @@ static void	child_proc(t_msh *msh)
 {
 	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
 		{
-			handle_input_redirection(msh);
+			setup_input_redirection(msh);
 			redirect_input(msh);
 		}
 	if (msh->outfi_flag)
 		{
-			// handle_output_redirection(msh);
+			setup_output_redirection(msh);
 			redirect_output(msh);
 		}
 		execute_cmd(msh->cmds->cmd, msh->envp2);

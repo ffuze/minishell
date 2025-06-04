@@ -31,6 +31,9 @@ declare -x bella="ciao"
 bash$ env
 bella=ciao
 
+export var="ciao     mondo"
+echo $var
+bash$ ciao mondo (ciao e mondo sono due token separati)
 
 bash$ export ttws|sv="g|ef" viene ignorato
 

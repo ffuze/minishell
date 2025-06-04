@@ -46,7 +46,7 @@ static bool	check_vardup(char **envp2, char *input)
 	char	*new_var;
 
 	i = 0;
-	new_var = ft_strchr3(input, '=');
+	new_var = ft_until_chr(input, '=');
 	while (envp2[i])
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
@@ -77,7 +77,7 @@ static int	var_name_check(t_msh *msh, char *new_var)
 		msh->exit_status = 1;
 		return (false);
 	}
-	var_name = ft_strchr3(new_var, '=');
+	var_name = ft_until_chr(new_var, '=');
 	while (var_name[j])
 	{
 		chr = var_name[j++];

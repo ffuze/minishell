@@ -99,6 +99,14 @@ int main(int ac, char *av[], char **envp)
 		}
 		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
+		if (msh.tokens && msh.tokens[0])
+        {
+            freeList(msh.cmds);
+            msh.cmds = NULL;
+            insert_commands_to_list(&msh);
+            ft_printf(BLUE"Commands in list:\n"NO_ALL);
+            printList(msh.cmds);
+        }
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////
@@ -111,7 +119,7 @@ int main(int ac, char *av[], char **envp)
 		// {
 
 		// }
-		if (!msh.tokens)
+		if (!msh.tokens || !msh.tokens[0])
 		{
 			free(input);
 			free_dpc(split_input);

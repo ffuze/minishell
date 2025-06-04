@@ -1,59 +1,39 @@
 #include "../minishell.h"
 
+// Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh)
 {
-	int infile_fd;
+	int	infile_fd;
+
 	infile_fd = 0;
 	ft_printf(BRCYAN"Infile: %s\n"NO_ALL, msh->infiles->infile);////////////////
-	while (msh->infiles)
+	infile_fd = open(msh->infiles->infile, O_RDONLY);
+	if (infile_fd < 0)
 	{
-		infile_fd = open(msh->infiles->infile, O_RDONLY);
-		if (infile_fd < 0)
-		{
-			print_err(msh->infiles->infile, ": Could not be opened\n");
-			free_infiles(msh->infiles);
-			exit(1);
-		}
-		msh->infiles = msh->infiles->next;
-		if (msh->infiles)
-			close(infile_fd);
+		print_err(msh->infiles->infile, ": Could not be opened\n");
+		exit(1);
 	}
 	dup2(infile_fd, 0);
 	close(infile_fd);
 }
 
-int	handle_input_redirection(t_msh *msh)
+// Fills the infile structure with the appropriate file name, and determines
+// whether there is an input file or a heredoc.
+int	setup_input_redirection(t_msh *msh)
 {
-	int i;
-	t_inf *new;
-	i = 0;
-	
+	msh->infiles = malloc(sizeof(t_inf));
 	if (!msh->infiles)
+		exit(0);
+	msh->infiles->infile = ft_strdup(msh->tokens[1]->value);
+	if (!msh->infiles->infile)
 	{
-		printf("Missing input file for redirection\n");
-		msh->exit_status = 1;
-		return (0);
+		free(msh->infiles);
+		exit(0);
 	}
-	while (msh->tokens[i])
-	{
-		if (msh->tokens[i]->type == TOKEN_RE_INPUT && msh->tokens[i + 1])
-		{
-			new = malloc(sizeof(t_inf));
-			if (!new)
-				return (0);
-			new->infile = msh->tokens[i + 1]->value;
-			new->next = NULL;
-			if (!msh->infiles)
-				msh->infiles = new;
-			else
-			{
-				t_inf *temp = msh->infiles;
-				while (temp->next)
-					temp = temp->next;
-				temp->next = new;
-			}
-		}
-		i++;
-	}
+	msh->infiles->heredoc_flag = malloc(sizeof(bool));
+	if (ft_strcmp(msh->tokens[0]->value, "<") == 0)
+		redirect_input(msh);
+	else if (ft_strcmp(msh->tokens[0]->value, "<<") == 0)
+		read_heredoc(msh);
 	return (1);
 }

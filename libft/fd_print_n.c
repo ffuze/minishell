@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   fd_print_n.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 17:15:19 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/05/31 14:56:59 by lemarino         ###   ########.fr       */
+/*   Created: 2024/12/08 17:08:39 by lemarino          #+#    #+#             */
+/*   Updated: 2025/05/31 10:44:07 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <unistd.h>
 
-int	ft_putstr_fd(char *s, int fd)
+int	fd_print_n(int fd, int n)
 {
-	size_t	i;
+	char	*s;
+	int		l;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-	return (i);
+	s = ft_itoa(n);
+	l = ft_strlen(s);
+	ft_putstr_fd(s, fd);
+	free(s);
+	return (l);
 }
-
-/*int main()
-{
-	ft_putstr_fd("abcdef\n1234\t567\nend!", 1);
-}*/
