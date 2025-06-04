@@ -7,9 +7,26 @@ void    read_heredoc(t_msh *msh)
 	size_t  len;
 	ssize_t nread;
 	int     fd;
+	char    *delimiter;
 
 	line = NULL;
 	len = 0;
+	delimiter = NULL;
+	int i = 0;
+	while (msh->tokens[i])
+	{
+		if (msh->tokens[i]->type == TOKEN_OUTFILE && msh->tokens[i + 1])
+		{
+			delimiter = msh->tokens[i + 1]->value;
+			break;
+		}
+		i++;
+	}
+	if (!delimiter)
+	{
+		ft_printf("Error: no delimiter found for heredoc\n");
+		return;
+	}
 	fd = open("here_doc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
@@ -18,13 +35,13 @@ void    read_heredoc(t_msh *msh)
 	}
 	while (1)
 	{
-		ft_printf("scrivi se sei scemo: ");
+		ft_printf("> ");
 		nread = getline(&line, &len, stdin);
 		if (nread < 0)
 			break;
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
-		if (strcmp(line, msh->tokens[1]->value) == 0)
+		if (strcmp(line, delimiter) == 0)
 			break;
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -40,6 +57,8 @@ void    read_heredoc(t_msh *msh)
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		ft_printf("non e' stato salvato il contenuto correttamente\n");
+		close(fd);
+		unlink("here_doc.txt");
 		exit(1);
 	}
 	close(fd);

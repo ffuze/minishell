@@ -29,6 +29,11 @@ static void	init_pipeline(t_msh *msh)
 	t_cmds	*current;
 
 	current = msh->cmds;
+	if (!current)
+	{
+
+		return (NULL);
+	}
 	status = 0;
 	i = 0;
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_count);

@@ -9,7 +9,7 @@ static void	child_proc(t_msh *msh)
 		}
 	if (msh->outfi_flag)
 		{
-			// setup_output_redirection(msh);
+			setup_output_redirection(msh);
 			redirect_output(msh);
 		}
 		execute_cmd(msh->cmds->cmd, msh->envp2);

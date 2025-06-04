@@ -208,4 +208,7 @@ void    free_everything(t_msh msh, char **split_input, char *input);
 /*_______________________________ heredocs ______________________________*/
 void    read_heredoc(t_msh *msh);
 
+/*_______________________________ cmds_list ______________________________*/
+void	insert_commands_to_list(t_msh *msh);
+
 #endif

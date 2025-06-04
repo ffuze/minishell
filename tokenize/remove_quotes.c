@@ -115,24 +115,24 @@ size_t	ft_clean_input_len(char *input)
 	return (l);
 }
 
-// Returns the string input without quotes (except those between a pair of
-// quotes of a different type).
-// An error message is diplayed if outer quotes are unclosed.
-char	*ft_remove_quotes(char *input)// Gestire qui l'espansione delle variabili
-{
-	// printf(MAGENTA"N parole = %zu\n"NO_ALL, count_input_words(input));
-	// printf(MAGENTA"Len input pulito = %zu\n"NO_ALL, ft_clean_input_len(input));
-	// return (NULL);
-	char	*clean_input;
-	int		i;
-	int		j;
-	bool	quote;
+// // Returns the string input without quotes (except those between a pair of
+// // quotes of a different type).
+// // An error message is diplayed if outer quotes are unclosed.
+// char	*ft_remove_quotes(char *input)// Gestire qui l'espansione delle variabili
+// {
+// 	// printf(MAGENTA"N parole = %zu\n"NO_ALL, count_input_words(input));
+// 	// printf(MAGENTA"Len input pulito = %zu\n"NO_ALL, ft_clean_input_len(input));
+// 	// return (NULL);
+// 	char	*clean_input;
+// 	int		i;
+// 	int		j;
+// 	bool	quote;
 
-	i = 0;
-	j = 0;
-	quote = false;
-	if (!input[0])
-		return (NULL);
-	// clean_input = ft_calloc(count_input_words(input), sizeof(char **));
-	clean_input = ft_calloc(ft_clean_input_len(input), sizeof(char *));
-}
+// 	i = 0;
+// 	j = 0;
+// 	quote = false;
+// 	if (!input[0])
+// 		return (NULL);
+// 	// clean_input = ft_calloc(count_input_words(input), sizeof(char **));
+// 	clean_input = ft_calloc(ft_clean_input_len(input), sizeof(char *));
+// }
