@@ -1,10 +1,17 @@
 #include "../../minishell.h"
 
+char	*find_env_var(char *input)
+{
+
+}
+
 static bool	through_doublequotes(char *input, int *i, int *l)
 {
 	(*i)++;
 	while(input[*i] && input[*i] !='"')
 	{
+		// if (input[*i] == '$')
+		// 	find_env_var();
 		(*l)++;
 		(*i)++;
 	}

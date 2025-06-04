@@ -37,9 +37,9 @@ void	ft_cleancpy(char *input, char *clean_input)
 	while (input[i])
 	{
 		if (input[i] == '"')
-			through_singlequotes(input, clean_input, &i, &j);
-		if (input[i] == '\'')
 			through_doublequotes(input, clean_input, &i, &j);
+		if (input[i] == '\'')
+			through_singlequotes(input, clean_input, &i, &j);
 		if (!input[i])
 			return;
 		clean_input[j++] = input [i++];
