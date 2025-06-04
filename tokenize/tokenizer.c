@@ -31,7 +31,7 @@ t_token **tokenize(t_msh *msh, char *input)
 	count = 0;
 	msh->outfi_flag = false;
 	msh->pipe_count = 0;
-	clean_input = ft_remove_quotes(input);
+	clean_input = ft_remove_quotes(msh->envp2, input);
 	// printf(BLUE"N words: %zu\n"NO_ALL, count_args(input));///////////////////////////////////
 	if (!clean_input)
 		return (NULL);
