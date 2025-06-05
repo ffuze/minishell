@@ -57,8 +57,8 @@ t_token **tokenize(t_msh *msh, char *input)
 			msh->outfi_flag = true;
 			count = tokenize_output(msh, tokens, clean_input, &i);
 		}
-		else if (clean_input[i] == '$')// TOKEN_VAR da spostare in ft_remove_quotes()
-			count += tokenize_env_var(msh, tokens, clean_input, &i);
+		// else if (clean_input[i] == '$')// TOKEN_VAR da spostare in ft_remove_quotes()
+		// 	count += tokenize_env_var(msh, tokens, clean_input, &i);
 		else
 		{
 			start = i;

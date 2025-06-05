@@ -25,20 +25,38 @@ static char	*find_value(char **envp, char *input, size_t *i)
 			return (free(var_name), ft_strchr2(envp[j], '='));
 		j++;
 	}
-	return (free(var_name), ft_calloc(1, 1));
+	return (free(var_name), "");
 }
 
-static void	through_doublequotes(char *input, char *clean_input, size_t *i, size_t *j)
+static size_t	through_doublequotes(char **envp, char *input, char *clean_input, size_t *i)
 {
+	size_t	j;
+
+	j = ft_strlen(clean_input);
 	(*i)++;
 	while (input[*i] && input[*i] != '"')
 	{
-		clean_input[*j] = input [*i];
-		(*j)++;
-		(*i)++;
+		if (!envp)
+			return (0);// da eliminare
+		if (input[*i] == '$')
+		{
+			clean_input = ft_strjoin2(clean_input, find_value(envp, input, i));
+			if (!clean_input)
+				return (0);
+			j = ft_strlen(clean_input);
+			clean_input = ft_realloc(clean_input, j, ft_strlen(input) - *i);
+			(*i)++;
+		}
+		if (input[*i] && input[*i] != '$')
+		{
+			clean_input[j] = input[*i];
+			j++;
+			(*i)++;
+		}
 	}
 	if (input[*i])
 		(*i)++;
+	return (j);
 }
 
 static void	through_singlequotes(char *input, char *clean_input, size_t *i, size_t *j)
@@ -65,21 +83,23 @@ char	*ft_cleancpy(char **envp, char *input, char *clean_input)
 	while (input[i])
 	{
 		if (input[i] == '"')
-			through_doublequotes(input, clean_input, &i, &j);
+		{
+			j += through_doublequotes(envp, input, clean_input, &i);
+			if ( j == 0)
+				return (ft_printf(RED"DANGERDANGERDANGER"NO_ALL), NULL);///////////////////
+		}
 		if (input[i] == '\'')
 			through_singlequotes(input, clean_input, &i, &j);
-		if (!input[i])
-			return (clean_input);
 		if (input[i] == '$')
 		{
-			ft_printf(BLUE"lklklklk\n"NO_ALL);////////////////////////////////////
-			char *value = find_value(envp, input, &i);////////////////////////////////////
-			ft_printf(BLUE"var_valu: %s\n"NO_ALL, value);////////////////////////////////////
-			clean_input = ft_strjoin(clean_input, value);//ft_strjoin2
+			clean_input = ft_strjoin2(clean_input, find_value(envp, input, &i));
+			if (!clean_input)
+				return (NULL);
 			j = ft_strlen(clean_input);
 			clean_input = ft_realloc(clean_input, j, ft_strlen(input) - i);
 		}
-		clean_input[j++] = input [i++];
+		if (input[i] && input[i] !='"' && input[i] !='\'')
+			clean_input[j++] = input [i++];
 	}
 	printf(MAGENTA"Clean_input88 = %s\n"NO_ALL, clean_input);
 	return (clean_input);

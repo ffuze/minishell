@@ -10,8 +10,6 @@ static bool	through_doublequotes(char *input, int *i, int *l)
 	(*i)++;
 	while(input[*i] && input[*i] !='"')
 	{
-		// if (input[*i] == '$')
-		// 	find_env_var();
 		(*l)++;
 		(*i)++;
 	}
@@ -62,10 +60,11 @@ int	ft_clean_input_len(char *input)
 			if (!through_singlequotes(input, &i, &l))
 				return (-1);
 		}
-		if (!input[i])
-			return (l);
-		i++;
-		l++;
+		if (input[i] && input[i] !='"' && input[i] !='\'')
+			{
+				i++;
+				l++;
+			}
 	}
 	return (l);
 }
