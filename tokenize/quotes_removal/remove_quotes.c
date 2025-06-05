@@ -28,28 +28,26 @@ static char	*find_value(char **envp, char *input, size_t *i)
 	return (free(var_name), "");
 }
 
-static size_t	through_doublequotes(char **envp, char *input, char *clean_input, size_t *i)
+static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 {
 	size_t	j;
 
-	j = ft_strlen(clean_input);
+	j = ft_strlen(msh->cl_input);
 	(*i)++;
 	while (input[*i] && input[*i] != '"')
 	{
-		if (!envp)
-			return (0);// da eliminare
 		if (input[*i] == '$')
 		{
-			clean_input = ft_strjoin2(clean_input, find_value(envp, input, i));
-			if (!clean_input)
+			msh->cl_input = ft_strjoin2(msh->cl_input, find_value(msh->envp2, input, i));
+			if (!msh->cl_input)
 				return (0);
-			j = ft_strlen(clean_input);
-			clean_input = ft_realloc(clean_input, j, ft_strlen(input) - *i);
+			j = ft_strlen(msh->cl_input);
+			msh->cl_input = ft_realloc(msh->cl_input, j, j+ft_strlen(input) - *i);
 			(*i)++;
 		}
 		if (input[*i] && input[*i] != '$')
 		{
-			clean_input[j] = input[*i];
+			msh->cl_input[j] = input[*i];
 			j++;
 			(*i)++;
 		}
@@ -59,12 +57,12 @@ static size_t	through_doublequotes(char **envp, char *input, char *clean_input, 
 	return (j);
 }
 
-static void	through_singlequotes(char *input, char *clean_input, size_t *i, size_t *j)
+static void	through_singlequotes(char *input, char *cl_input, size_t *i, size_t *j)
 {
 	(*i)++;
 	while (input[*i] && input[*i] != '\'')
 	{
-		clean_input[*j] = input [*i];
+		cl_input[*j] = input [*i];
 		(*j)++;
 		(*i)++;
 	}
@@ -73,7 +71,7 @@ static void	through_singlequotes(char *input, char *clean_input, size_t *i, size
 }
 
 // Returns the string "input" without outer quotes.
-char	*ft_cleancpy(char **envp, char *input, char *clean_input)
+char	*ft_cleancpy(t_msh *msh, char *input)
 {
 	size_t	i;
 	size_t	j;
@@ -83,47 +81,41 @@ char	*ft_cleancpy(char **envp, char *input, char *clean_input)
 	while (input[i])
 	{
 		if (input[i] == '"')
-		{
-			j += through_doublequotes(envp, input, clean_input, &i);
-			if ( j == 0)
-				return (ft_printf(RED"DANGERDANGERDANGER"NO_ALL), NULL);///////////////////
-		}
+			j += through_doublequotes(msh, input, &i);
 		if (input[i] == '\'')
-			through_singlequotes(input, clean_input, &i, &j);
+			through_singlequotes(input, msh->cl_input, &i, &j);
 		if (input[i] == '$')
 		{
-			clean_input = ft_strjoin2(clean_input, find_value(envp, input, &i));
-			if (!clean_input)
+			msh->cl_input = ft_strjoin2(msh->cl_input, \
+								find_value(msh->envp2, input, &i));
+			if (!msh->cl_input)
 				return (NULL);
-			j = ft_strlen(clean_input);
-			clean_input = ft_realloc(clean_input, j, ft_strlen(input) - i);
+			j = ft_strlen(msh->cl_input);
+			msh->cl_input = ft_realloc(msh->cl_input, j, ft_strlen(input) - i);
 		}
 		if (input[i] && input[i] !='"' && input[i] !='\'')
-			clean_input[j++] = input [i++];
+			msh->cl_input[j++] = input [i++];
 	}
-	printf(MAGENTA"Clean_input88 = %s\n"NO_ALL, clean_input);
-	return (clean_input);
+	printf(MAGENTA"msh->Clean_input88 = %s\n"NO_ALL, msh->cl_input);
+	return (msh->cl_input);
 }
 
 // Returns the string input without quotes (except those between a pair of
 // quotes of a different type).
 // An error message is diplayed if outer quotes are unclosed.
-char	*ft_remove_quotes(char **envp, char *input)// Gestire qui l'espansione delle variabili
+char	*ft_remove_quotes(t_msh *msh, char *input)
 {
-	// char	*expanded_inpt;
-	char	*clean_input;
 	size_t	l;
 
 	if (!input[0])
 		return (NULL);
-	// expanded_inpt = ft_expand_var(envp, input);
 	l = ft_clean_input_len(input);
 	if (l < 0)
 		return (NULL);
-	clean_input = ft_calloc(l + 1, sizeof(char *));
-	if (!clean_input)
+	msh->cl_input = ft_calloc(l + 1, sizeof(char *));
+	if (!msh->cl_input)
 		return (NULL);
-	clean_input = ft_cleancpy(envp, input, clean_input);
-	printf(MAGENTA"Clean_input = %s\n"NO_ALL, clean_input);
-	return (clean_input);
+	msh->cl_input = ft_cleancpy(msh, input);
+	printf(MAGENTA"msh->Clean_input = %s\n"NO_ALL, msh->cl_input);/////////////////
+	return (msh->cl_input);
 }

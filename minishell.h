@@ -91,6 +91,7 @@ typedef struct s_outf
 
 typedef	struct s_msh
 {
+	char			*cl_input;// Input from readline() without outer quotes.
 	t_token			**tokens;
 	t_cmds			*cmds;
 	char			**envp2;
@@ -106,7 +107,7 @@ typedef	struct s_msh
 /*_______________________________ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 
-char	*ft_remove_quotes(char **envp, char *input);
+char	*ft_remove_quotes(t_msh *msh, char *input);
 
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
@@ -122,7 +123,7 @@ void	tokenize_commands(t_msh *msh);
 int		ft_clean_input_len(char *input);
 
 // Returns the string "input" without outer quotes.
-char	*ft_cleancpy(char **envp, char *input, char *clean_input);
+char	*ft_cleancpy(t_msh *msh, char *input);
 
 // Returns the number of arguments in the input string.
 size_t	count_args(char *input);

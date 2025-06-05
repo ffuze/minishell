@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 12:27:05 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/05/03 21:48:17 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:20:16 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	tot = nmemb * size;
 	i = 0;
 	if (nmemb == 0 || size == 0)
-		return (malloc(0));
+	{
+		nmemb = 1;
+		size = 1;
+	}
 	if (tot / size != nmemb)
 		return (NULL);
 	ptr = malloc(tot);
