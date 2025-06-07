@@ -91,7 +91,8 @@ typedef struct s_outf
 
 typedef	struct s_msh
 {
-	char			*cl_input;// Input from readline() without outer quotes.
+	char			*exp_input;// Input from readline() with expanded vars.
+	bool			env_var_flag;// True if at least a var is to be expanded.
 	t_token			**tokens;
 	t_cmds			*cmds;
 	char			**envp2;
@@ -107,7 +108,9 @@ typedef	struct s_msh
 /*_______________________________ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 
-char	*ft_remove_quotes(t_msh *msh, char *input);
+// Expands the Environment variables from the input string.
+// An error message is diplayed if outer quotes are unclosed.
+char	*ft_parse_and_expand(t_msh *msh, char *input);
 
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
@@ -118,9 +121,8 @@ int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 
 /*_________________ quotes_removal _________________*/
-// Returns the string's lenght whitout outer quotes or -1 if said quotes are 
-//  not closed.
-int		ft_clean_input_len(char *input);
+// Checks whether there are variables to expand or unclosed quotes.
+int		ft_parse_input(t_msh *msh, char *input);
 
 // Returns the string "input" without outer quotes.
 char	*ft_cleancpy(t_msh *msh, char *input);

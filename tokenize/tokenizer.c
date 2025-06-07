@@ -24,49 +24,49 @@ t_token **tokenize(t_msh *msh, char *input)
 	size_t	i;
 	int		count;
 	size_t	start;
-	// char	*msh->cl_input;
+	// char	*msh->exp_input;
 
 	i = 0;
 	start = i;
 	count = 0;
 	msh->outfi_flag = false;
 	msh->pipe_count = 0;
-	msh->cl_input = ft_remove_quotes(msh, input);
-	if (!msh->cl_input)
+	msh->exp_input = ft_parse_and_expand(msh, input);
+	if (!msh->exp_input)
 		return (NULL);
 	tokens = ft_calloc((count_args(input) + 1), sizeof(t_token *));
 	if (!tokens)
-		return (free(msh->cl_input), NULL);
-	while (msh->cl_input[i])
+		return (free(msh->exp_input), NULL);
+	while (msh->exp_input[i])
 	{
-		while (msh->cl_input[i] == ' ')
+		while (msh->exp_input[i] == ' ')
 			i++;
-		if (!msh->cl_input[i])
+		if (!msh->exp_input[i])
 			break;
-		else if (msh->cl_input[i] == '|')
+		else if (msh->exp_input[i] == '|')
 		{
-			tokens[count++] = make_token(TOKEN_PIPE, msh->cl_input, i, 1);
+			tokens[count++] = make_token(TOKEN_PIPE, msh->exp_input, i, 1);
 			i++;
 			msh->pipe_count++;
 		}
-		else if (msh->cl_input[i] == '<')// TOKEN_RE_INPUT
-			count += tokenize_input(msh, tokens, msh->cl_input, &i);
-		else if (msh->cl_input[i] == '>')// TOKEN_RE_OUTPUT
+		else if (msh->exp_input[i] == '<')// TOKEN_RE_INPUT
+			count += tokenize_input(msh, tokens, msh->exp_input, &i);
+		else if (msh->exp_input[i] == '>')// TOKEN_RE_OUTPUT
 		{
 			msh->outfi_flag = true;
-			count = tokenize_output(msh, tokens, msh->cl_input, &i);
+			count = tokenize_output(msh, tokens, msh->exp_input, &i);
 		}
 		else
 		{
 			start = i;
-			while (msh->cl_input[i] && msh->cl_input[i] != ' '/*  && input[i] != '\'' && input[i] != '"' */)
+			while (msh->exp_input[i] && msh->exp_input[i] != ' '/*  && input[i] != '\'' && input[i] != '"' */)
 				i++;
-			tokens[count++] = make_token(TOKEN_WORD, msh->cl_input, start, i - start);
+			tokens[count++] = make_token(TOKEN_WORD, msh->exp_input, start, i - start);
 		}
 		// tokenize_commands(msh);
 	}
 	tokens[count] = NULL;
-	free(msh->cl_input);
+	free(msh->exp_input);
 	return (tokens);
 }
 // echo "oddio 'no way' sta 'per' funz"i"ona'r'e"

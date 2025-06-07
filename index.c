@@ -95,10 +95,15 @@ int main(int ac, char *av[], char **envp)
 		else if (!(*input))
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
+		if (msh.tokens == NULL)
+		{
+			ft_printfd(2, RED"Failed tokenization"NO_ALL);
+			continue ;
+		}
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////
