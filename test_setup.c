@@ -108,13 +108,12 @@ void	add_node(t_cmds **head, char *command_string)
 void	insert_commands_to_list(t_msh *msh)
 {
 	int	i;
-	int	cmd_index;
+	// int	cmd_index;
 
 	i = 0;
-	cmd_index = 0;
+	// cmd_index = 0;
 	if (!msh->tokens || !msh->cmds)
 		return ;
-	
 	while (msh->tokens[i])
 	{
 		if (msh->tokens[i]->type != TOKEN_RE_INPUT

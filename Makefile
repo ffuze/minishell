@@ -12,11 +12,11 @@ SRC_MAIN = index.c \
 			tokenize/tokenizer.c tokenize/remove_quotes.c tokenize/tokenize_input.c \
 			tokenize/tokenize_output.c tokenize/tokenize_var_expansion.c \
 			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
-			redirection/redirection_in.c redirection/redirection_out.c \
+			redirection/redirection_in.c redirection/redirection_out.c\
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \
 			pipes/middle_cmds.c \
 			free_memory/free_memory.c \
-			heredocs/heredoc_in.c
+			heredocs/heredoc_in.c heredocs/exeggutor.c heredocs/append_out.c
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
