@@ -114,13 +114,15 @@ char	*ft_parse_and_expand(t_msh *msh, char *input);
 
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
+int		count_tokens(t_token **tokens);
+int		tokenize_quotes(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 // Handles $ sign for environment vars expansion.
 int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 
-/*_________________ quotes_removal _________________*/
+/*_________________ tokenizer/quotes_removal _________________*/
 // Checks whether there are variables to expand or unclosed quotes.
 int		ft_parse_input(t_msh *msh, char *input);
 

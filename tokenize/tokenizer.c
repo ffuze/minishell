@@ -1,30 +1,11 @@
 #include "../minishell.h"
 
-t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
-																size_t end)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = token_type;
-	token->value = ft_substr(input, start, end);
-	if (!token->value)
-	{
-		free(token);
-		return (NULL);
-	}
-	return (token);
-}
-
 t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token	**tokens;
 	size_t	i;
 	int		count;
 	size_t	start;
-	// char	*msh->exp_input;
 
 	i = 0;
 	start = i;
@@ -56,6 +37,8 @@ t_token **tokenize(t_msh *msh, char *input)
 			msh->outfi_flag = true;
 			count = tokenize_output(msh, tokens, msh->exp_input, &i);
 		}
+		// else if (msh->exp_input[i] == '"' || msh->exp_input[i] == '\'')// QUOTES
+		// 	count = tokenize_quotes(msh, tokens, msh->exp_input, &i);
 		else
 		{
 			start = i;

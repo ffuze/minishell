@@ -17,9 +17,9 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	return (true);
 }
 
-// Check for every command block divided by a pipe that has an input redirection wether
-// the input file exists or not; if it does not, print an error message and skip the whole
-// block until a next pipe is found
+// Check for every command block divided by a pipe that has an
+//  input redirection wether the input file exists or not; if it does not,
+//  print an error message and skip the wholeblock until a next pipe is found.
 int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		count;
