@@ -42,30 +42,23 @@ static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 			if (!msh->cl_input)
 				return (0);
 			j = ft_strlen(msh->cl_input);
-			msh->cl_input = ft_realloc(msh->cl_input, j, j+ft_strlen(input) - *i);
-			(*i)++;
+			msh->cl_input = ft_realloc(msh->cl_input, j, j + ft_strlen(input) - *i);
+			// (*i)++;
 		}
-		if (input[*i] && input[*i] != '$')
-		{
-			msh->cl_input[j] = input[*i];
-			j++;
-			(*i)++;
-		}
+		// ft_printf(GREEN"input[i] = %c, j = %d \n"NO_ALL, input[*i], j);/////////////////////////
+		if (input[*i] && input[*i] != '$' && input[*i] != '"')
+			msh->cl_input[j++] = input[(*i)++];
 	}
 	if (input[*i])
 		(*i)++;
 	return (j);
 }
 
-static void	through_singlequotes(char *input, char *cl_input, size_t *i, size_t *j)
+static void	through_singlequotes(t_msh *msh, char *input, size_t *i, size_t *j)
 {
 	(*i)++;
 	while (input[*i] && input[*i] != '\'')
-	{
-		cl_input[*j] = input [*i];
-		(*j)++;
-		(*i)++;
-	}
+		msh->cl_input[(*j)++] = input [(*i)++];
 	if (input[*i])
 		(*i)++;
 }
@@ -80,10 +73,12 @@ char	*ft_cleancpy(t_msh *msh, char *input)
 	j = 0;
 	while (input[i])
 	{
+		ft_printf(BLUE"input[i] = %d\n"NO_ALL, input[i]);/////////////////////////////////////
 		if (input[i] == '"')
-			j += through_doublequotes(msh, input, &i);
+			j = through_doublequotes(msh, input, &i);
+		ft_printf(GREEN"input[i] = %c, j = %d \n"NO_ALL, input[i], j);///////////////////////////
 		if (input[i] == '\'')
-			through_singlequotes(input, msh->cl_input, &i, &j);
+			through_singlequotes(msh, input, &i, &j);
 		if (input[i] == '$')
 		{
 			msh->cl_input = ft_strjoin2(msh->cl_input, \
@@ -93,10 +88,11 @@ char	*ft_cleancpy(t_msh *msh, char *input)
 			j = ft_strlen(msh->cl_input);
 			msh->cl_input = ft_realloc(msh->cl_input, j, ft_strlen(input) - i);
 		}
+		// ft_printf(BLUE"input[i] = %c\n"NO_ALL, input[i]);/////////////////////////////////////
 		if (input[i] && input[i] !='"' && input[i] !='\'')
 			msh->cl_input[j++] = input [i++];
 	}
-	printf(MAGENTA"msh->Clean_input88 = %s\n"NO_ALL, msh->cl_input);
+	ft_printf(MAGENTA"msh->Clean_input88 = %s\n"NO_ALL, msh->cl_input);/////////////////////////////
 	return (msh->cl_input);
 }
 

@@ -51,13 +51,11 @@ t_token **tokenize(t_msh *msh, char *input)
 		}
 		else if (msh->cl_input[i] == '<')// TOKEN_RE_INPUT
 			count += tokenize_input(msh, tokens, msh->cl_input, &i);
-		else if (input[i] == '>')// TOKEN_RE_OUTPUT
+		else if (msh->cl_input[i] == '>')// TOKEN_RE_OUTPUT
 		{
 			msh->outfi_flag = true;
 			count = tokenize_output(msh, tokens, msh->cl_input, &i);
 		}
-		// else if (msh->cl_input[i] == '$')// TOKEN_VAR da spostare in ft_remove_quotes()
-		// 	count += tokenize_env_var(msh, tokens, msh->cl_input, &i);
 		else
 		{
 			start = i;

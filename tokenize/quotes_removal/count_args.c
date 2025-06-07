@@ -3,17 +3,17 @@
 static void	skip_quotes(char *str, int *i)
 {
 	if (str[*i] && str[*i] == '"')
-			{
-				(*i)++;
-				while (str[*i] && str[*i] != '"')
-					(*i)++;
-			}
-			if (str[*i] && str[*i] == '\'')
-			{
-				(*i)++;
-				while (str[*i] && str[*i] != '\'')
-					(*i)++;
-			}
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != '"')
+			(*i)++;
+	}
+	if (str[*i] && str[*i] == '\'')
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != '\'')
+			(*i)++;
+	}
 }
 
 static void	count_operators(char *str, int *i, int *words)
