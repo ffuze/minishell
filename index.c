@@ -54,16 +54,20 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac, char *av[], char **envp)
+int main(int ac/* , char *av[] */, char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
 	t_msh	msh;
 	int		clearflag;
     char    **split_input; 
+	int j;
+	int redirect_found;
 
+	redirect_found = 0;
+	j = 0;
 	(void)ac;
-	av = NULL;
+	// av = NULL;
 	// msh.infile = NULL;
 	// msh.outfile = NULL;
 	sa.sa_handler = ft_handler;
@@ -99,11 +103,25 @@ int main(int ac, char *av[], char **envp)
 		}
 		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
-		if (msh.tokens == NULL)
+		if (msh.tokens && msh.tokens[0])
+        {
+            freeList(msh.cmds);
+            msh.cmds = NULL;
+            insert_commands_to_list(&msh);
+            ft_printf(BLUE"Commands in list:\n"NO_ALL);
+            printList(msh.cmds);
+        }
+		while (msh.tokens[j])
 		{
-			ft_printfd(2, RED"Failed tokenization"NO_ALL);
-			continue ;
+			if (msh.tokens[j]->type == TOKEN_RE_OUTPUT || msh.tokens[j]->type == TOKEN_RE_INPUT)
+			{
+				execute_redirection(&msh, msh.tokens, j);
+				redirect_found = 1;
+				break;
+			}
 		}
+		if (!redirect_found)
+			pipe_check(&msh);
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////
