@@ -117,7 +117,18 @@ int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 int		insert_input(t_msh *msh, t_token **tokens);
 
-/*_______________________ utils.c _______________________*/
+/*_________________ quotes_removal _________________*/
+// Returns the string's lenght whitout outer quotes or -1 if said quotes are 
+//  not closed.
+int		ft_clean_input_len(char *input);
+
+// Returns the string "input" without outer quotes.
+void	ft_cleancpy(char *input, char *clean_input);
+
+// Returns the number of arguments in the input string.
+size_t	count_args(char *input);
+
+/*_________________________________ utils.c _________________________________*/
 int		skip_spaces(t_token *input, int i);
 
 // Verifies whether the c character is a symbol recognized from bash.
@@ -131,7 +142,7 @@ char	**ft_envp_dup(char **envp);
 // Prints an error message in red color.
 void	print_err(char *s1, char *err_type);
 
-/*_______________________________ built_in ______________________________*/
+/*_________________________________ built_in ________________________________*/
 
 void	ft_echo(char  **cmd);
 
@@ -176,7 +187,7 @@ void	redirect_input(t_msh *msh);
 
 // Fills the outfile structure with the appropriate file name, and determines
 // whether to overwrite or append the content.
-int	setup_output_redirection(t_msh *msh);
+int		setup_output_redirection(t_msh *msh);
 
 // Substitutes the standard output with a file.
 void	redirect_output(t_msh *msh);
@@ -189,19 +200,19 @@ void	pipe_check(t_msh *msh);
 void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
 
 // Creates an FD for each pipe in the command line.
-int	**fd_matrix_creator(int pipe_count);
+int		**fd_matrix_creator(int pipe_count);
 
-int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
-int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
+int		first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
+int		last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int	middle_child_generator(t_msh *msh, t_cmds *current);
+int		middle_child_generator(t_msh *msh, t_cmds *current);
 
 /*_______________________________ test_setup.c ______________________________*/
 t_cmds	*crealista();
-void printList(t_cmds *head);
-void freeList(t_cmds *head);
+void 	printList(t_cmds *head);
+void 	freeList(t_cmds *head);
 
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);

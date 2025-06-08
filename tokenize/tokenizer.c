@@ -18,84 +18,58 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 	return (token);
 }
 
-char	*remove_outer_quotes(char *str)
-{
-	size_t	len;
-
-	len = ft_strlen(str);
-	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"'
-		&& str[1] == '\'' && str[len - 2] == '\'')
-		|| (str[0] == '\'' && str[len - 1] == '\''
-		&& str[1] == '"' && str[len - 2] == '"')))
-		return (ft_substr(str, 1, len - 2));
-	return (ft_strdup(str));
-}
-
 t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token	**tokens;
 	size_t	i;
 	int		count;
 	size_t	start;
-	// char	*clean_input;// input ripulito da " e ', sostuira' input nel resto della funzione.
-	// char	quote;
-	// char	*clean_token;
+	char	*clean_input;
 
 	i = 0;
 	start = i;
 	count = 0;
 	msh->outfi_flag = false;
 	msh->pipe_count = 0;
-	// /* clean_input =  */ft_remove_quotes(input);
-	// if (!clean_input)
-		// return (NULL);
-	tokens = ft_calloc((ft_strlen(input) + 1), sizeof(t_token *));// ft_calloc(count_words(clean_input) + 1, sizeof(t_token *));
-	if (!tokens)
+	clean_input = ft_remove_quotes(input);
+	// printf(BLUE"N words: %zu\n"NO_ALL, count_args(input));///////////////////////////////////
+	if (!clean_input)
 		return (NULL);
-	while (input[i])
+	tokens = ft_calloc((count_args(input) + 1), sizeof(t_token *));// ft_calloc(count_words(clean_input) + 1, sizeof(t_token *));
+	if (!tokens)
+		return (free(clean_input), NULL);
+	while (clean_input[i])
 	{
-		while (input[i] == ' ')
-		i++;
-		if (!input[i])
-			break;
-		/* if (input[i] == '\'' || input[i] == '"')
-		{
-			quote = input[i++];
-			start = i;
-			while (input[i] && input[i] != quote)
-				i++;
-			tokens[count] = make_token(TOKEN_WORD, input, start, i - start);
-			clean_token = remove_outer_quotes(tokens[count]->value);
-			free(tokens[count]->value);
-			tokens[count]->value = clean_token;
-			count++;
+		while (clean_input[i] == ' ')
 			i++;
-		} */
-		else if (input[i] == '|')
+		if (!clean_input[i])
+			break;
+		else if (clean_input[i] == '|')
 		{
-			tokens[count++] = make_token(TOKEN_PIPE, input, i, 1);
+			tokens[count++] = make_token(TOKEN_PIPE, clean_input, i, 1);
 			i++;
 			msh->pipe_count++;
 		}
-		else if (input[i] == '<')// TOKEN_RE_INPUT
-			count += tokenize_input(msh, tokens, input, &i);
+		else if (clean_input[i] == '<')// TOKEN_RE_INPUT
+			count += tokenize_input(msh, tokens, clean_input, &i);
 		else if (input[i] == '>')// TOKEN_RE_OUTPUT
 		{
 			msh->outfi_flag = true;
-			count = tokenize_output(msh, tokens, input, &i);
+			count = tokenize_output(msh, tokens, clean_input, &i);
 		}
-		else if (input[i] == '$')// TOKEN_VAR da spostare in ft_remove_quotes()
-			count += tokenize_env_var(msh, tokens, input, &i);
+		else if (clean_input[i] == '$')// TOKEN_VAR da spostare in ft_remove_quotes()
+			count += tokenize_env_var(msh, tokens, clean_input, &i);
 		else
 		{
 			start = i;
-			while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"')
+			while (clean_input[i] && clean_input[i] != ' '/*  && input[i] != '\'' && input[i] != '"' */)
 				i++;
-			tokens[count++] = make_token(TOKEN_WORD, input, start, i - start);
+			tokens[count++] = make_token(TOKEN_WORD, clean_input, start, i - start);
 		}
 		// tokenize_commands(msh);
 	}
 	tokens[count] = NULL;
+	free(clean_input);
 	return (tokens);
 }
 // echo "oddio 'no way' sta 'per' funz"i"ona'r'e"
