@@ -28,12 +28,12 @@ void printList(t_cmds *head) {
 
     while (current != NULL) {
 		i = 0;
-		printf(RED"##"NO_ALL);
+		ft_printf(RED"##"NO_ALL);
 		while (current->cmd[i]){
-        	printf(YELLOW"%s"NO_ALL, current->cmd[i]);
+        	ft_printf(YELLOW"%s"NO_ALL, current->cmd[i]);
 			i++;
 		}
-		printf(GREEN"##\n"NO_ALL);
+		ft_printf(GREEN"##\n"NO_ALL);
         current = current->next;
     }
 }

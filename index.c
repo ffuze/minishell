@@ -1,32 +1,5 @@
 #include "./minishell.h"
 
-// void	ft_ls()
-// {
-// 	int	pid;
-	
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		char *argv[] = {"ls", NULL, NULL};
-// 		execve("/bin/ls", argv, NULL);
-// 	}
-// 	else
-// 		wait(NULL);
-// }
-
-// void	ft_ls_l()
-// {
-// 	int	pid;
-	
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		char *argv[] = {"ls", "-l", NULL};
-// 		execve("/bin/ls", argv, NULL);
-// 	}
-// 	else
-// 		wait(NULL);
-// }
 
 void	ft_clear(char *input)
 {
@@ -81,7 +54,7 @@ int main(int ac, char *av[], char **envp)
 		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
-		msh.cmds = crealista();///////////// Creazione della lista temporanea
+		// msh.cmds = crealista();///////////// Creazione della lista temporanea
 		msh.exit_status = 0;
 		// funzione per aggiornare ogni volta il path da stampare accanto a powershell
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
@@ -107,6 +80,7 @@ int main(int ac, char *av[], char **envp)
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////
+		msh.cmds = ft_create_cmd_list(msh.tokens, msh.pipe_count);
 
 		// I want to create another string where to put the first position of the token,
 		// so that I can remove the quotes from the command in order to make it recognizable
@@ -124,8 +98,9 @@ int main(int ac, char *av[], char **envp)
 		}
 		if (msh.tokens[0] && ft_strcmp(msh.tokens[0]->value, "exit") == 0)
 		{
-			freeList(msh.cmds);////////////////////////////////
+			// freeList(msh.cmds);////////////////////////////////
 			free_everything(msh, split_input, input);
+			free_cmd_list(msh.cmds);
 			return (EXIT_SUCCESS);
 		}
 		else if (ft_strcmp(msh.tokens[0]->value, "export") == 0)
@@ -159,39 +134,18 @@ int main(int ac, char *av[], char **envp)
 			ft_clear(input);
 			clearflag = 1;
 		}
-		// else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_INPUT)
-		// {
-		// 	handle_input_redirection(&msh);
-		// 	if (split_input[0] && split_input[0][0] == '<')
-		// 		non_builtin_redirect_in(&msh);
-		// }
-		// else if (msh.tokens[0] && msh.tokens[0]->type == TOKEN_RE_OUTPUT)
-		// {
-		// 	handle_input_redirection(&msh);
-		// 	if (split_input[0] && split_input[0][0] != '>')
-		// 		non_builtin_redirect(&msh);
-		// }
 		else
 		{
 			pipe_check(&msh);
 		}
 		if (!clearflag)
 			add_history(input);
-		// if (msh.infile && msh.infile != NULL)
-		// {
-		// 	free(msh.infile);
-		// 	msh.infile = NULL;
-		// }
-		// if (msh.outfile && msh.outfile != NULL)
-		// {
-		// 	free(msh.outfile);
-		// 	msh.outfile = NULL;
-		// }
 		free(input);
 		free_dpc(split_input);//////////
 		free_tokens(msh.tokens); // Free tokens after each iteration
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
-		freeList(msh.cmds);////////////////////////////////
+		// freeList(msh.cmds);////////////////////////////////
+		free_cmd_list(msh.cmds);
 	}
 	free_dpc(msh.envp2);
     free_tokens(msh.tokens);

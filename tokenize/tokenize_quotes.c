@@ -30,7 +30,8 @@ static int	tokenize_s_q(t_token **tokens, char *input, size_t *i)
 	return (count);
 }
 
-
+// Sets a token for the substring between quotes,
+//  then returns the current number of tokens.
 int	tokenize_quotes(t_token **tokens, char *input, size_t *i)
 {
 	int	count;

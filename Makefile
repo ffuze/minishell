@@ -4,7 +4,7 @@ NAME = minishell
 
 OBJ_DIR = obj
 SRC_MAIN = index.c \
-			utils.c \
+			utils.c create_cmd_list.c\
 			test_setup.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \
 			built_in/ft_export.c built_in/ft_export_print.c \
