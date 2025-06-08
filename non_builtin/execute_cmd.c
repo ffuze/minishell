@@ -18,8 +18,8 @@ static char	*find_pathname(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		pathname = ft_strjoin(ft_strdup(paths[i]), "/");
 		pathname = ft_strjoin(pathname, cmd);
+		pathname = ft_strjoin(ft_strdup(paths[i]), "/");
 		if (!pathname)
 			return (free_dpc(paths), NULL);
 		if (0 == access(pathname, F_OK | X_OK))

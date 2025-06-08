@@ -1,9 +1,9 @@
 #include "../../minishell.h"
 
-char	*find_env_var(char *input)
-{
+// char	*find_env_var(char *input)
+// {
 
-}
+// }
 
 static bool	through_doublequotes(char *input, int *i, int *l)
 {

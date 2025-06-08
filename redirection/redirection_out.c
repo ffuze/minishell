@@ -37,10 +37,5 @@ int	setup_output_redirection(t_msh *msh)
 		free(msh->outfiles);
 		exit(0);
 	}
-	msh->outfiles->append_flag = malloc(sizeof(bool));
-	if (ft_strcmp(msh->tokens[i - 1]->value, ">") == 0)
-		msh->outfiles->append_flag = false;
-	else if (ft_strcmp(msh->tokens[i - 1]->value, ">>") == 0)
-		msh->outfiles->append_flag = true;
 	return (1);
 }
