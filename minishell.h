@@ -115,7 +115,7 @@ char	*ft_parse_and_expand(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		count_tokens(t_token **tokens);
-int		tokenize_quotes(t_msh *msh, t_token **tokens, char *input, size_t *i);
+int		tokenize_quotes(/* t_msh *msh,  */t_token **tokens, char *input, size_t *i);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 // Handles $ sign for environment vars expansion.

@@ -37,8 +37,8 @@ t_token **tokenize(t_msh *msh, char *input)
 			msh->outfi_flag = true;
 			count = tokenize_output(msh, tokens, msh->exp_input, &i);
 		}
-		// else if (msh->exp_input[i] == '"' || msh->exp_input[i] == '\'')// QUOTES
-		// 	count = tokenize_quotes(msh, tokens, msh->exp_input, &i);
+		else if (msh->exp_input[i] == '"' || msh->exp_input[i] == '\'')// QUOTES
+			count = tokenize_quotes(/* msh,  */tokens, msh->exp_input, &i);
 		else
 		{
 			start = i;
