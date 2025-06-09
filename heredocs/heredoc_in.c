@@ -54,5 +54,6 @@ void read_heredoc(t_msh *msh)
         ft_printf("non e' stato salvato il contenuto correttamente\n");
         exit(1);
     }
+	unlink("here_doc.txt");
     close(fd);
 }
