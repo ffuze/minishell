@@ -34,7 +34,6 @@ int main(int ac, char *av[], char **envp)
 	t_msh	msh;
 	int		clearflag;
     char    **split_input; 
-	int j;
 	int redirect_found;
 
 	(void)ac;
@@ -50,7 +49,6 @@ int main(int ac, char *av[], char **envp)
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
-	j = 0;
 	redirect_found = 0;
 	
 	msh.envp2 = ft_envp_dup(envp);
@@ -76,17 +74,6 @@ int main(int ac, char *av[], char **envp)
 		}
 		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
-		while (msh.tokens[j])
-		{
-			if (msh.tokens[j]->type == TOKEN_RE_OUTPUT || msh.tokens[j]->type == TOKEN_RE_INPUT)
-			{
-				pipe_check(&msh);
-				execute_redirection(&msh, msh.tokens, j);
-				redirect_found = 1;
-				break;
-			}
-			j++;
-		}
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////

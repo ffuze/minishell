@@ -26,7 +26,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	size_t	start;
 
 	count = count_tokens(tokens);
-	msh->outfiles = malloc(sizeof(char));
+	msh->outfiles = malloc(sizeof(t_outf));
 	msh->outfiles->append_flag = malloc(sizeof(bool));
 	if (!tokens || !input || !msh || !msh->outfiles->append_flag)
 		return 0;

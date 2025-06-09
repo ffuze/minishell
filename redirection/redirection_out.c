@@ -28,7 +28,6 @@ int	setup_output_redirection(t_msh *msh)
 	i = 0;
 	while (msh->tokens[i] && msh->tokens[i]->type != TOKEN_OUTFILE)
 		i++;
-	msh->outfiles = malloc(sizeof(t_outf));
 	if (!msh->outfiles)
 		exit(0);
 	msh->outfiles->outfile = ft_strdup(msh->tokens[i]->value);
