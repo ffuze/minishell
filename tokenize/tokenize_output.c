@@ -26,14 +26,17 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	size_t	start;
 
 	count = count_tokens(tokens);
-	if (!tokens || !input || !msh)
-		return (0);
+	msh->outfiles = malloc(sizeof(char));
+	msh->outfiles->append_flag = malloc(sizeof(bool));
+	if (!tokens || !input || !msh || !msh->outfiles->append_flag)
+		return 0;
 	while (input[*i])
 	{
 		while (input[*i] && input[*i] == ' ')
 			(*i)++;
 		if (input[*i] == '>' && input[*i + 1] != '>')
 		{
+			msh->outfiles->append_flag = false;
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 1);
 			(*i)++;
 			while (input[*i] && input[*i] == ' ')
@@ -45,6 +48,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		}
 		else if (input[*i] == '>' && input[*i + 1] == '>')
 		{
+			msh->outfiles->append_flag = true;
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 2);
 			(*i) += 2;
 			while (input[*i] && input[*i] == ' ')

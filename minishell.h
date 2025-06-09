@@ -81,6 +81,7 @@ typedef struct s_inf
 {
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
+	bool			heredoc_executed;
 }					t_inf;
 
 typedef struct s_outf
@@ -105,7 +106,7 @@ typedef	struct s_msh
 	char			*limiter; // Signal the end of the input in heredoc.
 }					t_msh;
 
-/*_______________________________ tokenizer _________________________________*/
+/*___________________________N____ tokenizer _________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 
 // Expands the Environment variables from the input string.
@@ -121,6 +122,7 @@ int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 // Handles $ sign for environment vars expansion.
 int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
+int		insert_input(t_msh *msh, t_token **tokens);
 
 /*_________________ tokenizer/quotes_removal _________________*/
 // Checks whether there are variables to expand or unclosed quotes.
@@ -188,6 +190,7 @@ void	*execute_cmd(char **cmd, char **envp);
 // Fill the infile structure with the appropriate file name, and determines
 // wether there is an input file or a heredoc.
 int		setup_input_redirection(t_msh *msh);
+void	execute_redirection(t_msh *msh, t_token **tokens, int i);
 
 // Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh);
@@ -228,5 +231,11 @@ void	free_cmd_list(t_cmds *root);
 
 /*_______________________________ heredocs ______________________________*/
 void    read_heredoc(t_msh *msh);
+void    handle_append_redirect(char *filename);
+void	execute_command_before_redirection(t_token **tokens, int redirect_pos);
+void	execute_redirection(t_msh *msh, t_token **tokens, int i);
+
+/*_______________________________ cmds_list ______________________________*/
+void	insert_commands_to_list(t_msh *msh);
 
 #endif

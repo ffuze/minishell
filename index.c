@@ -27,36 +27,40 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac, char *av[], char **envp)
+int main(int ac/* , char *av[] */, char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
 	t_msh	msh;
 	int		clearflag;
     char    **split_input; 
+	int j;
+	int redirect_found;
 
 	(void)ac;
-	av = NULL;
+	// av = NULL;
 	// msh.infile = NULL;
 	// msh.outfile = NULL;
 	sa.sa_handler = ft_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
- 	// sigaction(SIGTERM, &sa, NULL);
+	// sigaction(SIGTERM, &sa, NULL);
 	// sigaction(SIGSEGV, &sa, NULL);
 	sigaction(SIGTSTP, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
+	j = 0;
+	redirect_found = 0;
 	
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
-		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
+		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
 		// msh.cmds = crealista();///////////// Creazione della lista temporanea
 		msh.exit_status = 0;
-		// funzione per aggiornare ogni volta il path da stampare accanto a powershell
+		// funzione per aggiornare ogni volta il path da stampare accanto a powershel`l
 		input = readline(BGMAGENTA"powershell> "NO_ALL);
 		if (!input)
 		{
@@ -72,10 +76,24 @@ int main(int ac, char *av[], char **envp)
 		}
 		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
-		if (msh.tokens == NULL)
+		if (msh.tokens && msh.tokens[0])
+        {
+            freeList(msh.cmds);
+            msh.cmds = NULL;
+            insert_commands_to_list(&msh);
+            ft_printf(BLUE"Commands in list:\n"NO_ALL);
+            printList(msh.cmds);
+        }
+		while (msh.tokens[j])
 		{
-			ft_printfd(2, RED"Failed tokenization"NO_ALL);
-			continue ;
+			if (msh.tokens[j]->type == TOKEN_RE_OUTPUT || msh.tokens[j]->type == TOKEN_RE_INPUT)
+			{
+				pipe_check(&msh);
+				execute_redirection(&msh, msh.tokens, j);
+				redirect_found = 1;
+				break;
+			}
+			j++;
 		}
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////

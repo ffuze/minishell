@@ -3,39 +3,39 @@
 //-----------------------------------------------------------------------
 void freeList(t_cmds *head)
 {
-    t_cmds *current = head;
-    t_cmds *next_node;
-    int i;
+	t_cmds *current = head;
+	t_cmds *next_node;
+	int i;
 
-    while (current != NULL) {
-        next_node = current->next;
-        // Free each string in the cmd array
-        if (current->cmd) {
-            for (i = 0; current->cmd[i] != NULL; i++) {
-                free(current->cmd[i]);
-            }
-            free(current->cmd); // Free the array itself
-        }
-        // Free the current node
-        free(current);
-        current = next_node;
-    }
+	while (current != NULL) {
+		next_node = current->next;
+		// Free each string in the cmd array
+		if (current->cmd) {
+			for (i = 0; current->cmd[i] != NULL; i++) {
+				free(current->cmd[i]);
+			}
+			free(current->cmd); // Free the array itself
+		}
+		// Free the current node
+		free(current);
+		current = next_node;
+	}
 }
 
 void printList(t_cmds *head) {
-    t_cmds *current = head;
+	t_cmds *current = head;
 	int i = 0;
 
-    while (current != NULL) {
+	while (current != NULL) {
 		i = 0;
 		ft_printf(RED"##"NO_ALL);
 		while (current->cmd[i]){
-        	ft_printf(YELLOW"%s"NO_ALL, current->cmd[i]);
+			printf(YELLOW"%s"NO_ALL, current->cmd[i]);
 			i++;
 		}
-		ft_printf(GREEN"##\n"NO_ALL);
-        current = current->next;
-    }
+		printf(GREEN"##\n"NO_ALL);
+		current = current->next;
+	}
 }
 
 t_cmds	*crealista()
@@ -43,35 +43,89 @@ t_cmds	*crealista()
 	t_cmds	*new_node;
 	t_cmds	*root;
 	t_cmds *current; // Pointer to keep track of the current node
-    char *s = "ls -l";//"grep e"
-    char *s2 = "wc -l";
-    char *s3 = "cat";
+	char *s = "ls -l";//"grep e"
+	char *s2 = "wc -l";
+	char *s3 = "cat";
    
 	// Create the first node
-    new_node = ft_calloc(1, sizeof(t_cmds));
-    new_node->cmd = ft_split(s, ' ');
-    root = new_node; // Set root to the first node
-    current = new_node; // Set current to the first node
-    
+	new_node = ft_calloc(1, sizeof(t_cmds));
+	new_node->cmd = ft_split(s, ' ');
+	root = new_node; // Set root to the first node
+	current = new_node; // Set current to the first node
+	
 	// Create the second node
-    new_node = ft_calloc(1, sizeof(t_cmds));
-    new_node->cmd = ft_split(s2, ' ');
-    current->next = new_node; // Link the first node to the second
-    current = new_node; // Move current to the second node
-    
+	new_node = ft_calloc(1, sizeof(t_cmds));
+	new_node->cmd = ft_split(s2, ' ');
+	current->next = new_node; // Link the first node to the second
+	current = new_node; // Move current to the second node
+	
 	// Create the third node
-    new_node = ft_calloc(1, sizeof(t_cmds));
-    new_node->cmd = ft_split(s3, ' ');
-    current->next = new_node; // Link the second node to the third
-    current = new_node; // Move current to the third node
-    
+	new_node = ft_calloc(1, sizeof(t_cmds));
+	new_node->cmd = ft_split(s3, ' ');
+	current->next = new_node; // Link the second node to the third
+	current = new_node; // Move current to the third node
+	
 	// Set the next pointer of the last node to NULL
-    current->next = NULL;
-    
+	current->next = NULL;
+	
 	// Print the list
-    printList(root);
+	printList(root);
 
-    return root;
+	return root;
+}
+//-----------------------------------------------------------------------
+
+// Add a new node into a list.
+void	add_node(t_cmds **head, char *command_string)
+{
+	t_cmds *new_node;
+	t_cmds *current;
+	char **cmd_array;
+
+	new_node = ft_calloc(1, sizeof(t_cmds));
+	if (!new_node)
+		return;
+	cmd_array = ft_split(command_string, ' ');
+	if (!cmd_array)
+	{
+		free(new_node);
+		return;
+	}
+	new_node->cmd = cmd_array;
+	new_node->next = NULL;
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return;
+	}
+	current = *head;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = new_node;
 }
 
-//-----------------------------------------------------------------------
+// Insert all commands into the cmds list
+void	insert_commands_to_list(t_msh *msh)
+{
+	int	i;
+	// int	cmd_index;
+
+	i = 0;
+	// cmd_index = 0;
+	if (!msh->tokens || !msh->cmds)
+		return ;
+	while (msh->tokens[i])
+	{
+		if (msh->tokens[i]->type != TOKEN_RE_INPUT
+			&& msh->tokens[i]->type != TOKEN_RE_OUTPUT
+			&& msh->tokens[i]->type != TOKEN_PIPE
+			&& msh->tokens[i]->type != TOKEN_INFILE
+			&& msh->tokens[i]->type != TOKEN_OUTFILE)
+		{
+			add_node(&msh->cmds, msh->tokens[i]->value);
+			ft_printf("Added command to list: %s\n", msh->tokens[i]->value);
+		}
+		i++;
+	}
+}
+
