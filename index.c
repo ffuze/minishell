@@ -27,7 +27,7 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
-int main(int ac/* , char *av[] */, char **envp)
+int main(int ac, char *av[], char **envp)
 {
 	struct	sigaction sa;
 	char	*input;
@@ -38,7 +38,7 @@ int main(int ac/* , char *av[] */, char **envp)
 	int redirect_found;
 
 	(void)ac;
-	// av = NULL;
+	av = NULL;
 	// msh.infile = NULL;
 	// msh.outfile = NULL;
 	sa.sa_handler = ft_handler;
@@ -76,14 +76,6 @@ int main(int ac/* , char *av[] */, char **envp)
 		}
 		split_input = ft_split(input, ' ');///////////////////////////
 		msh.tokens = tokenize(&msh, input);
-		if (msh.tokens && msh.tokens[0])
-        {
-            freeList(msh.cmds);
-            msh.cmds = NULL;
-            insert_commands_to_list(&msh);
-            ft_printf(BLUE"Commands in list:\n"NO_ALL);
-            printList(msh.cmds);
-        }
 		while (msh.tokens[j])
 		{
 			if (msh.tokens[j]->type == TOKEN_RE_OUTPUT || msh.tokens[j]->type == TOKEN_RE_INPUT)

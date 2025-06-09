@@ -30,10 +30,10 @@ void printList(t_cmds *head) {
 		i = 0;
 		ft_printf(RED"##"NO_ALL);
 		while (current->cmd[i]){
-			printf(YELLOW"%s"NO_ALL, current->cmd[i]);
+			ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
 			i++;
 		}
-		printf(GREEN"##\n"NO_ALL);
+		ft_printf(GREEN"##\n"NO_ALL);
 		current = current->next;
 	}
 }
@@ -74,58 +74,3 @@ t_cmds	*crealista()
 	return root;
 }
 //-----------------------------------------------------------------------
-
-// Add a new node into a list.
-void	add_node(t_cmds **head, char *command_string)
-{
-	t_cmds *new_node;
-	t_cmds *current;
-	char **cmd_array;
-
-	new_node = ft_calloc(1, sizeof(t_cmds));
-	if (!new_node)
-		return;
-	cmd_array = ft_split(command_string, ' ');
-	if (!cmd_array)
-	{
-		free(new_node);
-		return;
-	}
-	new_node->cmd = cmd_array;
-	new_node->next = NULL;
-	if (*head == NULL)
-	{
-		*head = new_node;
-		return;
-	}
-	current = *head;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new_node;
-}
-
-// Insert all commands into the cmds list
-void	insert_commands_to_list(t_msh *msh)
-{
-	int	i;
-	// int	cmd_index;
-
-	i = 0;
-	// cmd_index = 0;
-	if (!msh->tokens || !msh->cmds)
-		return ;
-	while (msh->tokens[i])
-	{
-		if (msh->tokens[i]->type != TOKEN_RE_INPUT
-			&& msh->tokens[i]->type != TOKEN_RE_OUTPUT
-			&& msh->tokens[i]->type != TOKEN_PIPE
-			&& msh->tokens[i]->type != TOKEN_INFILE
-			&& msh->tokens[i]->type != TOKEN_OUTFILE)
-		{
-			add_node(&msh->cmds, msh->tokens[i]->value);
-			ft_printf("Added command to list: %s\n", msh->tokens[i]->value);
-		}
-		i++;
-	}
-}
-

@@ -235,7 +235,4 @@ void    handle_append_redirect(char *filename);
 void	execute_command_before_redirection(t_token **tokens, int redirect_pos);
 void	execute_redirection(t_msh *msh, t_token **tokens, int i);
 
-/*_______________________________ cmds_list ______________________________*/
-void	insert_commands_to_list(t_msh *msh);
-
 #endif

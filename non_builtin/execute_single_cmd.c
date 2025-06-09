@@ -29,7 +29,7 @@ void	execute_single_cmd(t_msh *msh)
 	}
 	else if (0 == id)
 	{
-		printf("Process ID: %d\n", getpid());
+		printf("Process ID: %d\n", getpid());///////////////////////////////////
 		child_proc(msh);
 	}
 	while (waitpid(id, &status, 0) > 0)
