@@ -3,12 +3,12 @@
 // Main function to execute redirections
 void execute_redirection(t_msh *msh, t_token **tokens, int i)
 {
-    if (!tokens[i] || !tokens[i + 1] || i < 0 || !tokens[i + 1]->type)
-        return (perror("madonna santissima annunziata\n"));
+    if (!tokens[i] || !tokens[i + 1] || i < 0 || !tokens[i + 1]->type || !msh->outfiles)
+        return (perror("madonna santissima annunziata"));
     if (msh->outfiles->append_flag && tokens[i + 1]->type == TOKEN_OUTFILE)
         handle_append_redirect(tokens[i + 1]->value);
-    else if (!msh->outfiles->append_flag && tokens[i + 1]->type == TOKEN_INFILE)
-        read_heredoc(msh);
+    // else if (!msh->outfiles->append_flag && tokens[i + 1]->type == TOKEN_LIMITER)
+    //     read_heredoc(msh);
 }
 
 // // Function to execute a command with redirections

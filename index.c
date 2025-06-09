@@ -82,7 +82,7 @@ int main(int ac/* , char *av[] */, char **envp)
 	
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
-		return(printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
+		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	while (1)
 	{
 		msh.cmds = crealista();///////////// Creazione della lista temporanea

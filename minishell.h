@@ -81,6 +81,7 @@ typedef struct s_inf
 {
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
+	bool			heredoc_executed;
 }					t_inf;
 
 typedef struct s_outf
