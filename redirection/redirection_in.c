@@ -50,9 +50,14 @@ int setup_input_redirection(t_msh *msh)
 	{
 		msh->infiles->heredoc_flag = true;
 		msh->infiles->infile = NULL;
+		if (!msh->infiles->heredoc_executed)
+        {
+            read_heredoc(msh);
+            msh->infiles->heredoc_executed = true;
+        }
 		// Parent process call.
 		// For the child process check execute_redirection() in exeggutor.c
-		read_heredoc(msh);
+		// read_heredoc(msh);
 	}
 	return (1);
 }
