@@ -34,7 +34,6 @@ static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 
 	j = ft_strlen(msh->exp_input);
 	msh->exp_input[j++] = input[(*i)++];
-	// (*i)++;
 	while (input[*i] && input[*i] != '"')
 	{
 		if (input[*i] == '$')
@@ -46,24 +45,18 @@ static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 			j = ft_strlen(msh->exp_input);
 			msh->exp_input = ft_realloc(msh->exp_input, j, \
 											j + ft_strlen(input) - *i);
-			// (*i)++;
 		}
 		if (input[*i] && input[*i] != '$' && input[*i] != '"')
 			msh->exp_input[j++] = input[(*i)++];
 	}
-	// if (input[*i])
-	// 	(*i)++;
 	return (j);
 }
 
 static void	through_singlequotes(t_msh *msh, char *input, size_t *i, size_t *j)
 {
-	// (*i)++;
 	msh->exp_input[(*j)++] = input[(*i)++];
 	while (input[*i] && input[*i] != '\'')
 		msh->exp_input[(*j)++] = input [(*i)++];
-	// if (input[*i])
-	// 	(*i)++;
 }
 
 // Returns the string "input" without outer quotes.
@@ -76,10 +69,8 @@ char	*ft_expandedcpy(t_msh *msh, char *input)
 	j = 0;
 	while (input[i])
 	{
-		// ft_printf(BLUE"input[i] = %d\n"NO_ALL, input[i]);/////////////////////////////////////
 		if (input[i] == '"')
 			j = through_doublequotes(msh, input, &i);
-		// ft_printf(GREEN"input[i] = %c, j = %d \n"NO_ALL, input[i], j);///////////////////////////
 		if (input[i] == '\'')
 			through_singlequotes(msh, input, &i, &j);
 		if (input[i] == '$')
@@ -95,7 +86,6 @@ char	*ft_expandedcpy(t_msh *msh, char *input)
 		if (input[i] && input[i] != '"' && input[i] !='\'' && input[i] !='$')
 			msh->exp_input[j++] = input [i++];
 	}
-	// ft_printf(MAGENTA"msh->Exp_input88 = %s\n"NO_ALL, msh->exp_input);/////////////////////////////
 	return (msh->exp_input);
 }
 
@@ -111,6 +101,6 @@ char	*ft_parse_and_expand(t_msh *msh, char *input)
 	if (!msh->exp_input)
 		return (NULL);
 	msh->exp_input = ft_expandedcpy(msh, input);
-	printf(MAGENTA"msh->Exp_input = %s\n"NO_ALL, msh->exp_input);/////////////////
+	// printf(MAGENTA"msh->Exp_input = %s\n"NO_ALL, msh->exp_input);/////////////////
 	return (msh->exp_input);
 }

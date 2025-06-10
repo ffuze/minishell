@@ -27,9 +27,9 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 
 	count = count_tokens(tokens);
 	msh->outfiles = malloc(sizeof(t_outf));
-	msh->outfiles->append_flag = malloc(sizeof(bool));
-	if (!tokens || !input || !msh || !msh->outfiles->append_flag)
-		return 0;
+	msh->outfiles->append_flag = false;
+	if (!tokens || !input || !msh)
+		return 0;// Se uno dei malloc ha avuto successo la memoria deve essere liberata
 	while (input[*i])
 	{
 		while (input[*i] && input[*i] == ' ')
