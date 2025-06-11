@@ -66,6 +66,6 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 		if (tokens[i])
 			i++;
 	}
-	printList(root);
+	// printList(root);
 	return (root);
 }

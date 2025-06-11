@@ -1,13 +1,27 @@
 #include "../minishell.h"
 
-volatile sig_atomic_t   sig_received;
-
-sig_received = 0;
-
-// Handle SIGINT signal
-void    handle_sigint(int sig)
+static void	handle_sigint(int sig)
 {
-    (void)sig;
-    sig_received = 1;
-    write(STDOUT_FILENO, "\n", 1);
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+// static void	handle_sigquit(int sig)
+// {
+// 	(void)sig;
+// }
+
+void	setup_signals()
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	reset_child_signals()
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

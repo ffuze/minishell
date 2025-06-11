@@ -15,7 +15,7 @@ static void	child_proc(t_msh *msh)
 	execute_cmd(msh->cmds->cmd, msh->envp2);
 }
 
-void	execute_single_cmd(t_msh *msh)
+unsigned char	execute_single_cmd(t_msh *msh)
 {
 	pid_t	id;
 	int status;
@@ -25,16 +25,18 @@ void	execute_single_cmd(t_msh *msh)
 	if (id < 0)
 	{
 		ft_putstr_fd("Fork failed.\n", 2);
-		return ;
+		return (0);
 	}
 	else if (0 == id)
 	{
+		setup_signals();
 		printf("Process ID: %d\n", getpid());///////////////////////////////////
 		child_proc(msh);
 	}
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
-		msh->exit_status = WEXITSTATUS(status);
+			msh->exit_status = WEXITSTATUS(status);
 	}
+	return (msh->exit_status);
 }

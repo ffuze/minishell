@@ -7,6 +7,7 @@ void	ft_clear(char *input)
 	pid = fork();
 	if (pid == 0)
 	{
+		reset_child_signals();
 		char *argv[] = { "clear", NULL };
 		execve("/usr/bin/clear", argv, __environ);
 		rl_clear_history();
@@ -16,46 +17,24 @@ void	ft_clear(char *input)
 		wait(NULL);
 }
 
-void	ft_handler(int signum)
-{
-	if (signum == SIGKILL)
-		printf("ho intercettato un sigkill skibidi sigma\n");
-	write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	
-}
-
 int main(int ac, char *av[], char **envp)
 {
-	struct	sigaction sa;
+	// struct	sigaction sa;
 	char	*input;
 	t_msh	msh;
 	int		clearflag;
     char    **split_input; 
-	int redirect_found;
+	int		redirect_found;
 
 	(void)ac;
 	av = NULL;
 	// msh.infile = NULL;
 	// msh.outfile = NULL;
-	sa.sa_handler = ft_handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-	// sigaction(SIGTERM, &sa, NULL);
-	// sigaction(SIGSEGV, &sa, NULL);
-	sigaction(SIGTSTP, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 	clearflag = 0;
 	redirect_found = 0;
 	
+	setup_signals();
+	msh.tokens = NULL;
 	msh.envp2 = ft_envp_dup(envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);

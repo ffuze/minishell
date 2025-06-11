@@ -55,8 +55,11 @@ static void	init_pipeline(t_msh *msh)
 // Determines whether a single command or more have to be executed.
 void	pipe_check(t_msh *msh)
 {
+	unsigned char	code;
+
+	code = 0;
 	if (msh->pipe_count > 0)
 		init_pipeline(msh);
 	else if (msh->pipe_count == 0)
-		execute_single_cmd(msh);
+		code = execute_single_cmd(msh);
 }

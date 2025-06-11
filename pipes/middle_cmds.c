@@ -2,6 +2,7 @@
 
 int	middle_cmd_process(char **cmd, char **envp2, int *pipefd1, int *pipefd2)
 {
+	setup_signals();
 	close(pipefd2[0]);
 	if (dup2(pipefd1[0], STDIN_FILENO) < 0)
 		return (close(pipefd1[0]), close(pipefd2[1]), 0);

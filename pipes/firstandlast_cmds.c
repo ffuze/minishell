@@ -2,6 +2,7 @@
 
 int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 {
+	setup_signals();
 	close(pipefd[0]);
 	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
 	{
@@ -17,6 +18,7 @@ int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 
 int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 {
+	setup_signals();
 	close(pipefd[1]);
 	if (dup2(pipefd[0], STDIN_FILENO) < 0)
 		return (close(pipefd[0]), 0);

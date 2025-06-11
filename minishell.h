@@ -185,7 +185,7 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
-void	execute_single_cmd(t_msh *msh);
+unsigned char	execute_single_cmd(t_msh *msh);
 
 // Executes the given command
 void	*execute_cmd(char **cmd, char **envp);
@@ -239,5 +239,9 @@ void    read_heredoc(t_msh *msh);
 void    handle_append_redirect(char *filename);
 void	execute_command_before_redirection(t_token **tokens, int redirect_pos);
 void	execute_redirection(t_msh *msh, t_token **tokens, int i);
+
+/*_______________________________ signals ______________________________*/
+void	setup_signals();
+void	reset_child_signals();
 
 #endif

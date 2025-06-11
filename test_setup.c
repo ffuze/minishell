@@ -22,16 +22,24 @@ void freeList(t_cmds *head)
 	}
 }
 
-void printList(t_cmds *head) {
-	t_cmds *current = head;
-	int i = 0;
+void	printList(t_cmds *head)
+{
+	t_cmds	*current;
+	int		i;
 
-	while (current != NULL) {
+	current = head;
+	i = 0;
+	while (current != NULL)
+	{
 		i = 0;
 		ft_printf(RED"##"NO_ALL);
-		while (current->cmd[i]){
-			ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
-			i++;
+		if (current->cmd)
+		{
+			while (current->cmd[i])
+			{
+				ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
+				i++;
+			}
 		}
 		ft_printf(GREEN"##\n"NO_ALL);
 		current = current->next;
@@ -69,7 +77,7 @@ t_cmds	*crealista()
 	current->next = NULL;
 	
 	// Print the list
-	printList(root);
+	// printList(root);
 
 	return root;
 }
