@@ -92,7 +92,7 @@ typedef struct s_outf
 
 typedef	struct s_msh
 {
-	char			*exp_input;// Input from readline() with expanded vars.
+	char			*exp_input;// 	Input from readline() with expanded vars.
 	bool			env_var_flag;// True if at least a var is to be expanded.
 	t_token			**tokens;
 	t_cmds			*cmds;
@@ -103,10 +103,10 @@ typedef	struct s_msh
 	int				pipe_count; // Number of pipes.
 	int				**fd_mrx; //   Array of FDs used by the pipeline.
 	unsigned char	exit_status;
-	char			*limiter; // Signal the end of the input in heredoc.
+	char			*limiter; //   Signal the end of the input in heredoc.
 }					t_msh;
 
-/*___________________________N____ tokenizer _________________________________*/
+/*________________________________ tokenizer ________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
 
 // Expands the Environment variables from the input string.
@@ -116,7 +116,11 @@ char	*ft_parse_and_expand(t_msh *msh, char *input);
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		count_tokens(t_token **tokens);
-int		tokenize_quotes(/* t_msh *msh,  */t_token **tokens, char *input, size_t *i);
+int		tokenize_quotes(t_token **tokens, char *input, size_t *i);
+int	tokenize_d_q(t_token **tokens, t_token_enum token_type, \
+													char *input, size_t *i);
+int	tokenize_s_q(t_token **tokens, t_token_enum token_type, \
+													char *input, size_t *i);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 // Handles $ sign for environment vars expansion.
@@ -136,7 +140,7 @@ size_t	count_args(char *input);
 
 /*____________________________ create_cmd_list.c ____________________________*/
 // Returns a list of commands and relative arguments given from input.
-t_cmds	*ft_create_cmd_list(t_token **tokens, int pipe_count);
+t_cmds	*ft_create_cmd_list(t_token **tokens);
 
 /*_________________________________ utils.c _________________________________*/
 int		skip_spaces(t_token *input, int i);
@@ -228,6 +232,7 @@ void 	freeList(t_cmds *head);
 void	free_tokens(t_token **tokens);
 void    free_everything(t_msh msh, char **split_input, char *input);
 void	free_cmd_list(t_cmds *root);
+void	free_output_redirection(t_msh *msh);
 
 /*_______________________________ heredocs ______________________________*/
 void    read_heredoc(t_msh *msh);

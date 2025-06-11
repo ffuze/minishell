@@ -38,15 +38,14 @@ t_token **tokenize(t_msh *msh, char *input)
 			count = tokenize_output(msh, tokens, msh->exp_input, &i);
 		}
 		else if (msh->exp_input[i] == '"' || msh->exp_input[i] == '\'')// QUOTES
-			count = tokenize_quotes(/* msh,  */tokens, msh->exp_input, &i);
+			count = tokenize_quotes(tokens, msh->exp_input, &i);
 		else
 		{
 			start = i;
-			while (msh->exp_input[i] && msh->exp_input[i] != ' '/*  && input[i] != '\'' && input[i] != '"' */)
+			while (msh->exp_input[i] && msh->exp_input[i] != ' ' && input[i] != '\'' && input[i] != '"')
 				i++;
 			tokens[count++] = make_token(TOKEN_WORD, msh->exp_input, start, i - start);
 		}
-		// tokenize_commands(msh);
 	}
 	tokens[count] = NULL;
 	free(msh->exp_input);

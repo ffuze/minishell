@@ -24,9 +24,7 @@ void    free_everything(t_msh msh, char **split_input, char *input)
 void	free_cmd_list(t_cmds *root)
 {
 	t_cmds	*tmp;
-	// int		i;
 
-	// i = 0;
 	if (!root)
 		return ;
 	while (root)
@@ -38,4 +36,10 @@ void	free_cmd_list(t_cmds *root)
 		root = tmp;
 	}
 	tmp = NULL;
+}
+
+void	free_output_redirection(t_msh *msh)
+{
+	if (msh->outfi_flag)
+		free(msh->outfiles);
 }

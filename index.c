@@ -1,5 +1,4 @@
-#include "./minishell.h"
-
+#include "minishell.h"
 
 void	ft_clear(char *input)
 {
@@ -83,16 +82,8 @@ int main(int ac, char *av[], char **envp)
 		for (size_t i = 0; msh.tokens && msh.tokens[i] != NULL; i++)
 			printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh.tokens[i]->value, msh.tokens[i]->type);//////////////
 		ft_printf("Number of pipes: %d\n", msh.pipe_count);/////////////////
-		msh.cmds = ft_create_cmd_list(msh.tokens, msh.pipe_count);
+		msh.cmds = ft_create_cmd_list(msh.tokens);
 
-		// I want to create another string where to put the first position of the token,
-		// so that I can remove the quotes from the command in order to make it recognizable
-		// to the controls that are right after here, and then transfer the temp string back
-		// to the tokens variable and keep working with it for the rest ot the time
-			// while (msh.tokens[0])
-		// {
-
-		// }
 		if (!msh.tokens || !msh.tokens[0])
 		{
 			free(input);
@@ -103,6 +94,7 @@ int main(int ac, char *av[], char **envp)
 		{
 			// freeList(msh.cmds);////////////////////////////////
 			free_everything(msh, split_input, input);
+			free_output_redirection(&msh);
 			free_cmd_list(msh.cmds);
 			return (EXIT_SUCCESS);
 		}
@@ -149,6 +141,7 @@ int main(int ac, char *av[], char **envp)
 		ft_printf(BRGREEN"Exit Status: %d\n"NO_ALL, msh.exit_status);//////////////
 		// freeList(msh.cmds);////////////////////////////////
 		free_cmd_list(msh.cmds);
+		free_output_redirection(&msh);
 	}
 	free_dpc(msh.envp2);
     free_tokens(msh.tokens);
