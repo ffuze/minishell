@@ -27,6 +27,12 @@ void	ft_handler(int signum)
     rl_redisplay();
 }
 
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	
+}
+
 int main(int ac, char *av[], char **envp)
 {
 	struct	sigaction sa;
