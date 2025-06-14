@@ -185,7 +185,7 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
-unsigned char	execute_single_cmd(t_msh *msh);
+void	execute_single_cmd(t_msh *msh);
 
 // Executes the given command
 void	*execute_cmd(char **cmd, char **envp);

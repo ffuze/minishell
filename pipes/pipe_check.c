@@ -61,5 +61,5 @@ void	pipe_check(t_msh *msh)
 	if (msh->pipe_count > 0)
 		init_pipeline(msh);
 	else if (msh->pipe_count == 0)
-		code = execute_single_cmd(msh);
+		execute_single_cmd(msh);
 }
