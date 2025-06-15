@@ -51,5 +51,6 @@ size_t	count_args(char *input)
 		if (ft_isoperator(input[i]))
 			count_operators(input, &i, &words);
 	}
-	return(words);
+	ft_printf("Args number: %d\n", words);
+	return (words);
 }

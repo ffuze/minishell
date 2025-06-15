@@ -88,6 +88,8 @@ static int	process_input(t_msh *msh, char *input)
 		return (0);
 	split_input = ft_split(input, ' ');
 	msh->tokens = tokenize(msh, input);
+	if (!msh->tokens)
+		return (free_dpc(split_input), 0);
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
 	if (!msh->tokens || !msh->tokens[0])

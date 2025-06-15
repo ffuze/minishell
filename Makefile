@@ -14,7 +14,7 @@ SRC_MAIN = index.c \
 			tokenize/check_vars_and_quotes/parse_input.c \
 			tokenize/check_vars_and_quotes/count_args.c \
 			tokenize/tokenizer.c tokenize/tokenize_input.c \
-			tokenize/tokenize_output.c tokenize/tokenize_quotes.c\
+			tokenize/tokenize_output.c tokenize/tokenize_words.c\
 			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
 			redirection/redirection_in.c redirection/redirection_out.c\
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \

@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 11:04:11 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/06/05 14:01:24 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:23:56 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
+	i = 0;
 	s3 = ft_calloc((len1 + len2 + 1), sizeof(char));
 	if (s3 == NULL)
 		return (NULL);
-	i = 0;
 	while (*s1)
 		s3[i++] = *s1++;
 	while (*s2)
