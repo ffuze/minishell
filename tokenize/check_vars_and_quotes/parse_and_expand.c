@@ -46,9 +46,11 @@ static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 			msh->exp_input = ft_realloc(msh->exp_input, j, \
 											j + ft_strlen(input) - *i);
 		}
-		if (input[*i] && input[*i] != '$' && input[*i] != '"')
+		if (input[*i])
 			msh->exp_input[j++] = input[(*i)++];
-	}
+		}
+		if (input[*i] == '"')
+			msh->exp_input[j++] = input[(*i)++];
 	return (j);
 }
 
@@ -57,6 +59,8 @@ static void	through_singlequotes(t_msh *msh, char *input, size_t *i, size_t *j)
 	msh->exp_input[(*j)++] = input[(*i)++];
 	while (input[*i] && input[*i] != '\'')
 		msh->exp_input[(*j)++] = input [(*i)++];
+	if (input[*i] == '\'')
+			msh->exp_input[(*j)++] = input[(*i)++];
 }
 
 // Returns the string "input" without outer quotes.
