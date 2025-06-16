@@ -4,12 +4,12 @@
 static bool	check_fd(t_msh *msh, t_token *tokens)
 {
 	int	fd;
-	if (!msh || !tokens || tokens->type != TOKEN_INFILE)
+	if (!msh || !tokens || tokens->type != TOKEN_INFILE || !tokens->value)
 		return (false);
 	fd = open(tokens->value, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("minishell: %s: Permission denied\n", tokens->value);
+		ft_printf("minishell: %s: File not found or permission denied\n", tokens->value);
 		msh->exit_status = 1;
 		return (false);
 	}
