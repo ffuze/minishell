@@ -1,33 +1,5 @@
 #include "../../minishell.h"
 
-// Searches the var in the environment and returns its value.
-static char	*find_value(char **envp, char *input, size_t *i)
-{
-	char	*var_name;
-	size_t	start;
-	size_t	j;
-	size_t	name_l;
-
-	j = 0;
-	(*i)++;
-	start = *i;
-	while(input[*i] && ((input[*i] > '0' && input[*i] < '9') || \
-						(input[*i] > 'A' && input[*i] < 'Z') || \
-						(input[*i] > 'a' && input[*i] < 'z')))
-		(*i)++;
-	var_name = ft_substr(input, start, (*i - start));
-	if(!var_name)
-		return (NULL);
-	name_l = ft_strlen(var_name);
-	while (envp[j])
-	{
-		if (ft_strncmp(envp[j], var_name, name_l) == 0)
-			return (free(var_name), ft_strchr2(envp[j], '='));
-		j++;
-	}
-	return (free(var_name), "");
-}
-
 static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 {
 	size_t	j;
@@ -38,17 +10,12 @@ static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 	{
 		if (input[*i] == '$')
 		{
-			msh->exp_input = ft_strjoin2(msh->exp_input, \
-									find_value(msh->envp2, input, i));
-			if (!msh->exp_input)
+			if(!expand_dollar(msh, input, i, &j));
 				return (0);
-			j = ft_strlen(msh->exp_input);
-			msh->exp_input = ft_realloc(msh->exp_input, j, \
-											j + ft_strlen(input) - *i);
 		}
 		if (input[*i])
 			msh->exp_input[j++] = input[(*i)++];
-		}
+	}
 		if (input[*i] == '"')
 			msh->exp_input[j++] = input[(*i)++];
 	return (j);
@@ -73,22 +40,21 @@ char	*ft_expandedcpy(t_msh *msh, char *input)
 	j = 0;
 	while (input[i])
 	{
-		if (input[i] == '"')
-			j = through_doublequotes(msh, input, &i);
-		if (input[i] == '\'')
-			through_singlequotes(msh, input, &i, &j);
-		if (input[i] == '$')
-		{
-			msh->exp_input = ft_strjoin2(msh->exp_input, \
-								find_value(msh->envp2, input, &i));
-			if (!msh->exp_input)
-				return (NULL);
-			j = ft_strlen(msh->exp_input);
-			msh->exp_input = ft_realloc(msh->exp_input, j, \
-												j + ft_strlen(input) - i);
-		}
 		if (input[i] && input[i] != '"' && input[i] !='\'' && input[i] !='$')
 			msh->exp_input[j++] = input [i++];
+		if (input[i] == '$')
+		{
+			if(!expand_dollar(msh, input, &i, &j));
+				return (NULL);
+		}
+		if (input[i] == '\'')
+			through_singlequotes(msh, input, &i, &j);
+		if (input[i] == '"')
+		{
+			j = through_doublequotes(msh, input, &i);
+			if (j == 0)
+				return (NULL);
+		}
 	}
 	return (msh->exp_input);
 }
@@ -105,6 +71,8 @@ char	*ft_parse_and_expand(t_msh *msh, char *input)
 	if (!msh->exp_input)
 		return (NULL);
 	msh->exp_input = ft_expandedcpy(msh, input);
+	if(!msh->exp_input)
+		return(NULL);
 	// printf(MAGENTA"msh->Exp_input = %s\n"NO_ALL, msh->exp_input);/////////////////
 	return (msh->exp_input);
 }

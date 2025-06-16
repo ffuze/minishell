@@ -113,6 +113,13 @@ t_token	**tokenize(t_msh *msh, char *input);
 // An error message is diplayed if outer quotes are unclosed.
 char	*ft_parse_and_expand(t_msh *msh, char *input);
 
+// Expands environment variables and/or the exit status.
+// Return 0 on failure.
+int	expand_dollar(t_msh *msh, char *input, size_t *i, size_t *j);
+
+// Searches the var in the environment and returns its value.
+char	*find_value(char **envp, char *input, size_t *i);
+
 t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 																size_t end);
 int		count_tokens(t_token **tokens);

@@ -11,8 +11,9 @@ SRC_MAIN = index.c \
 			built_in/ft_export_append.c built_in/ft_cd.c built_in/ft_unset.c \
 			tokenize/tokenize_utils.c \
 			tokenize/check_vars_and_quotes/parse_and_expand.c \
-			tokenize/check_vars_and_quotes/parse_input.c \
 			tokenize/check_vars_and_quotes/count_args.c \
+			tokenize/check_vars_and_quotes/parse_input.c \
+			tokenize/check_vars_and_quotes/variable_expansion.c \
 			tokenize/tokenizer.c tokenize/tokenize_input.c \
 			tokenize/tokenize_output.c tokenize/tokenize_words.c\
 			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
