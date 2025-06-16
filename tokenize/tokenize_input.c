@@ -40,10 +40,8 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
 			(*i)++;
 		tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
-		printf("primera vez: %s\n", tokens[count]->value);
 		if (!check_fd(msh, tokens[count - 1]))
 		{
-			printf("segunda vez: %s\n", tokens[count - 1]->value);
 			free(tokens);
 			while (input[*i] && input[*i] != '|')
 				(*i)++;
