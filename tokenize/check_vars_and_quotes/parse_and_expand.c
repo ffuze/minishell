@@ -10,7 +10,7 @@ static size_t	through_doublequotes(t_msh *msh, char *input, size_t *i)
 	{
 		if (input[*i] == '$')
 		{
-			if(!expand_dollar(msh, input, i, &j));
+			if(!expand_dollar(msh, input, i, &j))
 				return (0);
 		}
 		if (input[*i])
@@ -44,7 +44,7 @@ char	*ft_expandedcpy(t_msh *msh, char *input)
 			msh->exp_input[j++] = input [i++];
 		if (input[i] == '$')
 		{
-			if(!expand_dollar(msh, input, &i, &j));
+			if(!expand_dollar(msh, input, &i, &j))
 				return (NULL);
 		}
 		if (input[i] == '\'')

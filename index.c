@@ -1,22 +1,5 @@
 #include "minishell.h"
 
-void	ft_clear(char *input)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		reset_child_signals();
-		char *argv[] = { "clear", NULL };
-		execve("/usr/bin/clear", argv, __environ);
-		rl_clear_history();
-		free(input);	
-	}
-	else
-		wait(NULL);
-}
-
 static void	print_token_info(t_msh *msh)
 {
 	size_t	i;
@@ -27,7 +10,7 @@ static void	print_token_info(t_msh *msh)
 	ft_printf("Number of pipes: %d\n", msh->pipe_count);
 }
 
-static int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
+/* static int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
 {
 	if (ft_strcmp(msh->tokens[0]->value, "env") == 0)
 		ft_env(msh->envp2);
@@ -59,7 +42,7 @@ static int	identify_builtin_commands(t_msh *msh, char **split_input, char *input
 	else
 		pipe_check(msh);
 	return (0);
-}
+} */
 
 static void	init_shell(t_msh *msh, char **envp)
 {
@@ -67,10 +50,9 @@ static void	init_shell(t_msh *msh, char **envp)
 	msh->envp2 = ft_envp_dup(envp);
 }
 
-static void	cleanup_iteration(t_msh *msh, char **split_input, char *input)
+static void	cleanup_iteration(t_msh *msh, char *input)
 {
 	free(input);
-	free_dpc(split_input);
 	free_tokens(msh->tokens);
 	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
 	free_cmd_list(msh->cmds);
@@ -79,43 +61,35 @@ static void	cleanup_iteration(t_msh *msh, char **split_input, char *input)
 
 static int	process_input(t_msh *msh, char *input)
 {
-	char	**split_input;
-	int		builtin_result;
-	int		clearflag;
+	// char	**split_input;
+	// int		builtin_result;
 
-	clearflag = 0;
+	msh->clearflag = 0;
 	if (!(*input))
 		return (0);
-	split_input = ft_split(input, ' ');
+	// split_input = ft_split(input, ' ');
 	msh->tokens = tokenize(msh, input);
 	if (!msh->tokens)
-		return (free_dpc(split_input), 0);
+		return (0);
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
 	if (!msh->tokens || !msh->tokens[0])
 	{
-		free_dpc(split_input);
+		// free_dpc(split_input);
 		return (0);
 	}
-	builtin_result = identify_builtin_commands(msh, split_input, input);
-	if (builtin_result == 1)
-	{
-		free_everything(*msh, split_input, input);
-		free_output_redirection(msh);
-		free_cmd_list(msh->cmds);
-		return (1);
-	}
+	/* builtin_result = identify_builtin_commands(msh, split_input, input);
+	ft_printf(RED"%d\n"NO_ALL, builtin_result);////////////////////////////
 	if (builtin_result == -1)
 	{
 		free_everything(*msh, split_input, input);
 		ft_putstr_fd(RED"Failed envp2"NO_ALL, 2);
 		return (1);
-	}
-	if (builtin_result == 2)
-		clearflag = 1;
-	if (!clearflag)
+	} */
+	pipe_check(msh, input);
+	if (!msh->clearflag)// perche' non aggiungere clear alla history?
 		add_history(input);
-	cleanup_iteration(msh, split_input, input);
+	cleanup_iteration(msh, input);
 	return (0);
 }
 

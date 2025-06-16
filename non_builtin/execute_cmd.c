@@ -53,11 +53,13 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-void	*execute_cmd(char **cmd, char **envp)
+void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 {
 	char	*cmd_path;
 
 	cmd_path = NULL;
+	if (identify_builtin_commands(msh, cmd, input) != 0)
+		exit(0);
 	if (ft_strchr(cmd[0], '/'))
 	{
 		execute_absrel_path(cmd[0], envp);

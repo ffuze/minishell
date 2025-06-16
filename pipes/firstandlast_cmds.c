@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
+int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input)
 {
 	setup_signals();
 	close(pipefd[0]);
@@ -12,11 +12,11 @@ int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 	if (dup2(pipefd[1], STDOUT_FILENO) < 0)
 		return (close(pipefd[1]), 0);
 	close(pipefd[1]);
-	execute_cmd(current->cmd, msh->envp2);
+	execute_cmd(msh, current->cmd, msh->envp2, input);
 	return (1);
 }
 
-int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
+int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input)
 {
 	setup_signals();
 	close(pipefd[1]);
@@ -28,6 +28,6 @@ int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 		setup_output_redirection(msh);
 		redirect_output(msh);
 	}
-	execute_cmd(current->cmd, msh->envp2);
+	execute_cmd(msh, current->cmd, msh->envp2, input);
 	return (1);
 }

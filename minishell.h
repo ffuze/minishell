@@ -104,6 +104,7 @@ typedef	struct s_msh
 	int				**fd_mrx; //   Array of FDs used by the pipeline.
 	unsigned char	exit_status;
 	char			*limiter; //   Signal the end of the input in heredoc.
+	int				clearflag;
 }					t_msh;
 
 /*________________________________ tokenizer ________________________________*/
@@ -166,7 +167,11 @@ void	print_err(char *s1, char *err_type);
 
 /*_________________________________ built_in ________________________________*/
 
-// int	identify_builtin_commands(t_msh *msh, char **split_input, char *input);
+int	identify_builtin_commands(t_msh *msh, char **cmd, char *input);
+
+void	ft_exit(t_msh *msh, char *input);
+
+void	ft_clear(t_msh *msh, char *input);
 
 void	ft_echo(char  **cmd);
 
@@ -195,10 +200,10 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
-void	execute_single_cmd(t_msh *msh);
+void	execute_single_cmd(t_msh *msh, char *input);
 
 // Executes the given command
-void	*execute_cmd(char **cmd, char **envp);
+void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input);
 
 /*_______________________________ redirection ______________________________*/
 // Fill the infile structure with the appropriate file name, and determines
@@ -218,7 +223,7 @@ void	redirect_output(t_msh *msh);
 
 /*__________________________________ pipes __________________________________*/
 // Determines whether a single command or more have to be executed.
-void	pipe_check(t_msh *msh);
+void	pipe_check(t_msh *msh, char *input);
 
 // Closes all file descriptors and liberates the allocated memory
 void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
@@ -226,12 +231,12 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
 // Creates an FD for each pipe in the command line.
 int		**fd_matrix_creator(int pipe_count);
 
-int		first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
-int		last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd);
+int		first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input);
+int		last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int		middle_child_generator(t_msh *msh, t_cmds *current);
+int		middle_child_generator(t_msh *msh, t_cmds *current, char *input);
 
 /*_______________________________ test_setup.c ______________________________*/
 t_cmds	*crealista();
@@ -240,7 +245,7 @@ void 	freeList(t_cmds *head);
 
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
-void    free_everything(t_msh msh, char **split_input, char *input);
+void    free_everything(t_msh msh, char *input);
 void	free_cmd_list(t_cmds *root);
 void	free_output_redirection(t_msh *msh);
 

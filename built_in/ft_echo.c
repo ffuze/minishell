@@ -32,7 +32,7 @@ void	ft_echo(char **cmd)
 	{
 		ft_printfd(1, "%s", cmd[i]);
 		if (cmd[i + 1])
-			printf(" ");
+			ft_printfd(1, " ");
 		i++;
 	}
 	if (newline)

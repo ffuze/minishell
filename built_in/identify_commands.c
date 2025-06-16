@@ -1,34 +1,34 @@
 #include "../minishell.h"
 
-/* int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
+int	identify_builtin_commands(t_msh *msh, char **cmd, char *input)
 {
-	if (ft_strcmp(msh->tokens[0]->value, "env") == 0)
+	if (ft_strcmp(cmd[0], "env") == 0)
 		ft_env(msh->envp2);
-	else if (ft_strcmp(msh->tokens[0]->value, "export") == 0)
+	else if (ft_strcmp(cmd[0], "export") == 0)
 	{
-		ft_export(msh, split_input);
+		ft_export(msh, cmd);
 		if (!msh->envp2)
 			return (-1);
 	}
-	else if (ft_strcmp(msh->tokens[0]->value, "unset") == 0)
+	else if (ft_strcmp(cmd[0], "unset") == 0)
 	{
-		ft_unset(msh, split_input);
+		ft_unset(msh, cmd);
 		if (!msh->envp2)
 			return (-1);
 	}
-	else if (ft_strcmp(msh->tokens[0]->value, "pwd") == 0)
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_pwd();
-	else if (ft_strcmp(msh->tokens[0]->value, "cd") == 0)
-		ft_cd(msh, split_input);
-	else if (ft_strcmp(msh->tokens[0]->value, "echo") == 0)
-		ft_echo(split_input);
-	else if (ft_strcmp(msh->tokens[0]->value, "clear") == 0)
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		ft_cd(msh, cmd);
+	else if (ft_strcmp(cmd[0], "echo") == 0)
+		ft_echo(cmd);
+	else if (ft_strcmp(cmd[0], "clear") == 0)
 	{
-		ft_clear(input);
-		return (2);
+		ft_clear(msh, input);
 	}
-	else if (ft_strcmp(msh->tokens[0]->value, "exit") == 0)
-		return (1);
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		ft_exit(msh, input);
 	else
 		return (0);
-} */
+	return (1);
+}

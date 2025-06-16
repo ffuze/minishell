@@ -13,10 +13,9 @@ void	free_tokens(t_token **tokens)
 	free(tokens);
 }
 
-void    free_everything(t_msh msh, char **split_input, char *input)
+void    free_everything(t_msh msh, char *input)
 {
     free_tokens(msh.tokens);
-	free_dpc(split_input);
 	free_dpc(msh.envp2);
 	free(input);
 }
