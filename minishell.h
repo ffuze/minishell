@@ -159,7 +159,7 @@ void	print_err(char *s1, char *err_type);
 
 /*_________________________________ built_in ________________________________*/
 
-int	identify_builtin_commands(t_msh *msh, char **split_input, char *input);
+// int	identify_builtin_commands(t_msh *msh, char **split_input, char *input);
 
 void	ft_echo(char  **cmd);
 

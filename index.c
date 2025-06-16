@@ -19,9 +19,6 @@ void	ft_clear(char *input)
 
 static void	print_token_info(t_msh *msh)
 {
-	size_t	i;
-
-	i = 0;
 	for (size_t i = 0; msh->tokens && msh->tokens[i] != NULL; i++)
 		printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh->tokens[i]->value, msh->tokens[i]->type);//////////////
 	ft_printf("Number of pipes: %d\n", msh->pipe_count);

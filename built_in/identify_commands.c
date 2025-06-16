@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
+/* int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
 {
 	if (ft_strcmp(msh->tokens[0]->value, "env") == 0)
 		ft_env(msh->envp2);
@@ -31,4 +31,4 @@ int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
 		return (1);
 	else
 		return (0);
-}
+} */
