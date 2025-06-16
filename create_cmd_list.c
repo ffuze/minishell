@@ -49,7 +49,6 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 	{
 		if (tokens[i]->type == TOKEN_WORD)
 		{
-
 			prev = new_node;
 			new_node = ft_calloc(count_w_tokens(tokens, &i) + 1, sizeof(t_cmds));
 			if (!new_node)
@@ -66,6 +65,6 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 		if (tokens[i])
 			i++;
 	}
-	// printList(root);
+	printList(root);/////////////////////////////////////
 	return (root);
 }

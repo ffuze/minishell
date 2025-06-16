@@ -27,10 +27,10 @@ static void	print_token_info(t_msh *msh)
 	ft_printf("Number of pipes: %d\n", msh->pipe_count);
 }
 
-static int	handle_builtin_commands(t_msh *msh, char **split_input, char *input)
+static int	identify_builtin_commands(t_msh *msh, char **split_input, char *input)
 {
-	if (ft_strcmp(msh->tokens[0]->value, "exit") == 0)
-		return (1);
+	if (ft_strcmp(msh->tokens[0]->value, "env") == 0)
+		ft_env(msh->envp2);
 	else if (ft_strcmp(msh->tokens[0]->value, "export") == 0)
 	{
 		ft_export(msh, split_input);
@@ -45,8 +45,6 @@ static int	handle_builtin_commands(t_msh *msh, char **split_input, char *input)
 	}
 	else if (ft_strcmp(msh->tokens[0]->value, "pwd") == 0)
 		ft_pwd();
-	else if (ft_strcmp(msh->tokens[0]->value, "env") == 0)
-		ft_env(msh->envp2);
 	else if (ft_strcmp(msh->tokens[0]->value, "cd") == 0)
 		ft_cd(msh, split_input);
 	else if (ft_strcmp(msh->tokens[0]->value, "echo") == 0)
@@ -56,6 +54,8 @@ static int	handle_builtin_commands(t_msh *msh, char **split_input, char *input)
 		ft_clear(input);
 		return (2);
 	}
+	else if (ft_strcmp(msh->tokens[0]->value, "exit") == 0)
+		return (1);
 	else
 		pipe_check(msh);
 	return (0);
@@ -97,7 +97,7 @@ static int	process_input(t_msh *msh, char *input)
 		free_dpc(split_input);
 		return (0);
 	}
-	builtin_result = handle_builtin_commands(msh, split_input, input);
+	builtin_result = identify_builtin_commands(msh, split_input, input);
 	if (builtin_result == 1)
 	{
 		free_everything(*msh, split_input, input);

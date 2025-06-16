@@ -1,24 +1,7 @@
 #include "../minishell.h"
 
-// Reversed ft_split(): joins all strings in the array str_segment.
-//  Returns a single string or NULL on failure.
-char	*join_multistr(char **str_segment)
-{
-	char	*joined_strs;
-	int		i;
-
-	joined_strs = ft_calloc(1, 1);
-	i = 0;
-	while (str_segment[i])
-	{
-		joined_strs = ft_strjoin2(joined_strs, str_segment[i]);
-		if (!joined_strs)
-			return (NULL);
-		i++;
-	}
-	return (joined_strs);
-}
-
+// Tokenizes a string within single or double quotes whilst preserving the
+//  included space characters.
 static char	*handle_quotes(char *input, size_t *i, char *word)
 {
 	size_t	start;
@@ -47,6 +30,10 @@ static char	*handle_quotes(char *input, size_t *i, char *word)
 	return (word);
 }
 
+// Assigns TOKEN_WORD to a command and its parameters.
+// Strings outside and inside quotes will be joined in the same token
+//  if  not separated by at least one space.
+// Returns 1 on success, 0 on failure. 
 int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count)
 {
 	size_t	start;
@@ -72,63 +59,3 @@ int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count)
 	tokens[(*count)++] = make_token(TOKEN_WORD, word, 0, ft_strlen(word));
 	return (free(word), 1);
 }
-
-/* int	tokenize_d_q(t_token **tokens, t_token_enum token_type, \
-													char *input, size_t *i)
-{
-	int		count;
-	size_t	start;
-
-	if (input[*i] != '"')
-		return (0);
-	(*i)++;
-	start = *i;
-	count = count_tokens(tokens);
-	while (input[*i] && input[*i] != '"')
-		(*i)++;
-	//--------------------------------------------------------
-	char	next_quote;
-	next_quote = '\0';
-	if (input[*i] == '"' || input[*i] == '\'')// Bisogna rimovere la quote intermedia
-	{
-		next_quote = input[*i];
-		while (input[*i] && input[*i] != next_quote)
-			i++;
-	}
-	//--------------------------------------------------------
-	tokens[count++] = make_token(token_type, input, start, *i - start);
-	(*i)++;
-	return (count);
-}
-
-int	tokenize_s_q(t_token **tokens, t_token_enum token_type, \
-													char *input, size_t *i)
-{
-	int		count;
-	size_t	start;
-
-	if (input[*i] != '\'')
-		return (0);
-	(*i)++;
-	start = *i;
-	count = count_tokens(tokens);
-	while (input[*i] && input[*i] != '\'')
-		(*i)++;
-	tokens[count++] = make_token(token_type, input, start, *i - start);
-	(*i)++;
-	return (count);
-}
-
-// Sets a token for the substring between quotes,
-//  then returns the current number of tokens.
-int	tokenize_quotes(t_token **tokens, char *input, size_t *i)
-{
-	int	count;
-
-	count = 0;
-	if (input[*i] == '"')
-		count = tokenize_d_q(tokens, TOKEN_WORD, input, i);
-	else if (input[*i] == '\'')
-		count = tokenize_s_q(tokens, TOKEN_WORD, input, i);
-	return (count);
-} */

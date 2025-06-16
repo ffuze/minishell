@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	check_flag(char **cmd, int j)
+static int	check_flag(char **cmd, int j)
 {
 	int	i;
 
@@ -19,11 +19,6 @@ int	check_flag(char **cmd, int j)
 	return (j);
 }
 
-void	print_token(char *word)
-{
-	printf("%s", word);
-}
-
 void	ft_echo(char **cmd)
 {
 	int	i;
@@ -35,11 +30,11 @@ void	ft_echo(char **cmd)
 		newline = 0;
 	while (cmd[i] != NULL)
 	{
-		print_token(cmd[i]);
+		ft_printfd(1, "%s", cmd[i]);
 		if (cmd[i + 1])
 			printf(" ");
 		i++;
 	}
 	if (newline)
-		printf("\n");
+		ft_printfd(1, "\n");
 }

@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 // Sets the Exit Status and prints what kind of error was met.
-void	cd_err(t_msh *msh, char *path)
+static void	cd_err(t_msh *msh, char *path)
 {
 	msh->exit_status = 1;
 	write(2, "\e[31;1m", 7);
@@ -13,7 +13,7 @@ void	cd_err(t_msh *msh, char *path)
 }
 
 // Swaps the ~ symbol with HOME path and moves to the indicated directory.
-void	get_dir(t_msh *msh, char *home_path, char *input)
+static void	get_dir(t_msh *msh, char *home_path, char *input)
 {
 	char	*path;
 
@@ -28,7 +28,7 @@ void	get_dir(t_msh *msh, char *home_path, char *input)
 }
 
 // Moves to the previous directory.
-void	to_prev_dir(t_msh *msh, char **envp)
+static void	to_prev_dir(t_msh *msh, char **envp)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ void	to_prev_dir(t_msh *msh, char **envp)
 	ft_printf("%s\n", ft_strchr2(envp[i], '='));
 }
 
-char	*find_home(char **envp)
+static char	*find_home(char **envp)
 {
 	int		i;
 
