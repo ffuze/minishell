@@ -21,7 +21,7 @@ int	middle_cmd_process(t_msh *msh, char **cmd, int *pipefd1, int *pipefd2)
 	execute_cmd(msh, cmd, msh->envp2, "");
 	return (1);
 }
-// 
+
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
 int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
@@ -48,7 +48,7 @@ int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
 		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);
 		msh->pipe_count--;
-		current = current->next;
+		*current = *current->next;
 	}
 	return (i);
 }

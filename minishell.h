@@ -101,7 +101,7 @@ typedef	struct s_msh
 	t_outf			*outfiles; //  Output files from redirection.
 	bool			outfi_flag; // Tells whether the output must be redirected.
 	int				pipe_count; // Number of pipes.
-	int				**fd_mrx; //   Array of FDs used by the pipeline.
+	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
 	unsigned char	exit_status;
 	char			*limiter; //   Signal the end of the input in heredoc.
 	int				clearflag;

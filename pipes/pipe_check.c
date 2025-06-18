@@ -46,7 +46,6 @@ static void	init_pipeline(t_msh *msh, char *input)
 	close(msh->fd_mrx[i][1]);
 	msh->pipe_count--;
 	i = middle_child_generator(msh, current, input);
-	current = current->next;
 	init_lastcmd(msh, current, &i, input);
 	liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
 	while (waitpid(-1, &status, 0) > 0)
