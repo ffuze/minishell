@@ -9,11 +9,12 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
-		ft_printf("minishell: %s: Permission denied\n", tokens->value);
+		ft_printf("minishell: %s: No such file or directory\n", tokens->value);
 		msh->exit_status = 1;
 		return (false);
 	}
 	close(fd);
+	unlink(tokens->value);
 	return (true);
 }
 

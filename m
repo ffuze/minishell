@@ -1,0 +1,20 @@
+total 168
+drwxr-xr-x 2 adegl-in 2024_florence    220 Jun 18 13:10 built_in
+drwxr-xr-x 2 adegl-in 2024_florence    123 Jun  8 14:59 CasiStrani
+-rw-r--r-- 1 adegl-in 2024_florence   1335 Jun 16 14:14 create_cmd_list.c
+drwxr-xr-x 2 adegl-in 2024_florence     27 Jun 18 13:10 free_memory
+drwxr-xr-x 2 adegl-in 2024_florence     65 Jun 10 13:54 heredocs
+-rw-r--r-- 1 adegl-in 2024_florence   2927 Jun 18 13:10 index.c
+drwxr-xr-x 3 adegl-in 2024_florence   4096 Jun 18 13:10 libft
+-rw-r--r-- 1 adegl-in 2024_florence      0 Jun 18 14:29 m
+-rw-r--r-- 1 adegl-in 2024_florence   2018 Jun 18 13:10 Makefile
+-rwxr-xr-x 1 adegl-in 2024_florence 129472 Jun 18 14:18 minishell
+-rw-r--r-- 1 adegl-in 2024_florence   8630 Jun 18 13:10 minishell.h
+drwxr-xr-x 2 adegl-in 2024_florence     55 Jun 18 13:10 non_builtin
+drwxr-xr-x 2 adegl-in 2024_florence     99 Jun 18 13:10 pipes
+drwxr-xr-x 2 adegl-in 2024_florence     55 Jun 10 14:03 redirection
+drwxr-xr-x 2 adegl-in 2024_florence     23 Jun 11 19:41 signals
+-rw-r--r-- 1 adegl-in 2024_florence    456 May 27 11:09 supp.supp
+-rw-r--r-- 1 adegl-in 2024_florence   1904 Jun 11 19:41 test_setup.c
+drwxr-xr-x 3 adegl-in 2024_florence    178 Jun 16 15:23 tokenize
+-rw-r--r-- 1 adegl-in 2024_florence    997 Jun  9 12:10 utils.c
