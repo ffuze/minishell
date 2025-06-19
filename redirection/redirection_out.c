@@ -24,17 +24,34 @@ void	redirect_output(t_msh *msh)
 int	setup_output_redirection(t_msh *msh)
 {
 	int		i;
-	
+	int		last_outfile_index;
+	int		fd;
+
 	i = 0;
-	while (msh->tokens[i] && msh->tokens[i]->type != TOKEN_OUTFILE)
+	last_outfile_index = -1;
+	while (msh->tokens[i])
+	{
+		if (msh->tokens[i]->type == TOKEN_OUTFILE)
+		{
+			fd = open(msh->tokens[i]->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd >= 0)
+				close(fd);
+			else
+			{
+				ft_printf(msh->tokens[i]->value, ": could not be created\n");
+				return (0);
+			}
+			last_outfile_index = i;
+		}
 		i++;
-	if (!msh->outfiles)
-		exit(0);
-	msh->outfiles->outfile = ft_strdup(msh->tokens[i]->value);
+	}
+	if (last_outfile_index == -1 || !msh->outfiles)
+		return (0);
+	msh->outfiles->outfile = ft_strdup(msh->tokens[last_outfile_index]->value);
 	if (!msh->outfiles->outfile)
 	{
 		free(msh->outfiles);
-		exit(0);
+		return (0);
 	}
 	return (1);
 }
