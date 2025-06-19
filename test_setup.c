@@ -28,6 +28,7 @@ void	printList(t_cmds *head)
 	int		i;
 
 	current = head;
+	if (!current)
 	i = 0;
 	while (current != NULL)
 	{
@@ -37,10 +38,15 @@ void	printList(t_cmds *head)
 		{
 			while (current->cmd[i])
 			{
-				ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
-				i++;
+				if (current->cmd[i] != NULL)
+                    ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
+                else
+                    ft_printf(YELLOW" (null) "NO_ALL);
+                i++;
 			}
 		}
+		else
+            ft_printf(YELLOW" (cmd array is NULL) "NO_ALL);
 		ft_printf(GREEN"##\n"NO_ALL);
 		current = current->next;
 	}
