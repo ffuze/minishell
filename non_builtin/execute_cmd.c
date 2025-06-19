@@ -19,8 +19,8 @@ static char	*find_pathname(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		pathname = ft_strjoin(ft_strdup(paths[i]), "/");
-		pathname = ft_strjoin(pathname, cmd);
+		pathname = ft_strjoin2(ft_strdup(paths[i]), "/");
+		pathname = ft_strjoin2(pathname, cmd);
 		if (!pathname)
 			return (free_dpc(paths), NULL);
 		if (0 == access(pathname, F_OK | X_OK))
@@ -53,7 +53,7 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
+void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 {
 	char	*cmd_path;
 
@@ -72,9 +72,14 @@ void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	}
 	cmd_path = find_pathname(cmd[0], envp);
 	if (!cmd_path)
+	{
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		free_everything(*msh, input);
+		free_cmd_list(msh->cmds);
 		exit (127);
+	}
 	execve(cmd_path, cmd, envp);
-	print_err(cmd[0], ": command not executed.\n");
-	free(cmd_path);
-	exit (1);
+	// print_err(cmd[0], ": command not executed.\n");
+	// free(cmd_path);
+	// exit (1);
 }

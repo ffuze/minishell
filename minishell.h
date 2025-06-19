@@ -205,13 +205,12 @@ void	ft_cd(t_msh *msh, char  **cmd);
 void	execute_single_cmd(t_msh *msh, char *input);
 
 // Executes the given command
-void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input);
+void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input);
 
 /*_______________________________ redirection ______________________________*/
 // Fill the infile structure with the appropriate file name, and determines
 // wether there is an input file or a heredoc.
 int		setup_input_redirection(t_msh *msh);
-void	execute_redirection(t_msh *msh, t_token **tokens, int i);
 
 // Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh);

@@ -32,6 +32,7 @@ void	execute_single_cmd(t_msh *msh, char *input)
 	else if (0 == id)
 	{
 		setup_signals();
+		msh->fd_mrx = NULL;
 		ft_printf("Process ID: %d\n", getpid());///////////////////////////////////
 		child_proc(msh, input);
 	}

@@ -6,6 +6,8 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count)
 	int	j;
 
 	j = 0;
+	if (!fd_mrx)
+		return ;
 	while (j <= pipe_count)
 	{
 		close(fd_mrx[j][0]);
