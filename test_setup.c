@@ -29,7 +29,7 @@ void	printList(t_cmds *head)
 
 	current = head;
 	if (!current)
-	i = 0;
+		i = 0;
 	while (current != NULL)
 	{
 		i = 0;

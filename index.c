@@ -61,6 +61,7 @@ static void	cleanup_iteration(t_msh *msh, char *input)
 {
 	free(input);
 	free_tokens(msh->tokens);
+	free(msh->exp_input);
 	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
 	free_cmd_list(msh->cmds);
 	free_output_redirection(msh);
@@ -100,6 +101,7 @@ int	main(int ac, char *av[], char **envp)
 
 	(void)ac;
 	av = NULL;
+	print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
@@ -107,7 +109,7 @@ int	main(int ac, char *av[], char **envp)
 	while (1)
 	{
 		msh.exit_status = 0;
-		input = readline(BGMAGENTA"powershell> "NO_ALL);
+		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
 		if (!input)
 		{
 			if (msh.tokens)

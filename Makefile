@@ -24,7 +24,8 @@ SRC_MAIN = index.c \
 			pipes/middle_cmds.c pipes/init_lastcmd.c \
 			free_memory/free_memory.c \
 			heredocs/heredoc_in.c heredocs/exeggutor.c heredocs/append_out.c \
-			signals/signals.c 
+			signals/signals.c \
+			print_banner.c
 
 OBJECTS_MAIN = $(SRC_MAIN:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)

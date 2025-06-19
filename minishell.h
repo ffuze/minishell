@@ -126,10 +126,10 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 int		count_tokens(t_token **tokens);
 int		tokenize_quotes(t_token **tokens, char *input, size_t *i);
 int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count);
-// int	tokenize_d_q(t_token **tokens, t_token_enum token_type, \
-// 													char *input, size_t *i);
-// int	tokenize_s_q(t_token **tokens, t_token_enum token_type, \
-// 													char *input, size_t *i);
+/*int	tokenize_d_q(t_token **tokens, t_token_enum token_type,
+													char *input, size_t *i);*/
+/*int	tokenize_s_q(t_token **tokens, t_token_enum token_type,
+													char *input, size_t *i);*/
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		validate_input_files(t_msh *msh);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
@@ -262,5 +262,7 @@ void	execute_redirection(t_msh *msh, t_token **tokens, int i);
 /*_______________________________ signals ______________________________*/
 void	setup_signals();
 void	reset_child_signals();
+
+void	print_banner();
 
 #endif

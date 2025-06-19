@@ -54,7 +54,6 @@ t_token **tokenize(t_msh *msh, char *input)
 		//------------------------------------------------------------------
 	}
 	tokens[count] = NULL;
-	free(msh->exp_input);
 	return (tokens);
 }
 // echo "oddio 'no way' sta 'per' funz"i"ona'r'e"
