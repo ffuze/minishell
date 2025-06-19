@@ -4,6 +4,15 @@ static int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inpu
 {
 	setup_signals();
 	close(pipefd[1]);
+	if (ft_strcmp(current->cmd[0], "clear") == 0 || \
+					ft_strcmp(current->cmd[0], "exit") == 0)
+	{
+		close(pipefd[0]);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		free_everything(*msh, input);
+		free_cmd_list(msh->cmds);
+		exit(EXIT_SUCCESS);
+	}
 	if (dup2(pipefd[0], STDIN_FILENO) < 0)
 		return (close(pipefd[0]), 0);
 	close(pipefd[0]);
@@ -16,26 +25,12 @@ static int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inpu
 	return (1);
 }
 
-static int	setup_builtin_last(t_msh *msh, t_cmds *current, int *i, char *input)
-{
-	setup_signals();
-	close(msh->fd_mrx[*i][1]);
-	// Check per redirection output.
-	close(msh->fd_mrx[*i][0]);
-	execute_builtin_commands(msh, current->cmd, input);
-	return (1);
-}
-
 // Initializes the last command in the pipeline.
 void	init_lastcmd(t_msh *msh, t_cmds *current, int *i, char *input)
 {
 	int	id3;
 
-	id3 = 1;
-	if (identify_builtin_commands(msh, current->cmd))
-		setup_builtin_last(msh, current, i, input);
-	else
-		id3 = fork();
+	id3 = fork();
 	if (id3 < 0)
 		return (print_err("Fork failed for id3.", "\n"));
 	else if (0 == id3)

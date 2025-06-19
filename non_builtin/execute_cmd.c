@@ -59,7 +59,12 @@ void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 
 	cmd_path = NULL;
 	if (execute_builtin_commands(msh, cmd, input) != 0)///////////////////
-		exit(0);
+	{
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		free_everything(*msh, input);
+		free_cmd_list(msh->cmds);
+		exit(EXIT_SUCCESS);
+	}
 	if (ft_strchr(cmd[0], '/'))
 	{
 		execute_absrel_path(cmd[0], envp);

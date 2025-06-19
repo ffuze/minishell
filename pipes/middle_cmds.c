@@ -1,24 +1,29 @@
 #include "../minishell.h"
 
-// !!!!! Exit in middle_cmd dara' un mondo di leak.
-
-int	middle_cmd_process(t_msh *msh, char **cmd, int *pipefd1, int *pipefd2)
+// pipefd1: fd_mrx[*i - 1]
+// pipefd2: fd_mrx[*i]
+int	middle_cmd_process(t_msh *msh, char **cmd, int *i, char *input)
 {
 	setup_signals();
-	close(pipefd2[0]);
+	close(msh->fd_mrx[*i][0]);
 	if (ft_strcmp(cmd[0], "clear") == 0 || \
 					ft_strcmp(cmd[0], "exit") == 0)
 	{
-		close(pipefd1[0]);
-		close(pipefd2[1]);
-		exit(0);
+		close(msh->fd_mrx[*i - 1][0]);
+		close(msh->fd_mrx[*i][1]);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		free_everything(*msh, input);
+		free_cmd_list(msh->cmds);
+		exit(EXIT_SUCCESS);
 	}
-	if (dup2(pipefd1[0], STDIN_FILENO) < 0)
-		return (close(pipefd1[0]), close(pipefd2[1]), 0);
-	if (dup2(pipefd2[1], STDOUT_FILENO) < 0)
-		return (close(pipefd2[1]), 0);
-	close(pipefd2[1]);
-	execute_cmd(msh, cmd, msh->envp2, "");
+	if (dup2(msh->fd_mrx[*i - 1][0], STDIN_FILENO) < 0)
+		return (close(msh->fd_mrx[*i - 1][0]), close(msh->fd_mrx[*i][1]), 0);
+	if (dup2(msh->fd_mrx[*i][1], STDOUT_FILENO) < 0)
+		return (close(msh->fd_mrx[*i][1]), 0);
+	close(msh->fd_mrx[*i][1]);
+	if (identify_builtin_commands(msh, cmd))
+		close(msh->fd_mrx[*i][0]);
+	execute_cmd(msh, cmd, msh->envp2, input);
 	return (1);
 }
 
@@ -29,26 +34,19 @@ int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
 	int		id2;
 	int		i;
 
-	(void)input;//////////////////
 	i = 0;
 	while (msh->pipe_count)
 	{
 		i++;
 		if (-1 == pipe(msh->fd_mrx[i]))
 			return (print_err("Failed to create pipe.", "\n"), i);
-		if (identify_builtin_commands(msh, current->cmd))
-		{
-			id2 = 1;
-			execute_builtin_commands(msh, current->cmd, input);//aggiungere dup2()
-		}
-		else
-			id2 = fork();
+		id2 = fork();
 		if (id2 < 0)
 			return (print_err("Fork failed for id2.", "\n"), \
 						close(msh->fd_mrx[i][0]), close(msh->fd_mrx[i][1]), i - 1);
 		else if (0 == id2)
 		{
-			middle_cmd_process(msh, current->cmd, msh->fd_mrx[i - 1], msh->fd_mrx[i]);
+			middle_cmd_process(msh, current->cmd, &i, input);
 		}
 		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);

@@ -14,10 +14,11 @@ static void	init_pipeline(t_msh *msh, char *input)
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_count);
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
+	msh->pipe_count--;
 	init_firstcmd(msh, current, &i, input);
 	current = current->next;
 	close(msh->fd_mrx[i][1]);
-	msh->pipe_count--;
+	// msh->pipe_count--;
 	i = middle_child_generator(msh, current, input);
 	init_lastcmd(msh, current, &i, input);
 	liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
