@@ -9,7 +9,7 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	fd = open(tokens->value, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("minishell: %s: File not found or permission denied\n", tokens->value);
+		ft_printf("minishell: %s: No such file or directory\n", tokens->value);
 		msh->exit_status = 1;
 		return (false);
 	}
