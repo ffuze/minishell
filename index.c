@@ -75,14 +75,6 @@ static int	process_input(t_msh *msh, char *input)
 		// free_dpc(split_input);
 		return (0);
 	}
-	/* builtin_result = identify_builtin_commands(msh, split_input, input);
-	ft_printf(RED"%d\n"NO_ALL, builtin_result);////////////////////////////
-	if (builtin_result == -1)
-	{
-		free_everything(*msh, split_input, input);
-		ft_putstr_fd(RED"Failed envp2"NO_ALL, 2);
-		return (1);
-	} */
 	pipe_check(msh, input);
 	if (!msh->clearflag)// perche' non aggiungere clear alla history?
 		add_history(input);

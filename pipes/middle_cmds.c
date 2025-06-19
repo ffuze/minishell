@@ -31,13 +31,18 @@ int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
 
 	(void)input;//////////////////
 	i = 0;
-	id2 = 1;
 	while (msh->pipe_count)
 	{
 		i++;
 		if (-1 == pipe(msh->fd_mrx[i]))
 			return (print_err("Failed to create pipe.", "\n"), i);
-		id2 = fork();
+		if (identify_builtin_commands(msh, current->cmd))
+		{
+			id2 = 1;
+			execute_builtin_commands(msh, current->cmd, input);//aggiungere dup2()
+		}
+		else
+			id2 = fork();
 		if (id2 < 0)
 			return (print_err("Fork failed for id2.", "\n"), \
 						close(msh->fd_mrx[i][0]), close(msh->fd_mrx[i][1]), i - 1);

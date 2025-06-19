@@ -58,7 +58,7 @@ void	*execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	char	*cmd_path;
 
 	cmd_path = NULL;
-	if (identify_builtin_commands(msh, cmd, input) != 0)
+	if (execute_builtin_commands(msh, cmd, input) != 0)///////////////////
 		exit(0);
 	if (ft_strchr(cmd[0], '/'))
 	{

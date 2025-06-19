@@ -1,32 +1,5 @@
 #include "../minishell.h"
 
-static void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input)
-{
-	int	id1;
-
-	id1 = fork();
-	if (id1 < 0)
-		return (print_err("Fork failed for id1.", "\n"));
-	if (0 == id1)
-		first_cmd_process(msh, current, msh->fd_mrx[*i], input);
-}
-
-static void	init_lastcmd(t_msh *msh, t_cmds *current, int *i, char *input)
-{
-	int	id3;
-
-	id3 = 1;
-	if (ft_strcmp(current->cmd[0], "exit") == 0 || \
-			ft_strcmp(current->cmd[0], "clear") == 0)
-		identify_builtin_commands(msh, current->cmd, input);
-	else
-		id3 = fork();
-	if (id3 < 0)
-		return (print_err("Fork failed for id3.", "\n"));
-	else if (0 == id3)
-		last_cmd_process(msh, current, msh->fd_mrx[*i], input);
-}
-
 static void	init_pipeline(t_msh *msh, char *input)
 {
 	int		i;
@@ -67,7 +40,7 @@ void	pipe_check(t_msh *msh, char *input)
 		init_pipeline(msh, input);
 	else if (msh->pipe_count == 0)
 	{
-		if (identify_builtin_commands(msh, msh->cmds->cmd, input) == 0)
+		if (execute_builtin_commands(msh, msh->cmds->cmd, input) == 0)
 			execute_single_cmd(msh, input);
 	}
 }

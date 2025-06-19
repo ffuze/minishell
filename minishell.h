@@ -167,7 +167,8 @@ void	print_err(char *s1, char *err_type);
 
 /*_________________________________ built_in ________________________________*/
 
-int	identify_builtin_commands(t_msh *msh, char **cmd, char *input);
+int	identify_builtin_commands(t_msh *msh, char **cmd);
+int	execute_builtin_commands(t_msh *msh, char **cmd, char *input);
 
 void	ft_exit(t_msh *msh, char *input);
 
@@ -231,8 +232,11 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
 // Creates an FD for each pipe in the command line.
 int		**fd_matrix_creator(int pipe_count);
 
-int		first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input);
-int		last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input);
+// Initializes the first command in the pipeline.
+void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input);
+
+// Initializes the last command in the pipeline.
+void	init_lastcmd(t_msh *msh, t_cmds *current, int *i, char *input);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.

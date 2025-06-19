@@ -24,7 +24,7 @@ void	execute_single_cmd(t_msh *msh, char *input)
 	status = 0;
 	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0 || \
 			ft_strcmp(msh->cmds->cmd[0], "clear") == 0)
-		identify_builtin_commands(msh, msh->cmds->cmd, input);
+		execute_builtin_commands(msh, msh->cmds->cmd, input);
 	else
 		id = fork();
 	if (id < 0)

@@ -20,8 +20,8 @@ SRC_MAIN = index.c \
 			tokenize/tokenize_output.c tokenize/tokenize_words.c\
 			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
 			redirection/redirection_in.c redirection/redirection_out.c\
-			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/firstandlast_cmds.c \
-			pipes/middle_cmds.c \
+			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/init_firstcmd.c \
+			pipes/middle_cmds.c pipes/init_lastcmd.c \
 			free_memory/free_memory.c \
 			heredocs/heredoc_in.c heredocs/exeggutor.c heredocs/append_out.c \
 			signals/signals.c 

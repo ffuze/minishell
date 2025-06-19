@@ -1,6 +1,27 @@
 #include "../minishell.h"
 
-int	identify_builtin_commands(t_msh *msh, char **cmd, char *input)
+int	identify_builtin_commands(t_msh *msh, char **cmd)
+{
+	if (ft_strcmp(cmd[0], "env") == 0)
+		ft_env(msh->envp2);
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "echo") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "clear") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		return (1);
+	return (0);
+}
+
+int	execute_builtin_commands(t_msh *msh, char **cmd, char *input)
 {
 	if (ft_strcmp(cmd[0], "env") == 0)
 		ft_env(msh->envp2);
