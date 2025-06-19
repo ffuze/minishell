@@ -44,4 +44,8 @@ bash$ < path.txt cd esegue solo "cd"
 bash$ < utils.c cat | | | |  cat
 bash: syntax error near unexpected token `|'
 
+bash$ ls ekko >
+Da' un sacco di leak!!!!!
 
+bash$ ls > ekko | wc
+Stampa risultato di ls in "ekko" e 0 | 0 | 0 su terminale
