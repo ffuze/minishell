@@ -39,16 +39,7 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		start = *i;
 		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
 			(*i)++;
-		tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);
-		if (!check_fd(msh, tokens[count - 1]))
-		{
-			free(tokens);
-			while (input[*i] && input[*i] != '|')
-				(*i)++;
-			if (input[*i] == '|')
-				(*i)++;
-			return (0);
-		}
+		tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);		
 	}
 	else if (input[*i] == '<' && input[*i + 1] == '<')
 	{
@@ -64,3 +55,23 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	return (count);
 }
 
+// Check if all input files exist or not in order to avoid
+// potential invalid accesses 
+int validate_input_files(t_msh *msh)
+{
+	int i;
+	
+	i = 0;
+	if (!msh->tokens)
+		return (0);
+	while (msh->tokens[i])
+	{
+		if (msh->tokens[i]->type == TOKEN_INFILE)
+		{
+			if (!check_fd(msh, msh->tokens[i]))
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}

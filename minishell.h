@@ -104,7 +104,7 @@ typedef	struct s_msh
 	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
 	unsigned char	exit_status;
 	char			*limiter; //   Signal the end of the input in heredoc.
-	int				clearflag;
+	// int				clearflag;
 }					t_msh;
 
 /*________________________________ tokenizer ________________________________*/
@@ -131,6 +131,7 @@ int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count);
 // int	tokenize_s_q(t_token **tokens, t_token_enum token_type, \
 // 													char *input, size_t *i);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
+int		validate_input_files(t_msh *msh);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 // Handles $ sign for environment vars expansion.
 int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
@@ -172,7 +173,7 @@ int	execute_builtin_commands(t_msh *msh, char **cmd, char *input);
 
 void	ft_exit(t_msh *msh, char *input);
 
-void	ft_clear(t_msh *msh, char *input);
+void	ft_clear(char *input);
 
 void	ft_echo(char  **cmd);
 

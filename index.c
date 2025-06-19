@@ -2,8 +2,18 @@
 
 static void	print_token_info(t_msh *msh)
 {
-	for (size_t i = 0; msh->tokens && msh->tokens[i] != NULL; i++)
-		printf("Token numero %zu: %s e' di tipo: %d++\n", i, msh->tokens[i]->value, msh->tokens[i]->type);//////////////
+	int	i;
+
+	i = 0;
+	if (!msh || !msh->tokens)
+		return ;
+	while (msh->tokens[i] != NULL)
+	{
+		if (!msh->tokens[i]->value)
+			break ;
+		printf("Token numero %d: %s e' di tipo: %d++\n", i, msh->tokens[i]->value, msh->tokens[i]->type);//////////////
+		i++;
+	}
 	ft_printf("Number of pipes: %d\n", msh->pipe_count);
 }
 
@@ -61,13 +71,14 @@ static int	process_input(t_msh *msh, char *input)
 	// char	**split_input;
 	// int		builtin_result;
 
-	msh->clearflag = 0;
 	if (!(*input))
 		return (0);
 	// split_input = ft_split(input, ' ');
 	msh->tokens = tokenize(msh, input);
 	if (!msh->tokens)
 		return (0);
+	if (!validate_input_files(msh))
+        return (0);
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
 	if (!msh->tokens || !msh->tokens[0])
@@ -76,8 +87,8 @@ static int	process_input(t_msh *msh, char *input)
 		return (0);
 	}
 	pipe_check(msh, input);
-	if (!msh->clearflag)// perche' non aggiungere clear alla history?
-		add_history(input);
+	// if (!msh->clearflag)// perche' non aggiungere clear alla history? perche avevo due neuroni attivi quando ho inserito queste due righe di codice
+	add_history(input);
 	cleanup_iteration(msh, input);
 	return (0);
 }
