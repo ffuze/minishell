@@ -41,17 +41,6 @@ t_token **tokenize(t_msh *msh, char *input)
 		{
 			tokenize_word(tokens, msh->exp_input, &i, &count);
 		}
-		//----------------Da accorpare in tokenize_word()--------------------
-		// else if (msh->exp_input[i] == '"' || msh->exp_input[i] == '\'')// QUOTES
-		// 	count = tokenize_quotes(tokens, msh->exp_input, &i);
-		// else
-		// {
-		// 	start = i;
-		// 	while (msh->exp_input[i] && msh->exp_input[i] != ' ' && input[i] != '\'' && input[i] != '"')
-		// 		i++;
-		// 	tokens[count++] = make_token(TOKEN_WORD, msh->exp_input, start, i - start);
-		// }
-		//------------------------------------------------------------------
 	}
 	tokens[count] = NULL;
 	return (tokens);

@@ -76,19 +76,23 @@ static int	process_input(t_msh *msh, char *input)
 		return (0);
 	// split_input = ft_split(input, ' ');
 	msh->tokens = tokenize(msh, input);
-	if (!msh->tokens)
+	if (!msh->tokens || !msh->tokens[0])
+	{
+		free_tokens(msh->tokens);
+		free(msh->exp_input);
+		free(input);
+		if (msh->outfi_flag)
+		{
+			free(msh->outfiles->outfile);
+			free(msh->outfiles);
+		}
 		return (0);
+	}
 	if (!validate_input_files(msh))
         return (0);
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
-	if (!msh->tokens || !msh->tokens[0])
-	{
-		// free_dpc(split_input);
-		return (0);
-	}
 	pipe_check(msh, input);
-	// if (!msh->clearflag)// perche' non aggiungere clear alla history? perche avevo due neuroni attivi quando ho inserito queste due righe di codice
 	add_history(input);
 	cleanup_iteration(msh, input);
 	return (0);
@@ -101,7 +105,7 @@ int	main(int ac, char *av[], char **envp)
 
 	(void)ac;
 	av = NULL;
-	print_banner();
+	// print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);

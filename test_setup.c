@@ -28,9 +28,8 @@ void	printList(t_cmds *head)
 	int		i;
 
 	current = head;
-	if (!current)
-		i = 0;
-	while (current != NULL)
+	i = 0;
+	while (current && current->cmd)
 	{
 		i = 0;
 		ft_printf(RED"##"NO_ALL);

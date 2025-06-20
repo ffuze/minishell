@@ -15,9 +15,15 @@ void	free_tokens(t_token **tokens)
 
 void    free_everything(t_msh msh, char *input)
 {
-    free_tokens(msh.tokens);
 	free_dpc(msh.envp2);
+    free_tokens(msh.tokens);
+	free(msh.exp_input);
 	free(input);
+	if (msh.outfi_flag)
+	{
+		free(msh.outfiles->outfile);
+		free(msh.outfiles);
+	}
 }
 
 void	free_cmd_list(t_cmds *root)
