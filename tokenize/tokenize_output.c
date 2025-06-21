@@ -10,7 +10,7 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	{
 		ft_printfd(2, \
 			RED"norminette: syntax error near unexpected token `newline'\n" \
-			NO_ALL, tokens->value);
+			NO_ALL);
 		return (false);
 	}
 	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);

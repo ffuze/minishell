@@ -78,7 +78,6 @@ static int	process_input(t_msh *msh, char *input)
 	msh->tokens = tokenize(msh, input);
 	if (!msh->tokens || !msh->tokens[0])
 	{
-		free_tokens(msh->tokens);
 		free(msh->exp_input);
 		free(input);
 		if (msh->outfi_flag)
