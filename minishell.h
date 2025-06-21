@@ -138,6 +138,10 @@ int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 int		insert_input(t_msh *msh, t_token **tokens);
 
+// Checks whether the tokenized strngs are acceptable and/or 
+//  are associated to the needed token.
+bool	check_tokens(t_token **tokens);
+
 /*_________________ tokenizer/quotes_removal _________________*/
 // Checks whether there are variables to expand or unclosed quotes.
 int		ft_parse_input(t_msh *msh, char *input);

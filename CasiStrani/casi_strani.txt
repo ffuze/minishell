@@ -48,6 +48,10 @@ bash$ ls >>> file
 --oppure--
 bash$ ls > > file
 bash: syntax error near unexpected token `>' -- non crea "file"
+Nostra soluzione: il > di troppo diventa il nome del file da creare
+
+bash$ ls > file -l
+stampa risultato di ls -l in file
 
 bash$ ls > ekko | wc
 Stampa risultato di ls in "ekko" e 0 | 0 | 0 su terminale

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-// Returns the number of consecutive TOKEN_WORD
+// Returns the number of TOKEN_WORDs before the next pipe or the end of input.
 static size_t	count_w_tokens(t_token **tokens, int *i)
 {
 	int		j;
@@ -8,15 +8,16 @@ static size_t	count_w_tokens(t_token **tokens, int *i)
 
 	j = *i;
 	count = 0;
-	while (tokens[j] && tokens[j]->type == TOKEN_WORD)
+	while (tokens[j] && tokens[j]->type != TOKEN_PIPE)//tokens[j]->type == TOKEN_WORD
 	{
+		if (tokens[j]->type == TOKEN_WORD)
+			count++;
 		j++;
-		count++;
 	}
 	return (count);
 }
 
-// Al momento alloca solo la matrice e non le singole stringhe
+// Concatenates TOKEN_WORDs not separated by a pipe in a single command array.
 static char	**assign_value(t_token **tokens, int *i)
 {
 	char	**cmd;
@@ -29,7 +30,11 @@ static char	**assign_value(t_token **tokens, int *i)
 	if (!cmd)
 		return (NULL);
 	while (j < n_word_tokens)
-		cmd[j++] = tokens[(*i)++]->value;
+	{
+		if (tokens[*i]->type == TOKEN_WORD)
+			cmd[j++] = tokens[*i]->value;
+		(*i)++;
+	}
 	return (cmd);
 }
 
@@ -65,6 +70,6 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 		if (tokens[i])
 			i++;
 	}
-	// printList(root);/////////////////////////////////////
+	printList(root);/////////////////////////////////////
 	return (root);
 }

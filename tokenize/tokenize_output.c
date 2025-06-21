@@ -9,14 +9,14 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	if (ft_strcmp(tokens->value, "") == 0)
 	{
 		ft_printfd(2, \
-			RED"norminette: syntax error near unexpected token `newline'\n" \
+			RED"minishell: syntax error near unexpected token `newline'\n" \
 			NO_ALL);
 		return (false);
 	}
 	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
-		ft_printfd(2, RED"norminette: %s: No such file or directory\n"NO_ALL, \
+		ft_printfd(2, RED"minishell: %s: No such file or directory\n"NO_ALL, \
 														tokens->value);
 		msh->exit_status = 1;
 		return (false);

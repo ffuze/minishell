@@ -1,34 +1,5 @@
 #include "../minishell.h"
 
-static bool	verify_tokens(t_token **tokens)
-{
-	int	i;
-
-	i = 0;
-	if (!tokens[0])
-		return (false);
-	while (tokens[i])
-	{
-		if (tokens[i]->type == TOKEN_PIPE \
-			&& tokens[i + 1] && tokens[i + 1]->type == TOKEN_PIPE)
-		{
-			ft_printfd(2, \
-				RED"norminette: syntax error near token `%s'\n" \
-				NO_ALL, tokens[i]->value);
-			return (false);
-		}
-		else if (tokens[i]->type == TOKEN_PIPE && (!tokens[i + 1] || i == 0))
-		{
-			ft_printfd(2, \
-				RED"norminette: syntax error near token `%s'\n" \
-				NO_ALL, tokens[i]->value);
-			return (false);
-		}
-		i++;
-	}
-	return (true);
-}
-
 t_token **tokenize(t_msh *msh, char *input)
 {
 	t_token	**tokens;
@@ -72,7 +43,7 @@ t_token **tokenize(t_msh *msh, char *input)
 		}
 	}
 	tokens[count] = NULL;
-	if (!verify_tokens(tokens))
+	if (!check_tokens(tokens))
 		return (free_tokens(tokens), NULL);
 	return (tokens);
 }

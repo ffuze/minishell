@@ -9,8 +9,8 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	if (ft_strcmp(tokens->value, "") == 0)
 	{
 		ft_printfd(2, \
-			RED"norminette: syntax error near unexpected token `newline'\n" \
-			NO_ALL, tokens->value);
+			RED"minishell: syntax error near unexpected token `newline'\n" \
+			NO_ALL);
 		return (false);
 	}
 	fd = open(tokens->value, O_RDONLY);
