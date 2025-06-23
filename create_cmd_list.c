@@ -64,7 +64,7 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 				root = new_node;
 			else
 				prev->next = new_node;
-			new_node->cmd = assign_cmd_value(tokens, &i);
+			new_node->cmd = assign__cmd_value(tokens, &i);
 			//new_node->oufile = assign_outfi_value(tokens, &i);
 			//new_node->infile = assign_infi_value(tokens, &i);
 			if (!new_node->cmd)

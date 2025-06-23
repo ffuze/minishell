@@ -266,6 +266,7 @@ void	execute_redirection(t_msh *msh, t_token **tokens, int i);
 /*_______________________________ signals ______________________________*/
 void	setup_signals();
 void	reset_child_signals();
+void	get_exit_status(t_msh *msh);
 
 void	print_banner();
 

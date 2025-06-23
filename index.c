@@ -55,6 +55,7 @@ static void	init_shell(t_msh *msh, char **envp)
 {
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
+	msh->exit_status = 0;
 }
 
 static void	cleanup_iteration(t_msh *msh, char *input)
@@ -111,7 +112,7 @@ int	main(int ac, char *av[], char **envp)
 	setup_signals();
 	while (1)
 	{
-		msh.exit_status = 0;
+		// msh.exit_status = 0;
 		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
 		if (!input)
 		{
@@ -122,6 +123,7 @@ int	main(int ac, char *av[], char **envp)
 		}
 		if (process_input(&msh, input) == 1)
 			return (EXIT_SUCCESS);
+		get_exit_status(&msh);
 	}
 	free_dpc(msh.envp2);
 	free_tokens(msh.tokens);

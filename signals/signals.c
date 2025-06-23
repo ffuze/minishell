@@ -25,3 +25,15 @@ void	reset_child_signals()
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
+
+void	get_exit_status(t_msh *msh)
+{
+	int	status;
+
+	status = 0;
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status))
+			msh->exit_status = WEXITSTATUS(status);
+	}
+}
