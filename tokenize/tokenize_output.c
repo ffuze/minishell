@@ -16,13 +16,14 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
-		ft_printfd(2, RED"minishell: %s: No such file or directory\n"NO_ALL, \
+		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
 														tokens->value);
 		msh->exit_status = 1;
+		free(msh->outfiles);
 		return (false);
 	}
 	close(fd);
-	unlink(tokens->value);
+	// unlink(tokens->value);
 	return (true);
 }
 
@@ -45,7 +46,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	{
 		while (input[*i] && input[*i] == ' ')
 			(*i)++;
-		if (input[*i] == '>' && input[*i + 1] != '>')
+		if (input[*i] == '>' && (!input[*i + 1] || input[*i + 1] != '>'))
 		{
 			msh->outfiles->append_flag = false;
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 1);
@@ -53,7 +54,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			while (input[*i] && input[*i] == ' ')
 				(*i)++;
 			start = *i;
-			while (input[*i] && input[*i] != ' ' && input[*i] != '|') // ft_isbashprint ?
+			while (input[*i] && input[*i] != ' ' && !ft_isoperator(input[*i])) // ft_isbashprint ?
 				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
@@ -65,14 +66,13 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			while (input[*i] && input[*i] == ' ')
 				(*i)++;
 			start = *i;
-			while (input[*i] && input[*i] != ' ' && input[*i] != '|') // ft_isbashprint ?
+			while (input[*i] && input[*i] != ' ' && !ft_isoperator(input[*i])) // ft_isbashprint ?
 				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
 		if (!check_fd(msh, tokens[count - 1]))
 		{
-			// free(tokens);//????????????????????????
-			while (input[*i] && input[*i] != '|')
+			while (input[*i] && !ft_isoperator(input[*i]))
 				(*i)++;
 			if (input[*i] == '|')
 				(*i)++;
@@ -82,6 +82,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			{
 				free(tokens[x]->value);
 				free(tokens[x]);
+				tokens[x] = NULL;
 				x--;
 			}
 			//-------------------------------------------

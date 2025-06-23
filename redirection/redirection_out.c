@@ -13,7 +13,7 @@ void	redirect_output(t_msh *msh)
 	if (outfile_fd < 0)
 	{
 		print_err(msh->outfiles->outfile, ": could not be opened.\n");
-		exit(1);
+		exit(1);/////////////////////////////free memory////////////////////////////////////////////
 	}
 	dup2(outfile_fd, STDOUT_FILENO);
 	close(outfile_fd);

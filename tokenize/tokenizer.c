@@ -36,11 +36,10 @@ t_token **tokenize(t_msh *msh, char *input)
 		{
 			msh->outfi_flag = true;
 			count = tokenize_output(msh, tokens, msh->exp_input, &i);
+			printf(YELLOW"count: %d\n"NO_ALL, count);//////////////////////////
 		}
 		else
-		{
 			tokenize_word(tokens, msh->exp_input, &i, &count);
-		}
 	}
 	tokens[count] = NULL;
 	if (!check_tokens(tokens))
