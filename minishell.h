@@ -258,7 +258,7 @@ void	free_cmd_list(t_cmds *root);
 void	free_output_redirection(t_msh *msh);
 
 /*_______________________________ heredocs ______________________________*/
-void    read_heredoc(t_msh *msh);
+void    read_heredoc(char *delimiter);
 void    handle_append_redirect(char *filename);
 void	execute_command_before_redirection(t_token **tokens, int redirect_pos);
 void	execute_redirection(t_msh *msh, t_token **tokens, int i);

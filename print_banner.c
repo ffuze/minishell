@@ -29,7 +29,7 @@ void print_banner()
     printf("  ║                                                                    ║\n");
     printf("  ║ \033[1;33m                       ⚡PIKACHU SHELL ⚡                     \033[1;31m     ║\n");
     printf("  ║ \033[1;32m                   A wild terminal appeared!                   \033[1;31m    ║\n");
-    printf("  ║ \033[1;35m            > Type your command to start the batte!       \033[1;31m         ║\n");
+    printf("  ║ \033[1;35m            > Type your command to start the battle!       \033[1;31m        ║\n");
     printf("  ║                                                                    ║\n");
     printf("  ╚════════════════════════════════════════════════════════════════════╝\n");
     printf("\033[0m\n");

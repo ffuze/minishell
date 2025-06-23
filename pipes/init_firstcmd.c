@@ -13,7 +13,7 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inp
 		free_cmd_list(msh->cmds);
 		exit(EXIT_SUCCESS);
 	}
-	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
+	if (msh->tokens[1]->type == TOKEN_RE_INPUT)
 	{
 		setup_input_redirection(msh);
 		redirect_input(msh);

@@ -37,6 +37,11 @@ void	pipe_check(t_msh *msh, char *input)
 	unsigned char	code;
 
 	code = 0;
+	if (!msh->cmds)
+    {
+        ft_printf("Error: no commands to execute\n");
+        return;
+    }
 	if (msh->pipe_count > 0)
 		init_pipeline(msh, input);
 	else if (msh->pipe_count == 0)

@@ -12,6 +12,7 @@ static void	child_proc(t_msh *msh, char *input)
 		setup_output_redirection(msh);
 		redirect_output(msh);
 	}
+	ft_printf("About to execute command: '%s'\n", msh->cmds->cmd[0]);
 	execute_cmd(msh, msh->cmds->cmd, msh->envp2, input);
 }
 
@@ -22,6 +23,11 @@ void	execute_single_cmd(t_msh *msh, char *input)
 
 	id = 1;
 	status = 0;
+	if (!msh || !msh->cmds || !msh->cmds->cmd)
+	{
+		ft_printf("Error: No commands found\n");
+		return ;
+	}
 	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0 || \
 			ft_strcmp(msh->cmds->cmd[0], "clear") == 0)
 		execute_builtin_commands(msh, msh->cmds->cmd, input);

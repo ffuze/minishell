@@ -9,11 +9,13 @@ void execute_redirection(t_msh *msh, t_token **tokens, int i)
         handle_append_redirect(tokens[i + 1]->value);
     else if (!msh->outfiles->append_flag && tokens[i + 1]->type == TOKEN_LIMITER)
     {
-        if (msh->infiles && !msh->infiles->heredoc_executed)
-        {
-            read_heredoc(msh);
-            msh->infiles->heredoc_executed = true;
-        }
+        // if (msh->infiles && !msh->infiles->heredoc_executed)
+        // {
+        //     ft_printf("valore di msh->infiles: %s\n", msh->infiles->infile);
+        //     read_heredoc(msh, tokens[i + 1]->value);
+        //     msh->infiles->heredoc_executed = true;
+        // }
+        setup_input_redirection(msh);
     }
 }
 

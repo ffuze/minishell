@@ -104,7 +104,7 @@ int	main(int ac, char *av[], char **envp)
 
 	(void)ac;
 	av = NULL;
-	// print_banner();
+	print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);

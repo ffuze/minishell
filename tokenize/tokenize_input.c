@@ -32,8 +32,10 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		count;
 	size_t	start;
+	int		starting_count;
 	
-	count = 0;
+	starting_count = count_tokens(tokens);
+	count = starting_count;
 	if (!tokens || !input || !msh)
 		return (0);
 	while (input[*i] && input[*i] == ' ')
@@ -60,7 +62,7 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			(*i)++;
 		tokens[count++] = make_token(TOKEN_LIMITER, input, start, *i - start);	
 	}
-	return (count);
+	return (count - starting_count);
 }
 
 // Check if all input files exist or not in order to avoid

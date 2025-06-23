@@ -47,9 +47,11 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 	int		i;
 	int		j;
 
+	new_node = NULL;
+	root = NULL;
+	prev = NULL;
 	i = 0;
 	j = 0;
-	new_node = NULL;
 	while (tokens[i])
 	{
 		if (tokens[i]->type == TOKEN_WORD)
@@ -57,19 +59,22 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 			prev = new_node;
 			new_node = ft_calloc(count_w_tokens(tokens, &i) + 1, sizeof(t_cmds));
 			if (!new_node)
-				return (NULL);
+				return (root);
 			if (j == 0)
 				root = new_node;
 			else
 				prev->next = new_node;
 			new_node->cmd = assign_value(tokens, &i);
 			if (!new_node->cmd)
+			{
+				free(new_node);
 				return (NULL);
+			}
 			j++;
 		}
-		if (tokens[i])
+		else
 			i++;
 	}
-	printList(root);/////////////////////////////////////
+	// printList(root);/////////////////////////////////////
 	return (root);
 }
