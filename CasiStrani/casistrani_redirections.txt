@@ -16,3 +16,5 @@ bash: c: No such file or directory
 bash$ < index.c cat < utils.c
 (cat di utils.c)
 
+bash$ cat > ggg < a
+stampa contenuto di a in ggg

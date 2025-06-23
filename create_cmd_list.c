@@ -18,7 +18,7 @@ static size_t	count_w_tokens(t_token **tokens, int *i)
 }
 
 // Concatenates TOKEN_WORDs not separated by a pipe in a single command array.
-static char	**assign_value(t_token **tokens, int *i)
+static char	**assign__cmd_value(t_token **tokens, int *i)
 {
 	char	**cmd;
 	size_t	n_word_tokens;
@@ -62,7 +62,9 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 				root = new_node;
 			else
 				prev->next = new_node;
-			new_node->cmd = assign_value(tokens, &i);
+			new_node->cmd = assign_cmd_value(tokens, &i);
+			//new_node->oufile = assign_outfi_value(tokens, &i);
+			//new_node->infile = assign_infi_value(tokens, &i);
 			if (!new_node->cmd)
 				return (NULL);
 			j++;
@@ -70,6 +72,6 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 		if (tokens[i])
 			i++;
 	}
-	printList(root);/////////////////////////////////////
+	// printList(root);/////////////////////////////////////
 	return (root);
 }
