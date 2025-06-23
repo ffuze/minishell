@@ -74,6 +74,8 @@ typedef struct s_token
 typedef struct s_cmds
 {
 	char			**cmd;
+	char			*outfile;
+	bool			append_flag; // 0 for '>', 1 for '>>'.
 	struct s_cmds	*next;
 }					t_cmds;
 
@@ -84,12 +86,6 @@ typedef struct s_inf
 	bool			heredoc_executed;
 }					t_inf;
 
-typedef struct s_outf
-{
-	char			*outfile;
-	bool			append_flag; // 0 for '>', 1 for '>>'.
-}					t_outf;
-
 typedef	struct s_msh
 {
 	char			*exp_input;// 	Input from readline() with expanded vars.
@@ -98,8 +94,6 @@ typedef	struct s_msh
 	t_cmds			*cmds;
 	char			**envp2;
 	t_inf			*infiles; //   Input files from redirection.
-	t_outf			*outfiles; //  Output files from redirection.
-	bool			outfi_flag; // Tells whether the output must be redirected.
 	int				pipe_count; // Number of pipes.
 	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
 	unsigned char	exit_status;
@@ -175,7 +169,7 @@ void	print_err(char *s1, char *err_type);
 int	identify_builtin_commands(t_msh *msh, char **cmd);
 int	execute_builtin_commands(t_msh *msh, char **cmd, char *input);
 
-void	ft_exit(t_msh *msh, char *input);
+void	ft_exit(t_msh *msh);
 
 void	ft_clear(char *input);
 
@@ -219,12 +213,8 @@ int		setup_input_redirection(t_msh *msh);
 // Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh);
 
-// Fills the outfile structure with the appropriate file name, and determines
-// whether to overwrite or append the content.
-int		setup_output_redirection(t_msh *msh);
-
 // Substitutes the standard output with a file.
-void	redirect_output(t_msh *msh);
+void	redirect_output(t_msh *msh, t_cmds *current);
 
 /*__________________________________ pipes __________________________________*/
 // Determines whether a single command or more have to be executed.
@@ -253,15 +243,12 @@ void 	freeList(t_cmds *head);
 
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
-void    free_everything(t_msh msh, char *input);
+void    free_everything(t_msh msh);
 void	free_cmd_list(t_cmds *root);
-void	free_output_redirection(t_msh *msh);
 
 /*_______________________________ heredocs ______________________________*/
 void    read_heredoc(t_msh *msh);
 void    handle_append_redirect(char *filename);
-void	execute_command_before_redirection(t_token **tokens, int redirect_pos);
-void	execute_redirection(t_msh *msh, t_token **tokens, int i);
 
 /*_______________________________ signals ______________________________*/
 void	setup_signals();

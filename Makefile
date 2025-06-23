@@ -23,7 +23,7 @@ SRC_MAIN = index.c \
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/init_firstcmd.c \
 			pipes/middle_cmds.c pipes/init_lastcmd.c \
 			free_memory/free_memory.c \
-			heredocs/heredoc_in.c heredocs/exeggutor.c heredocs/append_out.c \
+			heredocs/heredoc_in.c heredocs/append_out.c \
 			signals/signals.c \
 			print_banner.c
 
