@@ -15,17 +15,11 @@ void	free_tokens(t_token **tokens)
 	free(tokens);
 }
 
-void    free_everything(t_msh msh, char *input)
+void    free_everything(t_msh msh)
 {
 	free_dpc(msh.envp2);
     free_tokens(msh.tokens);
 	free(msh.exp_input);
-	free(input);
-	if (msh.outfi_flag)
-	{
-		free(msh.outfiles->outfile);
-		free(msh.outfiles);
-	}
 }
 
 void	free_cmd_list(t_cmds *root)
@@ -39,14 +33,10 @@ void	free_cmd_list(t_cmds *root)
 		
 		tmp = root->next;
 		free(root->cmd);
+		if (root->outfile)
+			free(root->outfile);
 		free(root);
 		root = tmp;
 	}
 	tmp = NULL;
-}
-
-void	free_output_redirection(t_msh *msh)
-{
-	if (msh->outfi_flag)
-		free(msh->outfiles);
 }

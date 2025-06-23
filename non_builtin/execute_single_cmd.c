@@ -7,10 +7,9 @@ static void	child_proc(t_msh *msh, char *input)
 		setup_input_redirection(msh);
 		redirect_input(msh);
 	}
-	else if (msh->outfi_flag)
+	else if (msh->cmds->outfile)
 	{
-		setup_output_redirection(msh);
-		redirect_output(msh);
+		redirect_output(msh, msh->cmds);
 	}
 	ft_printf("About to execute command: '%s'\n", msh->cmds->cmd[0]);
 	execute_cmd(msh, msh->cmds->cmd, msh->envp2, input);

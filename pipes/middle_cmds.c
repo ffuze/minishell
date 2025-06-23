@@ -12,7 +12,7 @@ int	middle_cmd_process(t_msh *msh, char **cmd, int *i, char *input)
 		close(msh->fd_mrx[*i - 1][0]);
 		close(msh->fd_mrx[*i][1]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
-		free_everything(*msh, input);
+		free_everything(*msh);
 		free_cmd_list(msh->cmds);
 		exit(EXIT_SUCCESS);
 	}

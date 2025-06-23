@@ -1,17 +1,17 @@
 #include "../minishell.h"
 
 // Check if the fd has got permissions or not
-static bool	check_fd(t_msh *msh, t_token *tokens)
+static int	check_fd(t_msh *msh, t_token *tokens)
 {
 	int	fd;
 	if (!msh || !tokens || tokens->type != TOKEN_OUTFILE)
-		return (false);
+		return (0);
 	if (ft_strcmp(tokens->value, "") == 0)
 	{
 		ft_printfd(2, \
 			RED"minishell: syntax error near unexpected token `newline'\n" \
 			NO_ALL);
-		return (false);
+		return (-1);
 	}
 	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
@@ -19,12 +19,10 @@ static bool	check_fd(t_msh *msh, t_token *tokens)
 		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
 														tokens->value);
 		msh->exit_status = 1;
-		free(msh->outfiles);
-		return (false);
+		return (0);
 	}
 	close(fd);
-	// unlink(tokens->value);
-	return (true);
+	return (1);
 }
 
 // Check for every command block divided by a pipe that has an output
@@ -38,8 +36,6 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 
 	starting_count = count_tokens(tokens);
 	count = starting_count;
-	msh->outfiles = ft_calloc(sizeof(t_outf), 1);
-	msh->outfiles->append_flag = false;
 	if (!tokens || !input || !msh)
 		return (0);// Se uno dei malloc ha avuto successo la memoria deve essere liberata
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '>'))
@@ -48,7 +44,6 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 			(*i)++;
 		if (input[*i] == '>' && (!input[*i + 1] || input[*i + 1] != '>'))
 		{
-			msh->outfiles->append_flag = false;
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 1);
 			(*i)++;
 			while (input[*i] && input[*i] == ' ')
@@ -60,7 +55,6 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 		}
 		else if (input[*i] == '>' && input[*i + 1] == '>')
 		{
-			msh->outfiles->append_flag = true;
 			tokens[count++] = make_token(TOKEN_RE_OUTPUT, input, *i, 2);
 			(*i) += 2;
 			while (input[*i] && input[*i] == ' ')
@@ -70,9 +64,10 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
-		if (!check_fd(msh, tokens[count - 1]))
+		if (check_fd(msh, tokens[count - 1]) < 0)
 		{
-			while (input[*i] && !ft_isoperator(input[*i]))
+			;
+			/* while (input[*i] && !ft_isoperator(input[*i]))
 				(*i)++;
 			if (input[*i] == '|')
 				(*i)++;
@@ -86,7 +81,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 				x--;
 			}
 			//-------------------------------------------
-			return (starting_count);//(0)//(count - 2)
+			return (starting_count);//(0)//(count - 2) */
 		}
 	}
 	return (count);

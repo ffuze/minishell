@@ -58,14 +58,12 @@ static void	init_shell(t_msh *msh, char **envp)
 	msh->exit_status = 0;
 }
 
-static void	cleanup_iteration(t_msh *msh, char *input)
+static void	cleanup_iteration(t_msh *msh)
 {
-	free(input);
 	free_tokens(msh->tokens);
 	free(msh->exp_input);
 	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
 	free_cmd_list(msh->cmds);
-	free_output_redirection(msh);
 }
 
 static int	process_input(t_msh *msh, char *input)
@@ -77,24 +75,19 @@ static int	process_input(t_msh *msh, char *input)
 		return (0);
 	// split_input = ft_split(input, ' ');
 	msh->tokens = tokenize(msh, input);
+	free(input);
 	if (!msh->tokens || !msh->tokens[0])
 	{
 		free(msh->exp_input);
-		free(input);
-		if (msh->outfi_flag)
-		{
-			free(msh->outfiles->outfile);
-			free(msh->outfiles);
-		}
 		return (0);
 	}
 	if (!validate_input_files(msh))
         return (0);
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
-	pipe_check(msh, input);
-	add_history(input);
-	cleanup_iteration(msh, input);
+	pipe_check(msh, msh->exp_input);
+	add_history(msh->exp_input);
+	cleanup_iteration(msh);
 	return (0);
 }
 

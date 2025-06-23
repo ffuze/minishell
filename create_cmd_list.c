@@ -8,7 +8,7 @@ static size_t	count_w_tokens(t_token **tokens, int *i)
 
 	j = *i;
 	count = 0;
-	while (tokens[j] && tokens[j]->type != TOKEN_PIPE)//tokens[j]->type == TOKEN_WORD
+	while (tokens[j] && tokens[j]->type != TOKEN_PIPE)
 	{
 		if (tokens[j]->type == TOKEN_WORD)
 			count++;
@@ -18,7 +18,7 @@ static size_t	count_w_tokens(t_token **tokens, int *i)
 }
 
 // Concatenates TOKEN_WORDs not separated by a pipe in a single command array.
-static char	**assign__cmd_value(t_token **tokens, int *i)
+static char	**assign_cmd_value(t_token **tokens, int *i)
 {
 	char	**cmd;
 	size_t	n_word_tokens;
@@ -36,6 +36,41 @@ static char	**assign__cmd_value(t_token **tokens, int *i)
 		(*i)++;
 	}
 	return (cmd);
+}
+
+// Assigns to the relative command list node the name of the 
+//  output redirection file. Sets it to NULL if there is none.
+static void	assign_outfile_value(t_token **tokens, int *i, t_cmds *new_node)
+{
+	int	j;
+
+	j = *i;
+	new_node->append_flag = false;
+	new_node->outfile = NULL;
+	while (tokens[j] && tokens[j + 1] && tokens[j + 1]->type != TOKEN_PIPE)
+		j++;
+	if (tokens[j] && tokens[j]->type == TOKEN_OUTFILE)
+	{
+		new_node->outfile = ft_strdup(tokens[j]->value);
+		if (tokens[j - 1]->value[1] == '>')
+			new_node->append_flag = true;
+	}
+	else if (*i > 0 && tokens[*i - 1]->type == TOKEN_OUTFILE)
+	{
+		new_node->outfile = ft_strdup(tokens[*i - 1]->value);
+		if (tokens[*i - 2]->value[1] == '>')
+			new_node->append_flag = true;
+	}
+}
+
+void	assign_values(t_token **tokens, int *i, t_cmds *new_node)
+{
+	int	j;
+
+	j = *i;
+	new_node->cmd = assign_cmd_value(tokens, i);
+	assign_outfile_value(tokens, &j, new_node);
+	// new_node->infile = assign_infi_value(tokens, &i);
 }
 
 // Returns a list of commands and relative arguments given from input.
@@ -64,9 +99,7 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 				root = new_node;
 			else
 				prev->next = new_node;
-			new_node->cmd = assign__cmd_value(tokens, &i);
-			//new_node->oufile = assign_outfi_value(tokens, &i);
-			//new_node->infile = assign_infi_value(tokens, &i);
+			assign_values(tokens, &i, new_node);
 			if (!new_node->cmd)
 			{
 				free(new_node);
@@ -77,6 +110,6 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 		else
 			i++;
 	}
-	// printList(root);/////////////////////////////////////
+	printList(root);/////////////////////////////////////
 	return (root);
 }
