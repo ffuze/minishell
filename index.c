@@ -75,7 +75,6 @@ static int	process_input(t_msh *msh, char *input)
 		return (0);
 	// split_input = ft_split(input, ' ');
 	msh->tokens = tokenize(msh, input);
-	free(input);
 	if (!msh->tokens || !msh->tokens[0])
 	{
 		free(msh->exp_input);
@@ -86,7 +85,8 @@ static int	process_input(t_msh *msh, char *input)
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
 	pipe_check(msh, msh->exp_input);
-	add_history(msh->exp_input);
+	add_history(input);
+	free(input);
 	cleanup_iteration(msh);
 	return (0);
 }
