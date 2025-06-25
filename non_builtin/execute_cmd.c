@@ -60,7 +60,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	cmd_path = NULL;
 	if (execute_builtin_commands(msh, cmd, input) != 0)///////////////////
 	{
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_everything(*msh);
 		free_cmd_list(msh->cmds);
 		exit(EXIT_SUCCESS);
@@ -68,7 +68,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	if (ft_strchr(cmd[0], '/'))
 	{
 		execute_absrel_path(cmd[0], envp);
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_everything(*msh);
 		free_cmd_list(msh->cmds);
 		exit (127);
@@ -76,7 +76,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	cmd_path = find_pathname(cmd[0], envp);
 	if (!cmd_path)
 	{
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_everything(*msh);
 		free_cmd_list(msh->cmds);
 		exit (127);

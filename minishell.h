@@ -51,7 +51,7 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-typedef enum s_token_enum
+typedef enum	s_token_enum
 {
 	TOKEN_WORD, // simple strings
 	TOKEN_STRING_SINGLE, // string with single quotes
@@ -63,42 +63,51 @@ typedef enum s_token_enum
 	TOKEN_RE_OUTPUT, // --> '>' o '>>' <--
 	TOKEN_OUTFILE, // output file
 	TOKEN_ERROR // invalid token
-}	t_token_enum;
+}				t_token_enum;
 
-typedef struct s_token
+typedef struct		s_token
 {
 	t_token_enum	type;
 	char			*value;
 }					t_token;
 
-typedef struct s_cmds
+typedef struct		s_cmds
 {
 	char			**cmd;
+
 	char			*outfile;
 	bool			append_flag; // 0 for '>', 1 for '>>'.
+
+	char			*infile;
+	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
+	char			*limiter; //   Signal the end of the input in heredoc.
+
+	bool			abort_flag;// If true the command must not be executed.
+	bool			heredoc_executed;
+
 	struct s_cmds	*next;
 }					t_cmds;
 
-typedef struct s_inf
+typedef struct		s_inf
 {
 	char			*infile;
-	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
+	bool			heredoc_flag;// 0 for '<', 1 for '<<'.
 	bool			heredoc_executed;
 }					t_inf;
 
-typedef	struct s_msh
+typedef	struct		s_msh
 {
 	char			*exp_input;// 	Input from readline() with expanded vars.
 	bool			env_var_flag;// True if at least a var is to be expanded.
 	t_token			**tokens;
 	t_cmds			*cmds;
 	char			**envp2;
-	t_inf			*infiles; //   Input files from redirection.
-	int				pipe_count; // Number of pipes.
+	t_inf			*infiles; //   Input files from redirection.///////////////////////////
+	int				pipe_number; // Number of pipes from input.
+	int				pipe_counter; // Number of remainign pipes to execute.
 	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
 	unsigned char	exit_status;
-	char			*limiter; //   Signal the end of the input in heredoc.
-	// int				clearflag;
+	char			*limiter; //   Signal the end of the input in heredoc./////////////////
 }					t_msh;
 
 /*________________________________ tokenizer ________________________________*/
@@ -110,7 +119,7 @@ char	*ft_parse_and_expand(t_msh *msh, char *input);
 
 // Expands environment variables and/or the exit status.
 // Return 0 on failure.
-int	expand_dollar(t_msh *msh, char *input, size_t *i, size_t *j);
+int		expand_dollar(t_msh *msh, char *input, size_t *i, size_t *j);
 
 // Searches the var in the environment and returns its value.
 char	*find_value(char **envp, char *input, size_t *i);
@@ -120,10 +129,6 @@ t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
 int		count_tokens(t_token **tokens);
 int		tokenize_quotes(t_token **tokens, char *input, size_t *i);
 int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count);
-/*int	tokenize_d_q(t_token **tokens, t_token_enum token_type,
-													char *input, size_t *i);*/
-/*int	tokenize_s_q(t_token **tokens, t_token_enum token_type,
-													char *input, size_t *i);*/
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		validate_input_files(t_msh *msh);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
@@ -166,8 +171,8 @@ void	print_err(char *s1, char *err_type);
 
 /*_________________________________ built_in ________________________________*/
 
-int	identify_builtin_commands(t_msh *msh, char **cmd);
-int	execute_builtin_commands(t_msh *msh, char **cmd, char *input);
+int		identify_builtin_commands(t_msh *msh, char **cmd);
+int		execute_builtin_commands(t_msh *msh, char **cmd, char *input);
 
 void	ft_exit(t_msh *msh);
 
@@ -221,10 +226,10 @@ void	redirect_output(t_msh *msh, t_cmds *current);
 void	pipe_check(t_msh *msh, char *input);
 
 // Closes all file descriptors and liberates the allocated memory
-void	liberate_fdmatrix(int **fd_mrx, int pipe_count);
+void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
 // Creates an FD for each pipe in the command line.
-int		**fd_matrix_creator(int pipe_count);
+int		**fd_matrix_creator(int pipe_number);
 
 // Initializes the first command in the pipeline.
 void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input);

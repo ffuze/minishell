@@ -6,22 +6,13 @@ static int	check_fd(t_msh *msh, t_token *tokens)
 	int	fd;
 	if (!msh || !tokens || tokens->type != TOKEN_OUTFILE)
 		return (0);
-	if (ft_strcmp(tokens->value, "") == 0)
-	{
-		ft_printfd(2, \
-			RED"minishell: syntax error near unexpected token `newline'\n" \
-			NO_ALL);
-		return (-1);
-	}
 	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
-		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
-														tokens->value);
-		msh->exit_status = 1;
 		return (0);
 	}
 	close(fd);
+	unlink(tokens->value);
 	return (1);
 }
 
@@ -64,10 +55,11 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
+		// unlink(tokens[count - 1]->value);
 		if (check_fd(msh, tokens[count - 1]) < 0)
-		{
 			;
-			/* while (input[*i] && !ft_isoperator(input[*i]))
+		/* {
+			while (input[*i] && !ft_isoperator(input[*i]))
 				(*i)++;
 			if (input[*i] == '|')
 				(*i)++;
@@ -81,8 +73,8 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 				x--;
 			}
 			//-------------------------------------------
-			return (starting_count);//(0)//(count - 2) */
-		}
+			return (starting_count);//(0)//(count - 2)
+		} */
 	}
 	return (count);
 }

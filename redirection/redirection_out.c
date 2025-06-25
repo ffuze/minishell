@@ -5,7 +5,6 @@ void	redirect_output(t_msh *msh, t_cmds *current)
 {
 	int		outfile_fd;
 
-	ft_printf(BRCYAN"outfile: %s\n"NO_ALL, current->outfile);////////////////
 	if (!current->outfile)
 		return ;
 	if (current->append_flag)

@@ -8,7 +8,7 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inp
 					ft_strcmp(current->cmd[0], "exit") == 0)
 	{
 		close(pipefd[1]);
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_everything(*msh);
 		free_cmd_list(msh->cmds);
 		exit(EXIT_SUCCESS);
@@ -18,7 +18,9 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inp
 		setup_input_redirection(msh);
 		redirect_input(msh);
 	}
-	if (dup2(pipefd[1], STDOUT_FILENO) < 0)
+	if (current->outfile)
+		redirect_output(msh, current);
+	else if (dup2(pipefd[1], STDOUT_FILENO) < 0)
 		return (close(pipefd[1]), 0);
 	close(pipefd[1]);
 	if (identify_builtin_commands(msh, current->cmd))
@@ -36,5 +38,15 @@ void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input)
 	if (id1 < 0)
 		return (print_err("Fork failed for id1.", "\n"));
 	else if (0 == id1)
+	{
+		if (current->abort_flag)
+		{
+			liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
+			free_everything(*msh);
+			free_cmd_list(msh->cmds);
+			msh->exit_status = 1;
+			exit(EXIT_FAILURE);
+		}
 		first_cmd_process(msh, current, msh->fd_mrx[*i], input);
+	}
 }

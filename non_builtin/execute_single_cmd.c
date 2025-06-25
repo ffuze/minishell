@@ -2,6 +2,14 @@
 
 static void	child_proc(t_msh *msh, char *input)
 {
+	if (msh->cmds->abort_flag)
+	{
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
+		free_everything(*msh);
+		free_cmd_list(msh->cmds);
+		msh->exit_status = 1;
+		exit(EXIT_FAILURE);
+	}
 	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
 	{
 		setup_input_redirection(msh);
@@ -11,7 +19,6 @@ static void	child_proc(t_msh *msh, char *input)
 	{
 		redirect_output(msh, msh->cmds);
 	}
-	ft_printf("About to execute command: '%s'\n", msh->cmds->cmd[0]);
 	execute_cmd(msh, msh->cmds->cmd, msh->envp2, input);
 }
 

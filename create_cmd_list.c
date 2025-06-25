@@ -37,6 +37,28 @@ static char	**assign_cmd_value(t_token **tokens, int *i)
 	}
 	return (cmd);
 }
+//-----------------------------------------------------------------------------
+// Check if the fd has got permissions or not
+static int	check_fd(t_token *tokens)
+{
+	int	fd;
+	if (ft_strcmp(tokens->value, "") == 0)
+	{
+		ft_printfd(2, \
+			RED"minishell: syntax error near unexpected token `newline'\n" \
+			NO_ALL);
+		return (0);
+	}
+	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
+	if (fd < 0)
+	{
+		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
+														tokens->value);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
 
 // Assigns to the relative command list node the name of the 
 //  output redirection file. Sets it to NULL if there is none.
@@ -47,27 +69,34 @@ static void	assign_outfile_value(t_token **tokens, int *i, t_cmds *new_node)
 	j = *i;
 	new_node->append_flag = false;
 	new_node->outfile = NULL;
-	while (tokens[j] && tokens[j + 1] && tokens[j + 1]->type != TOKEN_PIPE)
+	while (j > 0 && tokens[j] && tokens[j - 1] && tokens[j - 1]->type != TOKEN_PIPE)
+		j--;
+	while (tokens[j] && tokens[j]->type != TOKEN_PIPE)
+	{
+		if (tokens[j]->type == TOKEN_OUTFILE)
+		{
+			if (!check_fd(tokens[j]))
+			{
+				new_node->abort_flag = true;
+				return ;
+			}
+			if (new_node->outfile)
+				free(new_node->outfile);
+			new_node->outfile = ft_strdup(tokens[j]->value);
+			if (tokens[j - 1]->value[1] == '>')
+				new_node->append_flag = true;
+		}
 		j++;
-	if (tokens[j] && tokens[j]->type == TOKEN_OUTFILE)
-	{
-		new_node->outfile = ft_strdup(tokens[j]->value);
-		if (tokens[j - 1]->value[1] == '>')
-			new_node->append_flag = true;
-	}
-	else if (*i > 0 && tokens[*i - 1]->type == TOKEN_OUTFILE)
-	{
-		new_node->outfile = ft_strdup(tokens[*i - 1]->value);
-		if (tokens[*i - 2]->value[1] == '>')
-			new_node->append_flag = true;
 	}
 }
+//-----------------------------------------------------------------------------
 
 void	assign_values(t_token **tokens, int *i, t_cmds *new_node)
 {
 	int	j;
 
 	j = *i;
+	new_node->abort_flag = false;
 	new_node->cmd = assign_cmd_value(tokens, i);
 	assign_outfile_value(tokens, &j, new_node);
 	// new_node->infile = assign_infi_value(tokens, &i);
