@@ -1,19 +1,19 @@
 #include "../minishell.h"
 
-// Check if the fd has got permissions or not
-static int	check_fd(t_msh *msh, t_token *tokens)
+// Destroys the file if the fd has got permissions and the redirection \
+//  is in append mode.
+static void	reset_fd(t_msh *msh, t_token **tokens, int count)
 {
 	int	fd;
-	if (!msh || !tokens || tokens->type != TOKEN_OUTFILE)
+	if (!msh || !tokens[count] || tokens[count]->type != TOKEN_OUTFILE)
 		return (0);
-	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
+	fd = open(tokens[count]->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
-	{
-		return (0);
-	}
+		return ;
 	close(fd);
-	unlink(tokens->value);
-	return (1);
+	if (tokens[count - 1]->value[1] != '>')
+		unlink(tokens[count]->value);
+	return ;
 }
 
 // Check for every command block divided by a pipe that has an output
@@ -55,26 +55,7 @@ int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 				(*i)++;
 			tokens[count++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
 		}
-		// unlink(tokens[count - 1]->value);
-		if (check_fd(msh, tokens[count - 1]) < 0)
-			;
-		/* {
-			while (input[*i] && !ft_isoperator(input[*i]))
-				(*i)++;
-			if (input[*i] == '|')
-				(*i)++;
-			//-----libera i token appena creati----------
-			int	x = count - 1;
-			while (x >= starting_count)
-			{
-				free(tokens[x]->value);
-				free(tokens[x]);
-				tokens[x] = NULL;
-				x--;
-			}
-			//-------------------------------------------
-			return (starting_count);//(0)//(count - 2)
-		} */
+		reset_fd(msh, tokens, count - 1);
 	}
 	return (count);
 }
