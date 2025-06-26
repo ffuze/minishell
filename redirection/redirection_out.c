@@ -14,9 +14,9 @@ void	redirect_output(t_msh *msh, t_cmds *current)
 	if (outfile_fd < 0)
 	{
 		print_err(current->outfile, ": could not be opened.\n");
-		free_everything(*msh);
 		free_cmd_list(msh->cmds);
-		exit(1);/////////////////////////////free memory////////////////////////////////////////////
+		free_everything(*msh);
+		exit(1);
 	}
 	dup2(outfile_fd, STDOUT_FILENO);
 	close(outfile_fd);

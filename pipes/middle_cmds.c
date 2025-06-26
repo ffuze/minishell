@@ -31,7 +31,7 @@ int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int	middle_child_generator(t_msh *msh, t_cmds *current)
+int	middle_child_generator(t_msh *msh, t_cmds **current)
 {
 	int		id2;
 	int		i;
@@ -48,7 +48,7 @@ int	middle_child_generator(t_msh *msh, t_cmds *current)
 						close(msh->fd_mrx[i][0]), close(msh->fd_mrx[i][1]), i - 1);
 		else if (0 == id2)
 		{
-			if (current->abort_flag)
+			if ((*current)->abort_flag)
 			{
 				liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 				free_cmd_list(msh->cmds);
@@ -56,12 +56,12 @@ int	middle_child_generator(t_msh *msh, t_cmds *current)
 				msh->exit_status = 1;
 				exit(EXIT_FAILURE);
 			}
-			middle_cmd_process(msh, current, &i);
+			middle_cmd_process(msh, *current, &i);
 		}
 		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);
 		msh->pipe_counter--;
-		current = current->next;
+		*current = (*current)->next;
 	}
 	return (i);
 }

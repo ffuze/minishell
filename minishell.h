@@ -237,7 +237,7 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int		middle_child_generator(t_msh *msh, t_cmds *current);
+int		middle_child_generator(t_msh *msh, t_cmds **current);
 
 /*_______________________________ test_setup.c ______________________________*/
 t_cmds	*crealista();

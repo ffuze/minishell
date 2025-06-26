@@ -18,7 +18,7 @@ static void	init_pipeline(t_msh *msh)
 	init_firstcmd(msh, current, &i);
 	current = current->next;
 	close(msh->fd_mrx[i][1]);
-	i = middle_child_generator(msh, current);
+	i = middle_child_generator(msh, &current);
 	init_lastcmd(msh, current, &i);
 	liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 	while (waitpid(-1, &status, 0) > 0)
@@ -42,8 +42,5 @@ void	pipe_check(t_msh *msh)
 	if (msh->pipe_counter > 0)
 		init_pipeline(msh);
 	else if (msh->pipe_counter == 0)
-	{
-		if (execute_builtin_commands(msh, msh->cmds->cmd) == 0)
-			execute_single_cmd(msh);
-	}
+		execute_single_cmd(msh);
 }

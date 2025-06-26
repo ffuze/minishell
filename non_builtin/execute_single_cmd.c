@@ -15,10 +15,8 @@ static void	child_proc(t_msh *msh)
 		setup_input_redirection(msh);
 		redirect_input(msh);
 	}
-	else if (msh->cmds->outfile)
-	{
+	if (msh->cmds->outfile)
 		redirect_output(msh, msh->cmds);
-	}
 	execute_cmd(msh, msh->cmds->cmd, msh->envp2);
 }
 
@@ -31,7 +29,7 @@ void	execute_single_cmd(t_msh *msh)
 	status = 0;
 	if (!msh || !msh->cmds || !msh->cmds->cmd)
 	{
-		ft_printf("Error: No commands found\n");
+		ft_printfd(2, RED"Error: No commands found\n"NO_ALL);
 		return ;
 	}
 	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0)
