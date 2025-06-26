@@ -47,7 +47,7 @@ static int	process_input(t_msh *msh, char *input)
         return (0);
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
-	pipe_check(msh, msh->exp_input);
+	pipe_check(msh);
 	add_history(msh->exp_input);
 	cleanup_iteration(msh);
 	return (0);

@@ -172,11 +172,9 @@ void	print_err(char *s1, char *err_type);
 /*_________________________________ built_in ________________________________*/
 
 int		identify_builtin_commands(t_msh *msh, char **cmd);
-int		execute_builtin_commands(t_msh *msh, char **cmd, char *input);
+int		execute_builtin_commands(t_msh *msh, char **cmd);
 
 void	ft_exit(t_msh *msh);
-
-void	ft_clear(char *input);
 
 void	ft_echo(char  **cmd);
 
@@ -205,10 +203,10 @@ void	ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
-void	execute_single_cmd(t_msh *msh, char *input);
+void	execute_single_cmd(t_msh *msh);
 
 // Executes the given command
-void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input);
+void	execute_cmd(t_msh *msh, char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
 // Fill the infile structure with the appropriate file name, and determines
@@ -223,7 +221,7 @@ void	redirect_output(t_msh *msh, t_cmds *current);
 
 /*__________________________________ pipes __________________________________*/
 // Determines whether a single command or more have to be executed.
-void	pipe_check(t_msh *msh, char *input);
+void	pipe_check(t_msh *msh);
 
 // Closes all file descriptors and liberates the allocated memory
 void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
@@ -232,14 +230,14 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 int		**fd_matrix_creator(int pipe_number);
 
 // Initializes the first command in the pipeline.
-void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input);
+void	init_firstcmd(t_msh *msh, t_cmds *current, int *i);
 
 // Initializes the last command in the pipeline.
-void	init_lastcmd(t_msh *msh, t_cmds *current, int *i, char *input);
+void	init_lastcmd(t_msh *msh, t_cmds *current, int *i);
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int		middle_child_generator(t_msh *msh, t_cmds *current, char *input);
+int		middle_child_generator(t_msh *msh, t_cmds *current);
 
 /*_______________________________ test_setup.c ______________________________*/
 t_cmds	*crealista();

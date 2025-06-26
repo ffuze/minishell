@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	child_proc(t_msh *msh, char *input)
+static void	child_proc(t_msh *msh)
 {
 	if (msh->cmds->abort_flag)
 	{
@@ -19,10 +19,10 @@ static void	child_proc(t_msh *msh, char *input)
 	{
 		redirect_output(msh, msh->cmds);
 	}
-	execute_cmd(msh, msh->cmds->cmd, msh->envp2, input);
+	execute_cmd(msh, msh->cmds->cmd, msh->envp2);
 }
 
-void	execute_single_cmd(t_msh *msh, char *input)
+void	execute_single_cmd(t_msh *msh)
 {
 	pid_t	id;
 	int status;
@@ -34,9 +34,8 @@ void	execute_single_cmd(t_msh *msh, char *input)
 		ft_printf("Error: No commands found\n");
 		return ;
 	}
-	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0 || \
-			ft_strcmp(msh->cmds->cmd[0], "clear") == 0)
-		execute_builtin_commands(msh, msh->cmds->cmd, input);
+	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0)
+		execute_builtin_commands(msh, msh->cmds->cmd);
 	else
 		id = fork();
 	if (id < 0)
@@ -46,7 +45,7 @@ void	execute_single_cmd(t_msh *msh, char *input)
 		setup_signals();
 		msh->fd_mrx = NULL;
 		ft_printf("Process ID: %d\n", getpid());///////////////////////////////////
-		child_proc(msh, input);
+		child_proc(msh);
 	}
 	while (waitpid(id, &status, 0) > 0)
 	{

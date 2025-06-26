@@ -2,12 +2,11 @@
 
 // pipefd1: fd_mrx[*i - 1]
 // pipefd2: fd_mrx[*i]
-int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i, char *input)
+int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 {
 	setup_signals();
 	close(msh->fd_mrx[*i][0]);
-	if (ft_strcmp(current->cmd[0], "clear") == 0 || \
-					ft_strcmp(current->cmd[0], "exit") == 0)
+	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{
 		close(msh->fd_mrx[*i - 1][0]);
 		close(msh->fd_mrx[*i][1]);
@@ -26,13 +25,13 @@ int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i, char *input)
 	close(msh->fd_mrx[*i][1]);
 	if (identify_builtin_commands(msh, current->cmd))
 		close(msh->fd_mrx[*i][0]);
-	execute_cmd(msh, current->cmd, msh->envp2, input);
+	execute_cmd(msh, current->cmd, msh->envp2);
 	return (1);
 }
 
 // Creates a child process and a pipe for each command to be executed
 //  between the first and last.
-int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
+int	middle_child_generator(t_msh *msh, t_cmds *current)
 {
 	int		id2;
 	int		i;
@@ -57,7 +56,7 @@ int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
 				msh->exit_status = 1;
 				exit(EXIT_FAILURE);
 			}
-			middle_cmd_process(msh, current, &i, input);
+			middle_cmd_process(msh, current, &i);
 		}
 		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);

@@ -1,11 +1,10 @@
 #include "../minishell.h"
 
-static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *input)
+static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 {
 	setup_signals();
 	close(pipefd[0]);
-	if (ft_strcmp(current->cmd[0], "clear") == 0 || \
-					ft_strcmp(current->cmd[0], "exit") == 0)
+	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{
 		close(pipefd[1]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
@@ -25,12 +24,12 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inp
 	close(pipefd[1]);
 	if (identify_builtin_commands(msh, current->cmd))
 		close(pipefd[0]);
-	execute_cmd(msh, current->cmd, msh->envp2, input);
+	execute_cmd(msh, current->cmd, msh->envp2);
 	return (1);
 }
 
 // Initializes the first command in the pipeline.
-void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input)
+void	init_firstcmd(t_msh *msh, t_cmds *current, int *i)
 {
 	int	id1;
 
@@ -47,6 +46,6 @@ void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input)
 			msh->exit_status = 1;
 			exit(EXIT_FAILURE);
 		}
-		first_cmd_process(msh, current, msh->fd_mrx[*i], input);
+		first_cmd_process(msh, current, msh->fd_mrx[*i]);
 	}
 }
