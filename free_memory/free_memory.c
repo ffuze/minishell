@@ -34,6 +34,8 @@ void	free_cmd_list(t_cmds *root)
 		free(root->cmd);
 		if (root->outfile)
 			free(root->outfile);
+		if (root->infile)
+			free(root->infile);
 		free(root);
 		root = tmp;
 	}

@@ -80,10 +80,9 @@ typedef struct		s_cmds
 
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
-	char			*limiter; //   Signal the end of the input in heredoc.
+	char			**limiter; //   Signal the end of the input in heredoc.
 
 	bool			abort_flag;// If true the command must not be executed.
-	bool			heredoc_executed;
 
 	struct s_cmds	*next;
 }					t_cmds;
@@ -151,9 +150,17 @@ char	*ft_cleancpy(t_msh *msh, char *input);
 // Returns the number of arguments in the input string.
 size_t	count_args(char *input);
 
-/*____________________________ create_cmd_list.c ____________________________*/
+/*_________________________________ cmd_list ________________________________*/
 // Returns a list of commands and relative arguments given from input.
 t_cmds	*ft_create_cmd_list(t_token **tokens);
+
+// Concatenates TOKEN_WORDs not separated by a pipe in a single command array.
+char	**assign_cmd_value(t_token **tokens, int *i);
+
+// Assigns to the relative command list node the name of the 
+//  output redirection file. Sets it to NULL if there is none.
+void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node);
+
 
 /*_________________________________ utils.c _________________________________*/
 int		skip_spaces(t_token *input, int i);
@@ -214,7 +221,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp);
 int		setup_input_redirection(t_msh *msh);
 
 // Substitutes the standard input with a file.
-void	redirect_input(t_msh *msh);
+void	redirect_input(t_msh *msh, t_cmds *current);
 
 // Substitutes the standard output with a file.
 void	redirect_output(t_msh *msh, t_cmds *current);

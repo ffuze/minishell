@@ -10,10 +10,9 @@ static void	child_proc(t_msh *msh)
 		msh->exit_status = 1;
 		exit(EXIT_FAILURE);
 	}
-	if (msh->tokens[0]->type == TOKEN_RE_INPUT)
+	if (msh->cmds->infile && !msh->cmds->heredoc_flag)
 	{
-		setup_input_redirection(msh);
-		redirect_input(msh);
+		redirect_input(msh, msh->cmds);
 	}
 	if (msh->cmds->outfile)
 		redirect_output(msh, msh->cmds);

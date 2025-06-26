@@ -3,8 +3,9 @@ CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
 NAME = minishell
 
 OBJ_DIR = obj
-SRC_MAIN = index.c \
-			utils.c create_cmd_list.c\
+SRC_MAIN = index.c utils.c \
+			cmd_list/create_cmd_list.c cmd_list/assign_cmd.c \
+			cmd_list/assign_outfile.c \
 			test_setup.c \
 			built_in/identify_commands.c built_in/ft_exit.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \

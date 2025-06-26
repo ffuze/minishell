@@ -6,7 +6,7 @@ static void	reset_fd(t_msh *msh, t_token **tokens, int count)
 {
 	int	fd;
 	if (!msh || !tokens[count] || tokens[count]->type != TOKEN_OUTFILE)
-		return (0);
+		return ;
 	fd = open(tokens[count]->value, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return ;

@@ -1,28 +1,27 @@
 #include "../minishell.h"
 
 // Substitutes the standard input with a file.
-void redirect_input(t_msh *msh)
+void	redirect_input(t_msh *msh, t_cmds *current)
 {
-	int infile_fd;
+	int		infile_fd;
 
-	if (msh->infiles->heredoc_flag && msh->infiles->heredoc_flag)
+	if (!current->infile)
 		return ;
-	if (!msh->infiles->infile)
-		return ;
-	ft_printf(BRCYAN"Infile: %s\n"NO_ALL, msh->infiles->infile);
-	infile_fd = open(msh->infiles->infile, O_RDONLY);
+	infile_fd = open(current->infile, O_RDONLY, 0644);
 	if (infile_fd < 0)
 	{
-		print_err(msh->infiles->infile, ": Could not be opened\n");
+		print_err(current->infile, ": could not be opened.\n");
+		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit(1);
 	}
-	dup2(infile_fd, 0);
+	dup2(infile_fd, STDIN_FILENO);
 	close(infile_fd);
 }
 
 // Fills the infile structure with the appropriate file name, and determines
 // whether there is an input file or a heredoc.
-int setup_input_redirection(t_msh *msh)
+/* int setup_input_redirection(t_msh *msh)
 {
 	msh->infiles = malloc(sizeof(t_inf));
 	msh->infiles->heredoc_executed = false;
@@ -60,4 +59,4 @@ int setup_input_redirection(t_msh *msh)
 		// read_heredoc(msh);
 	}
 	return (1);
-}
+} */

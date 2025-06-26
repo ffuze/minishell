@@ -12,11 +12,11 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
-	if (msh->tokens[1]->type == TOKEN_RE_INPUT)
+	/* if (msh->tokens[1]->type == TOKEN_RE_INPUT)
 	{
 		setup_input_redirection(msh);
 		redirect_input(msh);
-	}
+	} */
 	if (current->outfile)
 		redirect_output(msh, current);
 	else if (dup2(pipefd[1], STDOUT_FILENO) < 0)
