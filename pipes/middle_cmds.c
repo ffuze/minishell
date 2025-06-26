@@ -12,8 +12,8 @@ int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i, char *input)
 		close(msh->fd_mrx[*i - 1][0]);
 		close(msh->fd_mrx[*i][1]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_everything(*msh);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
 	// REDIRECT INPUT
@@ -52,8 +52,8 @@ int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
 			if (current->abort_flag)
 			{
 				liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-				free_everything(*msh);
 				free_cmd_list(msh->cmds);
+				free_everything(*msh);
 				msh->exit_status = 1;
 				exit(EXIT_FAILURE);
 			}
@@ -62,7 +62,7 @@ int	middle_child_generator(t_msh *msh, t_cmds *current, char *input)
 		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);
 		msh->pipe_counter--;
-		*current = *current->next;
+		current = current->next;
 	}
 	return (i);
 }

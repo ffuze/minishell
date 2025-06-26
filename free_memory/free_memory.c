@@ -30,7 +30,6 @@ void	free_cmd_list(t_cmds *root)
 		return ;
 	while (root)
 	{
-		
 		tmp = root->next;
 		free(root->cmd);
 		if (root->outfile)

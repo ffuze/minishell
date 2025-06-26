@@ -26,10 +26,10 @@ static void	init_shell(t_msh *msh, char **envp)
 
 static void	cleanup_iteration(t_msh *msh)
 {
+	free_cmd_list(msh->cmds);
 	free_tokens(msh->tokens);
 	free(msh->exp_input);
 	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
-	free_cmd_list(msh->cmds);
 }
 
 static int	process_input(t_msh *msh, char *input)

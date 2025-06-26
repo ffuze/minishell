@@ -69,16 +69,16 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	{
 		execute_absrel_path(cmd[0], envp);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_everything(*msh);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit (127);
 	}
 	cmd_path = find_pathname(cmd[0], envp);
 	if (!cmd_path)
 	{
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_everything(*msh);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit (127);
 	}
 	execve(cmd_path, cmd, envp);

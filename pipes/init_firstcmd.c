@@ -9,8 +9,8 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inp
 	{
 		close(pipefd[1]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_everything(*msh);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
 	if (msh->tokens[1]->type == TOKEN_RE_INPUT)
@@ -42,8 +42,8 @@ void	init_firstcmd(t_msh *msh, t_cmds *current, int *i, char *input)
 		if (current->abort_flag)
 		{
 			liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-			free_everything(*msh);
 			free_cmd_list(msh->cmds);
+			free_everything(*msh);
 			msh->exit_status = 1;
 			exit(EXIT_FAILURE);
 		}

@@ -9,8 +9,8 @@ static int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd, char *inpu
 	{
 		close(pipefd[0]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_everything(*msh);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
 	// REDIRECT INPUT
@@ -36,8 +36,8 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i, char *input)
 		if (current->abort_flag)
 		{
 			liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-			free_everything(*msh);
 			free_cmd_list(msh->cmds);
+			free_everything(*msh);
 			msh->exit_status = 1;
 			exit(EXIT_FAILURE);
 		}
