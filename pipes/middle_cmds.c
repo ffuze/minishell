@@ -15,7 +15,9 @@ int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
-	// REDIRECT INPUT
+	
+	if (msh->cmds->infile)
+		redirect_input(msh, msh->cmds);
 	if (dup2(msh->fd_mrx[*i - 1][0], STDIN_FILENO) < 0)
 		return (close(msh->fd_mrx[*i - 1][0]), close(msh->fd_mrx[*i][1]), 0);
 	if (current->outfile)

@@ -12,7 +12,9 @@ static int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
-	// REDIRECT INPUT
+	
+	if (msh->cmds->infile)
+		redirect_input(msh, msh->cmds);
 	if (dup2(pipefd[0], STDIN_FILENO) < 0)
 		return (close(pipefd[0]), 0);
 	if (current->outfile)

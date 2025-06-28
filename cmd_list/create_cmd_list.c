@@ -11,7 +11,7 @@ static int	check_fd(t_token *tokens)
 			NO_ALL);
 		return (0);
 	}
-	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
+	fd = open(tokens->value, O_RDONLY);
 	if (fd < 0)
 	{
 		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
@@ -38,14 +38,27 @@ static void	assign_infile_value(t_token **tokens, int *j, t_cmds *new_node)
 				new_node->abort_flag = true;
 				return ;
 			}
-			if (new_node->infile)
-				free(new_node->infile);
+			free_input_redirection(new_node);
 			new_node->infile = ft_strdup(tokens[*j]->value);
 		}
 		else if (tokens[*j]->type == TOKEN_LIMITER)
 		{
+			free_input_redirection(new_node);
 			new_node->heredoc_flag = true;
-			new_node->infile = ft_strdup("heredoc.txt");
+			new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
+			new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
+			int		heredoc_fd;
+			char	*str;
+			heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+			str = ft_strjoin2(readline("> "), "\n");
+			while (ft_strcmp(new_node->limiter, str) != 0)
+			{
+				ft_printfd(heredoc_fd, "%s", str);
+				free(str);
+				str = ft_strjoin2(readline("> "), "\n");
+			}
+			free(str);
+			close(heredoc_fd);
 		}
 		(*j)++;
 	}

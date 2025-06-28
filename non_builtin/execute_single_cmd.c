@@ -10,10 +10,8 @@ static void	child_proc(t_msh *msh)
 		msh->exit_status = 1;
 		exit(EXIT_FAILURE);
 	}
-	if (msh->cmds->infile && !msh->cmds->heredoc_flag)
-	{
+	if (msh->cmds->infile)
 		redirect_input(msh, msh->cmds);
-	}
 	if (msh->cmds->outfile)
 		redirect_output(msh, msh->cmds);
 	execute_cmd(msh, msh->cmds->cmd, msh->envp2);

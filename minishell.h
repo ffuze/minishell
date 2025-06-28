@@ -80,7 +80,7 @@ typedef struct		s_cmds
 
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
-	char			**limiter; //   Signal the end of the input in heredoc.
+	char			*limiter; //   Signal the end of the input in heredoc.
 
 	bool			abort_flag;// If true the command must not be executed.
 
@@ -254,11 +254,8 @@ void 	freeList(t_cmds *head);
 /*_______________________________ free_memory ______________________________*/
 void	free_tokens(t_token **tokens);
 void    free_everything(t_msh msh);
+void	free_input_redirection(t_cmds *current_node);
 void	free_cmd_list(t_cmds *root);
-
-/*_______________________________ heredocs ______________________________*/
-void    read_heredoc(char *delimiter);
-void    handle_append_redirect(char *filename);
 
 /*_______________________________ signals ______________________________*/
 void	setup_signals();
