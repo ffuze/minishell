@@ -186,7 +186,7 @@ void	print_err(char *s1, char *err_type);
 int		identify_builtin_commands(t_msh *msh, char **cmd);
 int		execute_builtin_commands(t_msh *msh, char **cmd);
 
-void	ft_exit(t_msh *msh);
+void	ft_exit(t_msh *msh, char **args);
 
 void	ft_echo(char  **cmd);
 

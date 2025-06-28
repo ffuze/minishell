@@ -42,7 +42,7 @@ int	execute_builtin_commands(t_msh *msh, char **cmd)
 	else if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		ft_exit(msh);
+		ft_exit(msh, cmd);
 	else
 		return (1);
 	return (0);
