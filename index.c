@@ -21,6 +21,7 @@ static void	init_shell(t_msh *msh, char **envp)
 {
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
+	msh->envp2[ft_mtrxlen(msh->envp2)] = ft_strdup("OLDPWD");
 	msh->exit_status = 0;
 }
 

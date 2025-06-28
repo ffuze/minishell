@@ -16,7 +16,7 @@ char	**ft_envp_dup(char **envp)
 	i = 0;
 	size_t	l;
 	l = ft_mtrxlen(envp);
-	envp2 = ft_calloc((l + 1), sizeof(char *));
+	envp2 = ft_calloc((l + 2), sizeof(char *));
 	if (!envp2)
 		return (NULL);
 	while (envp[i])
