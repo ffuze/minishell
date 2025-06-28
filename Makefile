@@ -3,11 +3,11 @@ CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
 NAME = minishell
 
 OBJ_DIR = obj
-SRC_MAIN = index.c \
-			utils.c create_cmd_list.c\
+SRC_MAIN = index.c utils.c \
+			cmd_list/create_cmd_list.c cmd_list/assign_cmd.c \
+			cmd_list/assign_input_file.c cmd_list/assign_output_file.c \
 			test_setup.c \
-			built_in/identify_commands.c \
-			built_in/ft_clear.c built_in/ft_exit.c \
+			built_in/identify_commands.c built_in/ft_exit.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \
 			built_in/ft_export.c built_in/ft_export_print.c \
 			built_in/ft_export_append.c built_in/ft_cd.c built_in/ft_unset.c \
@@ -18,12 +18,11 @@ SRC_MAIN = index.c \
 			tokenize/check_vars_and_quotes/variable_expansion.c \
 			tokenize/tokenizer.c tokenize/tokenize_input.c \
 			tokenize/tokenize_output.c tokenize/tokenize_words.c\
-			non_builtin/execute_cmd.c non_builtin/execute_single_cmd.c \
+			cmd_execution/execute_cmd.c cmd_execution/execute_single_cmd.c \
 			redirection/redirection_in.c redirection/redirection_out.c\
 			pipes/pipe_check.c pipes/fd_matrix_utils.c pipes/init_firstcmd.c \
 			pipes/middle_cmds.c pipes/init_lastcmd.c \
 			free_memory/free_memory.c \
-			heredocs/heredoc_in.c heredocs/append_out.c \
 			signals/signals.c \
 			print_banner.c
 

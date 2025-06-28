@@ -43,11 +43,10 @@ void	printList(t_cmds *head)
                     ft_printf(YELLOW" (null) "NO_ALL);
                 i++;
 			}
-			if (current->outfile)
-			{
-				ft_printf(BRCYAN"in: %s, "NO_ALL, current->outfile);
-				ft_printf(BRCYAN"append: %d, "NO_ALL, current->append_flag);
-			}
+			ft_printf(BLUE"from: %s, "NO_ALL, current->infile);
+			ft_printf(BLUE"heredoc: %d, "NO_ALL, current->heredoc_flag);
+			ft_printf(BRCYAN"in: %s, "NO_ALL, current->outfile);
+			ft_printf(BRCYAN"append: %d, "NO_ALL, current->append_flag);
 		}
 		else
             ft_printf(YELLOW" (cmd array is NULL) "NO_ALL);

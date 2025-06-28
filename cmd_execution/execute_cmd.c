@@ -53,14 +53,14 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
 //  to the command from input and it won't be searched in the Environment
-void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
+void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 {
 	char	*cmd_path;
 
 	cmd_path = NULL;
-	if (execute_builtin_commands(msh, cmd, input) != 0)///////////////////
+	if (execute_builtin_commands(msh, cmd) != 1)///////////////////
 	{
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_everything(*msh);
 		free_cmd_list(msh->cmds);
 		exit(EXIT_SUCCESS);
@@ -68,17 +68,17 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp, char *input)
 	if (ft_strchr(cmd[0], '/'))
 	{
 		execute_absrel_path(cmd[0], envp);
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
-		free_everything(*msh);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit (127);
 	}
 	cmd_path = find_pathname(cmd[0], envp);
 	if (!cmd_path)
 	{
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_count);
-		free_everything(*msh);
+		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_cmd_list(msh->cmds);
+		free_everything(*msh);
 		exit (127);
 	}
 	execve(cmd_path, cmd, envp);

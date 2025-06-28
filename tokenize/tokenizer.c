@@ -10,7 +10,7 @@ t_token **tokenize(t_msh *msh, char *input)
 	i = 0;
 	start = i;
 	count = 0;
-	msh->pipe_count = 0;
+	msh->pipe_number = 0;
 	msh->exp_input = ft_parse_and_expand(msh, input);
 	if (!msh->exp_input)
 		return (NULL);
@@ -27,7 +27,7 @@ t_token **tokenize(t_msh *msh, char *input)
 		{
 			tokens[count++] = make_token(TOKEN_PIPE, msh->exp_input, i, 1);
 			i++;
-			msh->pipe_count++;
+			msh->pipe_number++;
 		}
 		else if (msh->exp_input[i] == '<')// TOKEN_RE_INPUT
 			count += tokenize_input(msh, tokens, msh->exp_input, &i);
