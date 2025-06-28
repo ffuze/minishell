@@ -12,9 +12,8 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 		free_everything(*msh);
 		exit(EXIT_SUCCESS);
 	}
-	
-	if (msh->cmds->infile)
-		redirect_input(msh, msh->cmds);
+	if (current->infile)
+		redirect_input(msh, current);
 	if (current->outfile)
 		redirect_output(msh, current);
 	else if (dup2(pipefd[1], STDOUT_FILENO) < 0)
