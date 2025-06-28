@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 11:04:11 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/06/15 17:23:56 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:34:16 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,33 @@ char	*ft_strjoin2(char *s1, char *s2)
 	}
 	new[i] = '\0';
 	free(s1);
+	return (new);
+}
+
+char	*ft_strjoin3(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	new = malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!new)
+		return (NULL);
+	while (s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		new[i] = s2[j];
+		j++;
+		i++;
+	}
+	new[i] = '\0';
+	free(s1);
+	free(s2);
 	return (new);
 }

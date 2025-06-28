@@ -58,7 +58,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 	char	*cmd_path;
 
 	cmd_path = NULL;
-	if (execute_builtin_commands(msh, cmd) != 0)///////////////////
+	if (execute_builtin_commands(msh, cmd) != 1)///////////////////
 	{
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_everything(*msh);

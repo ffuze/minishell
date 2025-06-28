@@ -48,7 +48,7 @@ static int	process_input(t_msh *msh, char *input)
 	print_token_info(msh);
 	msh->cmds = ft_create_cmd_list(msh->tokens);
 	pipe_check(msh);
-	add_history(msh->exp_input);
+	// add_history(msh->exp_input);
 	cleanup_iteration(msh);
 	return (0);
 }
@@ -76,6 +76,7 @@ int	main(int ac, char *av[], char **envp)
 			free_dpc(msh.envp2);
 			return (EXIT_FAILURE);
 		}
+		add_history(input);
 		if (process_input(&msh, input) == 1)
 			return (EXIT_SUCCESS);
 		get_exit_status(&msh);

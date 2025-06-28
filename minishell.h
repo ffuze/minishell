@@ -161,6 +161,11 @@ char	**assign_cmd_value(t_token **tokens, int *i);
 //  output redirection file. Sets it to NULL if there is none.
 void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node);
 
+// Assigns to the relative command list node the name of the 
+//  input redirection file. Sets it to NULL if there is none.
+// If a heredoc is to be created, it will be named *token number*heredoc.txt.
+void	assign_infile_value(t_token **tokens, int *j, t_cmds *new_node);
+
 
 /*_________________________________ utils.c _________________________________*/
 int		skip_spaces(t_token *input, int i);
