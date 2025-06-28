@@ -29,9 +29,10 @@ void	reset_child_signals()
 void	get_exit_status(t_msh *msh)
 {
 	int	status;
+	pid_t pid;
 
-	status = 0;
-	while (waitpid(-1, &status, 0) > 0)
+	pid = waitpid(-1, &status, WNOHANG);
+	if (pid > 0)
 	{
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
