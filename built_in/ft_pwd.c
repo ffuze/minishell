@@ -1,13 +1,5 @@
 #include "../minishell.h"
 
-// Check if the command line has got a redirection/append/heredoc: if it does,
-// execute the command in the found r/a/h, otherwise just execute the command
-// normally.
-// int	check_token_presence(t_msh *msh)
-// {
-
-// }
-
 // Prints the absolute path to the current directory.
 void	ft_pwd()
 {
