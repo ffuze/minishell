@@ -1,12 +1,43 @@
 #include "../minishell.h"
 
+// Tokenizes the single redirection in output (<).
+static void	single_redirect(t_token **tokens, char *input, size_t *i, \
+																int *count)
+{
+	size_t	start;
+
+	tokens[(*count)++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
+	(*i)++;
+	while (input[*i] && input[*i] == ' ')
+		(*i)++;
+	start = *i;
+	while (input[*i] && input[*i] != ' ' && input[*i] != '|')
+		(*i)++;
+	tokens[(*count)++] = make_token(TOKEN_INFILE, input, start, *i - start);
+}
+
+// Tokenizes the double redirection in output (<<).
+static void	double_redirect(t_token **tokens, char *input, size_t *i, \
+																int *count)
+{
+	size_t	start;
+
+	tokens[(*count)++] = make_token(TOKEN_RE_INPUT, input, *i, 2);
+	(*i) += 2;
+	while (input[*i] && input[*i] == ' ')
+		(*i)++;
+	start = *i;
+	while (input[*i] && input[*i] != ' ' && input[*i] != '|')
+		(*i)++;
+	tokens[(*count)++] = make_token(TOKEN_LIMITER, input, start, *i - start);
+}
+
 // Check for every command block divided by a pipe that has an
 //  input redirection wether the input file exists or not; if it does not,
 //  print an error message and skip the wholeblock until a next pipe is found.
 int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		count;
-	size_t	start;
 	int		starting_count;
 	
 	starting_count = count_tokens(tokens);
@@ -16,26 +47,8 @@ int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
 	if (input[*i] == '<' && input[*i + 1] != '<')
-	{
-		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 1);
-		(*i)++;
-		while (input[*i] && input[*i] == ' ')
-			(*i)++;
-		start = *i;
-		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
-			(*i)++;
-		tokens[count++] = make_token(TOKEN_INFILE, input, start, *i - start);		
-	}
+		single_redirect(tokens, input, i, &count);
 	else if (input[*i] == '<' && input[*i + 1] == '<')
-	{
-		tokens[count++] = make_token(TOKEN_RE_INPUT, input, *i, 2);
-		(*i) += 2;
-		while (input[*i] && input[*i] == ' ')
-			(*i)++;
-		start = *i;
-		while (input[*i] && input[*i] != ' ' && input[*i] != '|')
-			(*i)++;
-		tokens[count++] = make_token(TOKEN_LIMITER, input, start, *i - start);	
-	}
+		double_redirect(tokens, input, i, &count);
 	return (count - starting_count);
 }

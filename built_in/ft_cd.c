@@ -104,7 +104,3 @@ void	ft_cd(t_msh *msh, char **cmd)
 	else
 		get_dir(msh, home_path, cmd[1]);
 }
-// cd . sostituisce OLDPWD con il pwd corrente
-// cd - Desktop | echo ciao
-// ciao
-// bash: cd: too many arguments

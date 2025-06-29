@@ -35,7 +35,6 @@ static char	**add_var(char **envp, char *new_var)
 		return (free_dpc(nenvp), free_dpc(envp), NULL);
 	return (free_dpc(envp), nenvp);
 }
-//---------------------------------------------------------------------------//
 
 // Checks whether the new Variable already exists, if so it overwrites it.
 static bool	check_vardup(char **envp2, char *input)
@@ -49,7 +48,7 @@ static bool	check_vardup(char **envp2, char *input)
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
 		{
-			if(ft_strchr2(input, '='))
+			if (ft_strchr2(input, '='))
 			{
 				free(envp2[i]);
 				envp2[i] = ft_strdup(input);
@@ -90,8 +89,6 @@ static int	var_name_check(t_msh *msh, char *new_var)
 	}
 	return (free(var_name), true);
 }
-//-----------------------------------------------------------------------------//
-
 
 void	ft_export(t_msh *msh, char **cmd)
 {

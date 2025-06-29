@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 // Returns the number of TOKEN_WORDs before the next pipe or the end of input.
-static size_t	count_w_tokens(t_token **tokens, int *i)
+static size_t	count_w_token(t_token **tokens, int *i)
 {
 	int		j;
 	size_t	count;
@@ -25,7 +25,7 @@ char	**assign_cmd_value(t_token **tokens, int *i)
 	size_t	j;
 
 	j = 0;
-	n_word_tokens = count_w_tokens(tokens, i);
+	n_word_tokens = count_w_token(tokens, i);
 	cmd = ft_calloc(n_word_tokens + 1, sizeof(char *));
 	if (!cmd)
 		return (NULL);

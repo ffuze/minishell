@@ -73,6 +73,5 @@ char	*ft_parse_and_expand(t_msh *msh, char *input)
 	msh->exp_input = ft_expandedcpy(msh, input);
 	if(!msh->exp_input)
 		return(NULL);
-	// ft_printf(MAGENTA"msh->Exp_input = %s\n"NO_ALL, msh->exp_input);/////////////////
 	return (msh->exp_input);
 }
