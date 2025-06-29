@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-// Check if the fd has got permissions or not
+// Checks the file descriptor's permissions.
 static int	check_fd(t_token *tokens)
 {
 	int	fd;

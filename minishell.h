@@ -129,7 +129,6 @@ int		count_tokens(t_token **tokens);
 int		tokenize_quotes(t_token **tokens, char *input, size_t *i);
 int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
-int		validate_input_files(t_msh *msh);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
 // Handles $ sign for environment vars expansion.
 int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
@@ -152,7 +151,7 @@ size_t	count_args(char *input);
 
 /*_________________________________ cmd_list ________________________________*/
 // Returns a list of commands and relative arguments given from input.
-t_cmds	*ft_create_cmd_list(t_token **tokens);
+t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens);
 
 // Concatenates TOKEN_WORDs not separated by a pipe in a single command array.
 char	**assign_cmd_value(t_token **tokens, int *i);
@@ -164,7 +163,8 @@ void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node);
 // Assigns to the relative command list node the name of the 
 //  input redirection file. Sets it to NULL if there is none.
 // If a heredoc is to be created, it will be named *token number*heredoc.txt.
-void	assign_infile_value(t_token **tokens, int *j, t_cmds *new_node);
+void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
+														t_cmds *new_node);
 
 
 /*_________________________________ utils.c _________________________________*/

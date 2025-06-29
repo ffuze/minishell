@@ -36,9 +36,9 @@ void ft_exit(t_msh *msh, char **args)
     int exit_status;
     
 	exit_status = 0;
-    if (args[2])
+    if (ft_mtrxlen(args) > 2)
     {
-        ft_printf("pokeshell: exit: too many arguments\n");
+        ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
 		msh->exit_status = 1;
         return ;
     }
@@ -46,7 +46,8 @@ void ft_exit(t_msh *msh, char **args)
     {
         if (!is_valid_number(args[1]))
         {
-            ft_printf("pokeshell: exit: %s: numeric argument required\n", args[1]);
+            ft_printfd(2, "pokeshell: exit: %s: numeric argument required\n", \
+                                                                     args[1]);
             exit_status = 2;
             free_cmd_list(msh->cmds);
             free_everything(*msh);

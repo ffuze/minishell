@@ -43,10 +43,8 @@ static int	process_input(t_msh *msh, char *input)
 		free(msh->exp_input);
 		return (0);
 	}
-	if (!validate_input_files(msh))
-        return (0);
 	print_token_info(msh);
-	msh->cmds = ft_create_cmd_list(msh->tokens);
+	msh->cmds = ft_create_cmd_list(msh, msh->tokens);
 	pipe_check(msh);
 	cleanup_iteration(msh);
 	return (0);

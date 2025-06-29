@@ -32,23 +32,16 @@ char	*find_value(char **envp, char *input, size_t *i)
 // Return 0 on failure.
 int	expand_dollar(t_msh *msh, char *input, size_t *i, size_t *j)
 {
-	char	*exit_s;
-
 	if (input[(*i) + 1] == '?')
 	{
-		exit_s = ft_itoa(msh->exit_status);
-		if (!exit_s)
-			return (0);
-		msh->exp_input = ft_strjoin2(msh->exp_input, exit_s);
-		free(exit_s);
+		msh->exp_input = ft_strjoin3(msh->exp_input, \
+										ft_itoa(msh->exit_status));
 		(*i) += 2;
 	}
 	else
 	{
 		msh->exp_input = ft_strjoin2(msh->exp_input, \
 						find_value(msh->envp2, input, i));
-		if (!msh->exp_input)
-			return (0);
 	}
 	if (!msh->exp_input)
 		return (0);

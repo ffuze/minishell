@@ -17,7 +17,7 @@ static size_t	count_w_tokens(t_token **tokens, int *i)
 	return (count);
 }
 
-void	assign_values(t_token **tokens, int *i, t_cmds *new_node)
+void	assign_values(t_msh *msh, t_token **tokens, int *i, t_cmds *new_node)
 {
 	int	j;
 
@@ -26,11 +26,11 @@ void	assign_values(t_token **tokens, int *i, t_cmds *new_node)
 	new_node->cmd = assign_cmd_value(tokens, i);
 	assign_outfile_value(tokens, &j, new_node);
 	j = *i;
-	assign_infile_value(tokens, &j, new_node);
+	assign_infile_value(msh, tokens, &j, new_node);
 }
 
 // Returns a list of commands and relative arguments given from input.
-t_cmds	*ft_create_cmd_list(t_token **tokens)
+t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens)
 {
 	t_cmds	*new_node;
 	t_cmds	*root;
@@ -55,7 +55,7 @@ t_cmds	*ft_create_cmd_list(t_token **tokens)
 				root = new_node;
 			else
 				prev->next = new_node;
-			assign_values(tokens, &i, new_node);
+			assign_values(msh, tokens, &i, new_node);
 			if (!new_node->cmd)
 			{
 				free(new_node);

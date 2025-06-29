@@ -44,7 +44,7 @@ char	*ft_expandedcpy(t_msh *msh, char *input)
 			msh->exp_input[j++] = input [i++];
 		if (input[i] == '$')
 		{
-			if(!expand_dollar(msh, input, &i, &j))
+			if (!expand_dollar(msh, input, &i, &j))
 				return (NULL);
 		}
 		if (input[i] == '\'')

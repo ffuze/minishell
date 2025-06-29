@@ -22,6 +22,12 @@ ciao
 bash$ "e"ch"o" "ciao$USER"
 ciaolemarino
 
+bash$ export a=us$USER
+bash$ echo $a
+uslemarino
+
+
+
 bash$ rompiballe='trall"alle"ro'
 bash$ echo "ciao $rompiballe ciao"
 ciao trall"alle"ro ciao
