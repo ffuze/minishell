@@ -11,8 +11,8 @@ static void	reset_fd(t_msh *msh, t_token **tokens, int count)
 	if (fd < 0)
 		return ;
 	close(fd);
-	if (tokens[count - 1]->value[1] != '>')
-		unlink(tokens[count]->value);
+	// if (tokens[count - 1]->value[1] != '>')
+	// 	unlink(tokens[count]->value);
 	return ;
 }
 
