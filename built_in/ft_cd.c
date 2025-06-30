@@ -83,7 +83,7 @@ void	ft_cd(t_msh *msh, char **cmd)
 	home_path = find_home(msh->envp2);
 	if (!home_path)
 		return ;
-	if (cmd[2])
+	if (cmd[1] && cmd[2])
 	{
 		msh->exit_status = 1;
 		ft_putstr_fd(RED"cd: too many arguments\n"NO_ALL, 2);

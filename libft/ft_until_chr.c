@@ -12,7 +12,8 @@
 
 #include "libft.h"
 
-// Allocates memory and return a duplicate of the string s up until the first c
+// Allocates memory and return a duplicate of the string s up until the first
+//  occurrence of c
 char	*ft_until_chr(const char *s, int c)
 {
 	char	*nstr;
@@ -29,6 +30,31 @@ char	*ft_until_chr(const char *s, int c)
 	if (!nstr)
 		return (NULL);
 	while (j <= i)
+	{
+		nstr[j] = s[j];
+		j++;
+	}
+	return (nstr);
+}
+
+// Allocates memory and return a duplicate of the string s up until right
+//  before the first occurrence of c
+char	*ft_before_chr(const char *s, int c)
+{
+	char	*nstr;
+	char	chr;
+	int		i;
+	int		j;
+
+	chr = (char)c;
+	i = 0;
+	j = 0;
+	while (s[i] && s[i] != chr)
+		i++;
+	nstr = ft_calloc(i + 2, sizeof(char));
+	if (!nstr)
+		return (NULL);
+	while (j < i)
 	{
 		nstr[j] = s[j];
 		j++;

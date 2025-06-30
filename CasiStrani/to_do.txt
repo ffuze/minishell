@@ -1,0 +1,8 @@
+echo gg | > out
+cd ----fatto----
+echo $ ----fatto----
+ctrl D leaks
+heredoc ctrl D
+export a , export a= ----fatto----
+export a a=hhhh a= a=k 1gk ----fatto----
+env printed 2wice ----fatto----

@@ -16,8 +16,8 @@ char	*find_value(char **envp, char *input, size_t *i)
 						(input[*i] > 'a' && input[*i] < 'z')))
 		(*i)++;
 	var_name = ft_substr(input, start, (*i - start));
-	if(!var_name)
-		return (NULL);
+	if(!var_name || !var_name[0])
+		return (free(var_name), "$");
 	name_l = ft_strlen(var_name);
 	while (envp[j])
 	{

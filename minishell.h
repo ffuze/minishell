@@ -183,7 +183,7 @@ void	print_err(char *s1, char *err_type);
 
 /*_________________________________ built_in ________________________________*/
 
-int		identify_builtin_commands(t_msh *msh, char **cmd);
+int		identify_builtin_commands(char **cmd);
 int		execute_builtin_commands(t_msh *msh, char **cmd);
 
 void	ft_exit(t_msh *msh, char **args);

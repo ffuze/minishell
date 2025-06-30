@@ -24,7 +24,7 @@ int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 	else if (dup2(msh->fd_mrx[*i][1], STDOUT_FILENO) < 0)
 		return (close(msh->fd_mrx[*i][1]), 0);
 	close(msh->fd_mrx[*i][1]);
-	if (identify_builtin_commands(msh, current->cmd))
+	if (identify_builtin_commands(current->cmd))
 		close(msh->fd_mrx[*i][0]);
 	execute_cmd(msh, current->cmd, msh->envp2);
 	return (1);

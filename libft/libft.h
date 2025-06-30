@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:17:36 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/06/28 16:34:35 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:04:48 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ size_t	ft_mtrxlen(char **mtrx);
 char	*ft_strchr2(const char *s, int c);
 char	*ft_until_chr(const char *s, int c);
 void	ft_until_chr_print(const char *s, int c);
+char	*ft_before_chr(const char *s, int c);
 int		count_words(const char *str, char c);
 int		ft_printfd(int fd, const char *input, ...);
 int		fd_print_p(int fd, intptr_t *p);

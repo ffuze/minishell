@@ -43,16 +43,13 @@ static bool	check_vardup(char **envp2, char *input)
 	char	*new_var;
 
 	i = 0;
-	new_var = ft_until_chr(input, '=');
+	new_var = ft_before_chr(input, '=');
 	while (envp2[i])
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
 		{
-			if (ft_strchr2(input, '='))
-			{
-				free(envp2[i]);
-				envp2[i] = ft_strdup(input);
-			}
+			free(envp2[i]);
+			envp2[i] = ft_strdup(input);
 			return (free(new_var), true);
 		}
 		i++;
@@ -107,7 +104,7 @@ void	ft_export(t_msh *msh, char **cmd)
 			else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
 				append_handle(msh, cmd[i]);
 			else if (check_vardup(msh->envp2, cmd[i]))
-				break ;
+				;
 			else
 				msh->envp2 = add_var(msh->envp2, cmd[i]);
 			i++;

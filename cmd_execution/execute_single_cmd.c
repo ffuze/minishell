@@ -29,7 +29,7 @@ void	execute_single_cmd(t_msh *msh)
 		ft_printfd(2, RED"Error: No commands found\n"NO_ALL);
 		return ;
 	}
-	if (identify_builtin_commands(msh, msh->cmds->cmd))//ft_strcmp(msh->cmds->cmd[0], "exit") == 0
+	if (identify_builtin_commands(msh->cmds->cmd))//ft_strcmp(msh->cmds->cmd[0], "exit") == 0
 	{
 		msh->exit_status = execute_builtin_commands(msh, msh->cmds->cmd);
 		return ;
