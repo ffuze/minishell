@@ -45,7 +45,8 @@ void	free_cmd_list(t_cmds *root)
 	while (root)
 	{
 		tmp = root->next;
-		free(root->cmd);
+		if (root->cmd)
+			free(root->cmd);
 		if (root->outfile)
 			free(root->outfile);
 		free_input_redirection(root);

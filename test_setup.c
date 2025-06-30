@@ -29,19 +29,18 @@ void	printList(t_cmds *head)
 
 	current = head;
 	i = 0;
+	int j = 0;
 	while (current && current->cmd)
 	{
 		i = 0;
 		ft_printf(RED"##"NO_ALL);
 		if (current->cmd)
 		{
-			while (current->cmd[i])
+			while (current && current->cmd && current->cmd[i])
 			{
-				if (current->cmd[i] != NULL)
-                    ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
-                else
-                    ft_printf(YELLOW" (null) "NO_ALL);
+				ft_printf(YELLOW"%dcdm %s "NO_ALL, j, current->cmd[i]);
                 i++;
+				j++;
 			}
 			ft_printf(BLUE"from: %s, "NO_ALL, current->infile);
 			ft_printf(BLUE"heredoc: %d, "NO_ALL, current->heredoc_flag);
