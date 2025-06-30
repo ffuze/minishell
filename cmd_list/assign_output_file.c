@@ -4,6 +4,7 @@
 static int	check_fd(t_token *tokens)
 {
 	int	fd;
+
 	if (ft_strcmp(tokens->value, "") == 0)
 	{
 		ft_printfd(2, \
@@ -28,7 +29,7 @@ void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node)
 {
 	new_node->outfile = NULL;
 	new_node->append_flag = false;
-	while (*j > 0 && /* tokens[*j] && tokens[*j - 1] &&  */tokens[*j - 1]->type != TOKEN_PIPE)
+	while (*j > 0 && tokens[*j - 1]->type != TOKEN_PIPE)
 		(*j)--;
 	while (tokens[*j] && tokens[*j]->type != TOKEN_PIPE)
 	{

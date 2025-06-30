@@ -15,11 +15,13 @@ static void	init_pipeline(t_msh *msh)
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
 	msh->pipe_counter--;
-	init_firstcmd(msh, current, &i);
+	if (current && current->cmd[0])
+		init_firstcmd(msh, current, &i);
 	current = current->next;
 	close(msh->fd_mrx[i][1]);
 	i = middle_child_generator(msh, &current);
-	init_lastcmd(msh, current, &i);
+	if (current && current->cmd[0])
+		init_lastcmd(msh, current, &i);
 	liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 	while (waitpid(-1, &status, 0) > 0)
 	{

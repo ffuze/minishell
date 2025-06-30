@@ -4,6 +4,7 @@
 static int	check_fd(t_token *tokens)
 {
 	int	fd;
+
 	if (ft_strcmp(tokens->value, "") == 0)
 	{
 		ft_printfd(2, \
@@ -24,7 +25,8 @@ static int	check_fd(t_token *tokens)
 
 // Expands environment variables and/or the exit status.
 // Returns NULL on failure.
-static char	*expand_heredoc_dollar(t_msh *msh, char *input, size_t *i, size_t *j)
+static char	*expand_heredoc_dollar(t_msh *msh, char *input, size_t *i, \
+																size_t *j)
 {
 	char	*expanded_s;
 
@@ -78,7 +80,8 @@ static char	*ft_expanded_heredoc_cpy(t_msh *msh, char *str)
 	return (expanded_s);
 }
 
-static void	generate_heredoc(t_msh *msh, t_token **tokens, int *j, t_cmds *new_node)
+static void	generate_heredoc(t_msh *msh, t_token **tokens, int *j, \
+															t_cmds *new_node)
 {
 	int		heredoc_fd;
 	char	*str;
@@ -103,7 +106,8 @@ static void	generate_heredoc(t_msh *msh, t_token **tokens, int *j, t_cmds *new_n
 // Assigns to the relative command list node the name of the 
 //  input redirection file. Sets it to NULL if there is none.
 // If a heredoc is to be created, it will be named *token number*heredoc.txt.
-void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, t_cmds *new_node)
+void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
+															t_cmds *new_node)
 {
 	new_node->infile = NULL;
 	new_node->heredoc_flag = false;

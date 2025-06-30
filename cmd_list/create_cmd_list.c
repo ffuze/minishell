@@ -25,6 +25,8 @@ void	assign_values(t_msh *msh, t_token **tokens, int *i, t_cmds *new_node)
 	j = *i;
 	new_node->abort_flag = false;
 	new_node->cmd = assign_cmd_value(tokens, i);
+	if (!new_node->cmd)
+		return ;
 	assign_outfile_value(tokens, &j, new_node);
 	j = *i;
 	assign_infile_value(msh, tokens, &j, new_node);
@@ -35,47 +37,46 @@ static t_cmds	*ft_create_cmd_nodes(t_msh *msh, t_token **tokens, int *i, \
 																		int *j)
 {
 	t_cmds	*new_node;
-	t_cmds	*root;
 	t_cmds	*prev;
 
 	while (tokens[*i])
 	{
-		if (tokens[*i]->type == TOKEN_WORD)
+		if (tokens[*i]->type == TOKEN_WORD || \
+						(tokens[*i + 1] && tokens[*i + 1]->type == TOKEN_PIPE))
 		{
 			prev = new_node;
 			new_node = ft_calloc(count_w_token(tokens, i) + 1, sizeof(t_cmds));
 			if (!new_node)
-				return (root);
-			if (*j == 0)
-				root = new_node;
+				return (msh->cmds);
+			if ((*j)++ == 0)
+				msh->cmds = new_node;
 			else
 				prev->next = new_node;
 			assign_values(msh, tokens, i, new_node);
-			if (!new_node->cmd)
-				return (free(new_node), NULL);
-			*j += 1;
+			if (tokens[*i] && tokens[*i + 1] && \
+											tokens[*i + 1]->type == TOKEN_PIPE)
+				*i += 1;
 		}
 		else
 			*i += 1;
 	}
-	return (root);
+	return (msh->cmds);
 }
 
 // Returns a list of commands and relative arguments given from input.
 t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens)
 {
 	t_cmds	*new_node;
-	t_cmds	*root;
 	t_cmds	*prev;
 	int		i;
 	int		j;
 
 	new_node = NULL;
-	root = NULL;
+	msh->cmds = NULL;
 	prev = NULL;
 	i = 0;
 	j = 0;
-	root = ft_create_cmd_nodes(msh, tokens, &i, &j);
-	printList(root);/////////////////////////////////////
-	return (root);
+	msh->cmds = ft_create_cmd_nodes(msh, tokens, &i, &j);
+	printList(msh->cmds);/////////////////////////////////////
+	return (msh->cmds);
 }
