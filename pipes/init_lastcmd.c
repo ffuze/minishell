@@ -28,6 +28,30 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i)
 {
 	int	id3;
 
+	// Aggiungi controlli di sicurezza
+    if (!msh)
+    {
+        print_err("Invalid parameters in init_lastcmd", "\n");
+        return;
+    }
+    
+    if (!msh->fd_mrx)
+    {
+        print_err("fd_mrx not initialized", "\n");
+        return;
+    }
+    
+    if (*i < 0 || *i >= msh->pipe_number)
+    {
+        print_err("Invalid pipe index", "\n");
+        return;
+    }
+    
+    if (!msh->fd_mrx[*i])
+    {
+        print_err("Pipe descriptor not initialized", "\n");
+        return;
+    }
 	id3 = fork();
 	if (id3 < 0)
 		return (print_err("Fork failed for id3.", "\n"));

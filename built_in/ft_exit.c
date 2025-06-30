@@ -47,11 +47,11 @@ void ft_exit(t_msh *msh, char **args)
         if (!is_valid_number(args[1]))
         {
             ft_printfd(2, "pokeshell: exit: %s: numeric argument required\n", \
-                                                                     args[1]);
-            exit_status = 2;
+                                                                    args[1]);
             free_cmd_list(msh->cmds);
             free_everything(*msh);
-            exit(exit_status);
+            // return ;
+            exit(2);
         }
         exit_status = ft_atoi(args[1]);
         exit_status = exit_status % 256;
