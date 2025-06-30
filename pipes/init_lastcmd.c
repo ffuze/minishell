@@ -33,7 +33,7 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i)
 		return (print_err("Fork failed for id3.", "\n"));
 	else if (0 == id3)
 	{
-		if (current->abort_flag)
+		if (!current || !current->cmd[0] || current->abort_flag)
 		{
 			liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 			free_cmd_list(msh->cmds);

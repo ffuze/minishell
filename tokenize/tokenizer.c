@@ -14,7 +14,7 @@ t_token **tokenize(t_msh *msh, char *input)
 	msh->exp_input = ft_parse_and_expand(msh, input);
 	if (!msh->exp_input)
 		return (NULL);
-	tokens = ft_calloc((count_args(input) + 2), sizeof(t_token *));// + 2 nel caso di redirection vuota (ls > "")
+	tokens = ft_calloc((count_args(input) + 2), sizeof(t_token *));
 	if (!tokens)
 		return (free(msh->exp_input), NULL);
 	while (msh->exp_input[i])
@@ -29,12 +29,10 @@ t_token **tokenize(t_msh *msh, char *input)
 			i++;
 			msh->pipe_number++;
 		}
-		else if (msh->exp_input[i] == '<')// TOKEN_RE_INPUT
+		else if (msh->exp_input[i] == '<')
 			count += tokenize_input(msh, tokens, msh->exp_input, &i);
-		else if (msh->exp_input[i] == '>')// TOKEN_RE_OUTPUT
-		{
+		else if (msh->exp_input[i] == '>')
 			count = tokenize_output(msh, tokens, msh->exp_input, &i);
-		}
 		else
 			tokenize_word(tokens, msh->exp_input, &i, &count);
 	}

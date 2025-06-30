@@ -38,7 +38,7 @@ void	printList(t_cmds *head)
 		{
 			while (current && current->cmd && current->cmd[i])
 			{
-				ft_printf(YELLOW"%dcdm %s "NO_ALL, j, current->cmd[i]);
+				ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
                 i++;
 				j++;
 			}

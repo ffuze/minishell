@@ -1,4 +1,4 @@
-echo gg | > out
+echo gg | > out ----fatto----
 cd ----fatto----
 echo $ ----fatto----
 ctrl D leaks

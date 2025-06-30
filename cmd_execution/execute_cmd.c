@@ -82,7 +82,4 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 		exit (127);
 	}
 	execve(cmd_path, cmd, envp);
-	// print_err(cmd[0], ": command not executed.\n");
-	// free(cmd_path);
-	// exit (1);
 }

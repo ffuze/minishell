@@ -19,8 +19,6 @@ static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 	else if (dup2(pipefd[1], STDOUT_FILENO) < 0)
 		return (close(pipefd[1]), 0);
 	close(pipefd[1]);
-	if (identify_builtin_commands(current->cmd))
-		close(pipefd[0]);
 	execute_cmd(msh, current->cmd, msh->envp2);
 	return (1);
 }
@@ -35,7 +33,7 @@ void	init_firstcmd(t_msh *msh, t_cmds *current, int *i)
 		return (print_err("Fork failed for id1.", "\n"));
 	else if (0 == id1)
 	{
-		if (current->abort_flag)
+		if (!current || !current->cmd[0] || current->abort_flag)
 		{
 			liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 			free_cmd_list(msh->cmds);
