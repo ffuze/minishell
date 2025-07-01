@@ -11,6 +11,8 @@ static void	single_redirect(t_token **tokens, char *input, size_t *i, \
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
 	start = *i;
+	if (input[*i] == '|')
+		return ;
 	while (input[*i] && input[*i] != ' ' && input[*i] != '|')
 		(*i)++;
 	tokens[(*count)++] = make_token(TOKEN_INFILE, input, start, *i - start);
@@ -27,6 +29,8 @@ static void	double_redirect(t_token **tokens, char *input, size_t *i, \
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
 	start = *i;
+	if (input[*i] == '|')
+		return ;
 	while (input[*i] && input[*i] != ' ' && input[*i] != '|')
 		(*i)++;
 	tokens[(*count)++] = make_token(TOKEN_LIMITER, input, start, *i - start);

@@ -11,8 +11,6 @@ static void	reset_fd(t_msh *msh, t_token **tokens, int count)
 	if (fd < 0)
 		return ;
 	close(fd);
-	// if (tokens[count - 1]->value[1] != '>')
-	// 	unlink(tokens[count]->value);
 	return ;
 }
 
@@ -27,6 +25,8 @@ static void	single_redirect(t_token **tokens, char *input, size_t *i, \
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
 	start = *i;
+	if (input[*i] == '|')
+		return ;
 	while (input[*i] && input[*i] != ' ' && !ft_isoperator(input[*i]))
 		(*i)++;
 	tokens[(*count)++] = make_token(TOKEN_OUTFILE, input, start, *i - start);
@@ -43,6 +43,8 @@ static void	double_redirect(t_token **tokens, char *input, size_t *i, \
 	while (input[*i] && input[*i] == ' ')
 		(*i)++;
 	start = *i;
+	if (input[*i] == '|')
+		return ;
 	while (input[*i] && input[*i] != ' ' && !ft_isoperator(input[*i]))
 		(*i)++;
 	tokens[(*count)++] = make_token(TOKEN_OUTFILE, input, start, *i - start);

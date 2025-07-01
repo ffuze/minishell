@@ -20,8 +20,11 @@ static void	count_operators(char *str, int *i, int *words)
 {
 	(*words)++;
 	(*i)++;
-	if (str[*i] == '<' || str[*i] == '>')
+	while (str[*i] == '<' || str[*i] == '>' || str[*i] == '|')
+	{
+		(*words)++;
 		(*i)++;
+	}
 }
 
 // Returns the number of arguments in the input string.

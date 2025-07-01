@@ -1,23 +1,23 @@
 #include "../minishell.h"
+static void	print_sintax_err(char *tokenvalue)
+{
+	ft_printfd(2, \
+		RED"minishell: syntax error near token `%s'\n" \
+		NO_ALL, tokenvalue);
+}
 
 static bool	check_pipe_tokens(t_token **tokens, int *i)
 {
-	if (tokens[*i]->type == TOKEN_PIPE \
-			&& tokens[(*i) + 1] && tokens[(*i) + 1]->type == TOKEN_PIPE)
-		{
-			ft_printfd(2, \
-				RED"norminette: syntax error near token `%s'\n" \
-				NO_ALL, tokens[*i]->value);
-			return (false);
-		}
-	else if (tokens[*i]->type == TOKEN_PIPE && \
-					(!tokens[(*i) + 1] || *i == 0))
-	{
-		ft_printfd(2, \
-			RED"norminette: syntax error near token `%s'\n" \
-			NO_ALL, tokens[*i]->value);
-		return (false);
-	}
+	if (!tokens[(*i) + 1] || *i == 0)
+		return (print_sintax_err(tokens[*i]->value), false);
+	else if (tokens[(*i) + 1]->type == TOKEN_PIPE)
+		return (print_sintax_err(tokens[*i]->value), false);
+	else if (tokens[(*i) + 1]->type == TOKEN_RE_INPUT && \
+		(!tokens[(*i) + 2] || !tokens[(*i) + 2]->value[0]))
+		return (print_sintax_err(tokens[*i]->value), false);
+	else if (tokens[(*i) + 1]->type == TOKEN_RE_OUTPUT && \
+		(!tokens[(*i) + 2] || !tokens[(*i) + 2]->value[0]))
+		return (print_sintax_err(tokens[*i]->value), false);
 	return (true);
 }
 
@@ -46,12 +46,10 @@ bool	check_tokens(t_token **tokens)
 	else if (ft_strcmp(tokens[0]->value, ".") == 0)
 	{
 		ft_printfd(2, \
-			RED"norminette: syntax error near token `%s'\n" \
+			RED"minishell: filename argument required `%s'\n" \
 			NO_ALL, tokens[i]->value);
 		return (false);
 	}
-	if (!search_word_tokens(tokens))
-		return (false);
 	while (tokens[i])
 	{
 		if (tokens[i]->type == TOKEN_PIPE)
@@ -61,5 +59,7 @@ bool	check_tokens(t_token **tokens)
 		}
 		i++;
 	}
+	if (!search_word_tokens(tokens))
+		return (false);
 	return (true);
 }
