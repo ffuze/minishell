@@ -19,7 +19,7 @@ static int	check_flag(char **cmd, int j)
 	return (j);
 }
 
-void	ft_echo(char **cmd)
+int	ft_echo(char **cmd)
 {
 	int	i;
 	int	newline;
@@ -37,4 +37,5 @@ void	ft_echo(char **cmd)
 	}
 	if (newline)
 		ft_printfd(1, "\n");
+	return (0);
 }

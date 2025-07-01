@@ -21,31 +21,28 @@ int	identify_builtin_commands(char **cmd)
 
 int	execute_builtin_commands(t_msh *msh, char **cmd)
 {
-	if (ft_strcmp(cmd[0], "env") == 0)
-		ft_env(msh->envp2);
+	if (ft_strcmp(cmd[0], "pwd") == 0)
+		msh->exit_status = ft_pwd();
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		msh->exit_status = ft_cd(msh, cmd);
+	else if (ft_strcmp(cmd[0], "echo") == 0)
+		msh->exit_status = ft_echo(cmd);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		msh->exit_status = ft_env(msh->envp2);
 	else if (ft_strcmp(cmd[0], "export") == 0)
 	{
-		ft_export(msh, cmd);
+		msh->exit_status = ft_export(msh, cmd);
 		if (!msh->envp2)
 			return (-1);
 	}
 	else if (ft_strcmp(cmd[0], "unset") == 0)
 	{
-		ft_unset(msh, cmd);
+		msh->exit_status = ft_unset(msh, cmd);
 		if (!msh->envp2)
 			return (-1);
 	}
-	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		ft_pwd();
-	else if (ft_strcmp(cmd[0], "cd") == 0)
-		ft_cd(msh, cmd);
-	else if (ft_strcmp(cmd[0], "echo") == 0)
-		ft_echo(cmd);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-	{
-		ft_exit(msh, cmd);
-		return (1);
-	}
+		return (ft_exit(msh, cmd), 1);
 	else
 		return (1);
 	return (0);

@@ -87,7 +87,7 @@ static int	var_name_check(t_msh *msh, char *new_var)
 	return (free(var_name), true);
 }
 
-void	ft_export(t_msh *msh, char **cmd)
+int	ft_export(t_msh *msh, char **cmd)
 {
 	int	i;
 
@@ -99,15 +99,19 @@ void	ft_export(t_msh *msh, char **cmd)
 		while (cmd[i])
 		{
 			if (!var_name_check(msh, cmd[i]))
+			{
 				ft_printfd(2, RED"export: `%s': not a valid identifier\n" \
-														NO_ALL, cmd[i]);
+					NO_ALL, cmd[i]);
+				return (1);
+			}
 			else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
 				append_handle(msh, cmd[i]);
 			else if (check_vardup(msh->envp2, cmd[i]))
-				;
+				return (0);
 			else
 				msh->envp2 = add_var(msh->envp2, cmd[i]);
 			i++;
 		}
 	}
+	return (0);
 }

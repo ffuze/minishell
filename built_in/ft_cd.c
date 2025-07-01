@@ -1,5 +1,20 @@
 #include "../minishell.h"
 
+static void	update_pwd(t_msh *msh, char **envp)
+{
+	int		i;
+	char	*current_dir;
+
+	i = 0;
+	current_dir = NULL;
+	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
+		i++;
+	if (!envp[i])
+		return ;
+	envp[i] = ft_strjoin2(envp[i], "=");
+	envp[i] = ft_strjoin3(envp[i], getcwd(current_dir, PATH_MAX));
+}
+
 static void	update_oldpwd(t_msh *msh, char **envp)
 {
 	int		i;
@@ -10,11 +25,7 @@ static void	update_oldpwd(t_msh *msh, char **envp)
 	while (envp[i] && ft_strncmp(envp[i], "OLDPWD", 6) != 0)
 		i++;
 	if (!envp[i])
-	{
-		ft_printfd(2, RED"OLDPWD not found\n"NO_ALL);
-		msh->exit_status = 1;
 		return ;
-	}
 	envp[i] = ft_strjoin2(envp[i], "=");
 	envp[i] = ft_strjoin3(envp[i], getcwd(current_dir, PATH_MAX));
 }
@@ -76,31 +87,39 @@ static char	*find_home(char **envp)
 	return (ft_strchr2(envp[i], '='));
 }
 
-void	ft_cd(t_msh *msh, char **cmd)
+int	ft_cd(t_msh *msh, char **cmd)
 {
 	char	*home_path;
 
 	home_path = find_home(msh->envp2);
 	if (!home_path)
-		return ;
+		return (1);
 	if (cmd[1] && cmd[2])
 	{
-		msh->exit_status = 1;
+		return (1);
 		ft_putstr_fd(RED"cd: too many arguments\n"NO_ALL, 2);
-		msh->exit_status = 1;
 	}
 	else if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
+		update_oldpwd(msh, msh->envp2);
 		if (chdir(home_path) < 0)
 		{
 			ft_printfd(2, RED"%s: %s\n"NO_ALL, home_path, strerror(errno));
-			msh->exit_status = 1;
+			return (1);
 		}
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
+	{
+		update_oldpwd(msh, msh->envp2);
 		to_prev_dir(msh, msh->envp2);
+	}
 	else if (ft_strcmp(cmd[1], ".") == 0)
 		update_oldpwd(msh, msh->envp2);
 	else
+	{
+		update_oldpwd(msh, msh->envp2);
 		get_dir(msh, home_path, cmd[1]);
+	}
+	update_pwd(msh, msh->envp2);
+	return (0);
 }

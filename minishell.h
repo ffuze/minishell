@@ -188,17 +188,17 @@ int		execute_builtin_commands(t_msh *msh, char **cmd);
 
 void	ft_exit(t_msh *msh, char **args);
 
-void	ft_echo(char  **cmd);
+int		ft_echo(char  **cmd);
 
 // Prints the absolute path to the current directory.
-void	ft_pwd();
+int		ft_pwd();
 
 // Prints all the environment variables.
-void	ft_env(char **envp2);
+int		ft_env(char **envp2);
 
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
-void	ft_export(t_msh *msh, char  **cmd);
+int		ft_export(t_msh *msh, char  **cmd);
 // Handles the "+=" option for export.
 void	append_handle(t_msh *msh, char *var);
 // Copies the old envp to the newly allocated one.
@@ -208,10 +208,10 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i);
 void	print_declarex(char **envp2);
 
 // Removes Variables from the Environment.
-void	ft_unset(t_msh *msh, char  **cmd);
+int		ft_unset(t_msh *msh, char  **cmd);
 
 // Canghes the current directory.
-void	ft_cd(t_msh *msh, char  **cmd);
+int		ft_cd(t_msh *msh, char  **cmd);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.

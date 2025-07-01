@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 // Prints all the environment variables
-void	ft_env(char **envp2)
+int	ft_env(char **envp2)
 {
 	int	i;
 
@@ -13,4 +13,5 @@ void	ft_env(char **envp2)
 		else
 			i++;
 	}
+	return (0);
 }

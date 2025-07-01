@@ -45,6 +45,8 @@ char	**take_aim(char **envp, char *target)
 		if (ft_strncmp(var_name, target, ft_strlen(target)) == 0)
 		{
 			tmp = delete_var(envp, &i);
+			if (!tmp)
+				return (free(var_name), NULL);
 			free(var_name);
 			return (tmp);
 		}
@@ -54,7 +56,7 @@ char	**take_aim(char **envp, char *target)
 	return (envp);
 }
 
-void	ft_unset(t_msh *msh, char  **cmd)
+int	ft_unset(t_msh *msh, char  **cmd)
 {
 	int		i;
 	char	*target;
@@ -67,10 +69,15 @@ void	ft_unset(t_msh *msh, char  **cmd)
 		if (!target)
 		{
 			ft_putstr_fd(RED"Malloc failure"NO_ALL, 2);
-			return ;
+			return (1);
 		}
 		msh->envp2 = take_aim(msh->envp2, target);
+		if (!msh->envp2)
+		{
+			ft_putstr_fd(RED"Malloc failure"NO_ALL, 2);
+			return (1);
+		}
 		i++;
 	}
-	return (free(target));
+	return (free(target), 0);
 }

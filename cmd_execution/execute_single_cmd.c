@@ -28,14 +28,14 @@ static void	init_builtin(t_msh *msh)
 		return ;
 	}
 	if (ft_strcmp(msh->exp_input, "exit") == 0)
-		msh->exit_status = execute_builtin_commands(msh, msh->cmds->cmd);
+		execute_builtin_commands(msh, msh->cmds->cmd);
 	i = dup(STDIN_FILENO);
 	o = dup(STDOUT_FILENO);
 	if (msh->cmds->infile)
 		redirect_input(msh, msh->cmds);
 	if (msh->cmds->outfile)
 		redirect_output(msh, msh->cmds);
-	msh->exit_status = execute_builtin_commands(msh, msh->cmds->cmd);
+	execute_builtin_commands(msh, msh->cmds->cmd);
 	dup2(i, STDIN_FILENO);
 	dup2(o, STDOUT_FILENO);
 	close(i);
