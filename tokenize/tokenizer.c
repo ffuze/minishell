@@ -5,10 +5,10 @@ t_token **tokenize(t_msh *msh, char *input)
 	t_token	**tokens;
 	size_t	i;
 	int		count;
-	size_t	start;
+	// size_t	start;
 
 	i = 0;
-	start = i;
+	// start = i;
 	count = 0;
 	msh->pipe_number = 0;
 	msh->exp_input = ft_parse_and_expand(msh, input);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	print_token_info(t_msh *msh)
+void	print_token_info(t_msh *msh)
 {
 	int	i;
 
@@ -17,7 +17,7 @@ static void	print_token_info(t_msh *msh)
 	ft_printf("Number of pipes: %d\n", msh->pipe_number);
 }
 
-static void	init_shell(t_msh *msh, char **envp)
+void	init_shell(t_msh *msh, char **envp)
 {
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
@@ -25,7 +25,7 @@ static void	init_shell(t_msh *msh, char **envp)
 	msh->exit_status = 0;
 }
 
-static void	cleanup_iteration(t_msh *msh)
+void	cleanup_iteration(t_msh *msh)
 {
 	free_cmd_list(msh->cmds);
 	free_tokens(msh->tokens);
@@ -33,7 +33,7 @@ static void	cleanup_iteration(t_msh *msh)
 	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
 }
 
-static int	process_input(t_msh *msh, char *input)
+int	process_input(t_msh *msh, char *input)
 {
 	if (!(*input))
 		return (0);
@@ -56,7 +56,7 @@ int	main(int ac, char *av[], char **envp)
 	t_msh	msh;
 
 	(void)ac;
-	av = NULL;
+	(void)av;
 	// print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)

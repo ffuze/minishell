@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
-// Destroys the file if the fd has got permissions and the redirection \
-//  is in append mode.
+// Destroys the file if the fd has got permissions and the redirection
+// is in append mode.
 static void	reset_fd(t_msh *msh, t_token **tokens, int count)
 {
 	int	fd;

@@ -80,28 +80,73 @@ static char	*ft_expanded_heredoc_cpy(t_msh *msh, char *str)
 	return (expanded_s);
 }
 
-static void	generate_heredoc(t_msh *msh, t_token **tokens, int *j, \
-															t_cmds *new_node)
+static char *get_readline_result(const char *prompt)
 {
-	int		heredoc_fd;
-	char	*str;
-
-	new_node->heredoc_flag = true;
-	new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
-	new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
-	heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	str = ft_strjoin2(readline("> "), "\n");
-	str = ft_expanded_heredoc_cpy(msh, str);
-	while (ft_strcmp(new_node->limiter, str) != 0)
-	{
-		ft_printfd(heredoc_fd, "%s", str);
-		free(str);
-		str = ft_strjoin2(readline("> "), "\n");
-		str = ft_expanded_heredoc_cpy(msh, str);
-	}
-	free(str);
-	close(heredoc_fd);
+    char	*readline_result;
+	
+	readline_result = readline(prompt);
+    if (!readline_result)
+        return (NULL);
+    return (ft_strjoin2(readline_result, "\n"));
 }
+
+static void generate_heredoc(t_msh *msh, t_token **tokens, int *j,
+	t_cmds *new_node)
+{
+    int     heredoc_fd;
+    char    *str;
+    
+    new_node->heredoc_flag = true;
+    new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
+    new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
+    heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+    while (1)
+    {
+        str = get_readline_result("> ");
+        if (!str)
+        {
+            close(heredoc_fd);
+            return ;
+        }
+        str = ft_expanded_heredoc_cpy(msh, str);
+        if (!str)
+        {
+            close(heredoc_fd);
+            return ;
+        }
+        if (ft_strcmp(new_node->limiter, str) == 0)
+        {
+            free(str);
+            break ;
+        }
+        ft_printfd(heredoc_fd, "%s", str);
+        free(str);
+    }
+    close(heredoc_fd);
+}
+
+// static void	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
+// 															t_cmds *new_node)
+// {
+// 	int		heredoc_fd;
+// 	char	*str;
+
+// 	new_node->heredoc_flag = true;
+// 	new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
+// 	new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
+// 	heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+// 	str = ft_strjoin2(readline("> "), "\n");
+// 	str = ft_expanded_heredoc_cpy(msh, str);
+// 	while (ft_strcmp(new_node->limiter, str) != 0)
+// 	{
+// 		ft_printfd(heredoc_fd, "%s", str);
+// 		free(str);
+// 		str = ft_strjoin2(readline("> "), "\n");
+// 		str = ft_expanded_heredoc_cpy(msh, str);
+// 	}
+// 	free(str);
+// 	close(heredoc_fd);
+// }
 
 // Assigns to the relative command list node the name of the 
 //  input redirection file. Sets it to NULL if there is none.

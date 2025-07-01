@@ -66,14 +66,14 @@ static t_cmds	*ft_create_cmd_nodes(t_msh *msh, t_token **tokens, int *i, \
 // Returns a list of commands and relative arguments given from input.
 t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens)
 {
-	t_cmds	*new_node;
-	t_cmds	*prev;
+	// t_cmds	*new_node;
+	// t_cmds	*prev;
 	int		i;
 	int		j;
 
-	new_node = NULL;
+	// new_node = NULL;
 	msh->cmds = NULL;
-	prev = NULL;
+	// prev = NULL;
 	i = 0;
 	j = 0;
 	msh->cmds = ft_create_cmd_nodes(msh, tokens, &i, &j);
