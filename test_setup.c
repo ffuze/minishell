@@ -42,6 +42,7 @@ void	printList(t_cmds *head)
                 i++;
 				j++;
 			}
+			ft_printf(MAGENTA"abrt_flag: %d, "NO_ALL, current->abort_flag);
 			ft_printf(BLUE"from: %s, "NO_ALL, current->infile);
 			ft_printf(BLUE"heredoc: %d, "NO_ALL, current->heredoc_flag);
 			ft_printf(BRCYAN"in: %s, "NO_ALL, current->outfile);

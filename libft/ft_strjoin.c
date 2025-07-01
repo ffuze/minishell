@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 11:04:11 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/06/28 16:34:16 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:59:53 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (s3);
 }
 
+// Frees s1.
 char	*ft_strjoin2(char *s1, char *s2)
 {
 	size_t	i;
@@ -62,6 +63,7 @@ char	*ft_strjoin2(char *s1, char *s2)
 	return (new);
 }
 
+// Frees both s1 and s2.
 char	*ft_strjoin3(char *s1, char *s2)
 {
 	size_t	i;
