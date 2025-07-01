@@ -10,7 +10,8 @@ SRC_MAIN = index.c utils.c \
 			built_in/identify_commands.c built_in/ft_exit.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \
 			built_in/ft_export.c built_in/ft_export_print.c \
-			built_in/ft_export_append.c built_in/ft_cd.c built_in/ft_unset.c \
+			built_in/ft_export_append.c built_in/ft_unset.c \
+			built_in/ft_cd.c built_in/ft_cd_update.c \
 			tokenize/tokenize_utils.c tokenize/check_tokens.c\
 			tokenize/check_vars_and_quotes/parse_and_expand.c \
 			tokenize/check_vars_and_quotes/count_args.c \

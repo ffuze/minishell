@@ -1,34 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 20:24:32 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 20:40:16 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-static void	update_pwd(char **envp)
-{
-	int		i;
-	char	*current_dir;
-
-	i = 0;
-	current_dir = NULL;
-	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
-		i++;
-	if (!envp[i])
-		return ;
-	envp[i] = ft_strjoin2(envp[i], "=");
-	envp[i] = ft_strjoin3(envp[i], getcwd(current_dir, PATH_MAX));
-}
-
-static void	update_oldpwd(char **envp)
-{
-	int		i;
-	char	*current_dir;
-
-	i = 0;
-	current_dir = NULL;
-	while (envp[i] && ft_strncmp(envp[i], "OLDPWD", 6) != 0)
-		i++;
-	if (!envp[i])
-		return ;
-	envp[i] = ft_strjoin2(envp[i], "=");
-	envp[i] = ft_strjoin3(envp[i], getcwd(current_dir, PATH_MAX));
-}
 
 // Swaps the ~ symbol with HOME path and moves to the indicated directory.
 static void	get_dir(t_msh *msh, char *home_path, char *input)
@@ -36,6 +18,7 @@ static void	get_dir(t_msh *msh, char *home_path, char *input)
 	char	*path;
 
 	path = NULL;
+	update_oldpwd(msh->envp2);
 	if (strncmp(input, "~/", 2) == 0)
 		path = ft_strjoin(home_path, ft_strchr(input, '/'));
 	else
@@ -54,6 +37,7 @@ static void	to_prev_dir(t_msh *msh, char **envp)
 	int	i;
 
 	i = 0;
+	update_oldpwd(msh->envp2);
 	while (envp[i] && ft_strncmp(envp[i], "OLDPWD=", 7) != 0)
 		i++;
 	if (!envp[i])
@@ -95,10 +79,7 @@ int	ft_cd(t_msh *msh, char **cmd)
 	if (!home_path)
 		return (1);
 	if (cmd[1] && cmd[2])
-	{
-		return (1);
-		ft_putstr_fd(RED"cd: too many arguments\n"NO_ALL, 2);
-	}
+		return (ft_putstr_fd(RED"cd: too many arguments\n"NO_ALL, 2), 1);
 	else if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
 		update_oldpwd(msh->envp2);
@@ -109,17 +90,11 @@ int	ft_cd(t_msh *msh, char **cmd)
 		}
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
-	{
-		update_oldpwd(msh->envp2);
 		to_prev_dir(msh, msh->envp2);
-	}
 	else if (ft_strcmp(cmd[1], ".") == 0)
 		update_oldpwd(msh->envp2);
 	else
-	{
-		update_oldpwd(msh->envp2);
 		get_dir(msh, home_path, cmd[1]);
-	}
 	update_pwd(msh->envp2);
 	return (0);
 }

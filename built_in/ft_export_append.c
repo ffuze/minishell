@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export_append.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 18:04:26 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 18:04:27 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static char	*remove_plus(char *new_var)
@@ -8,7 +20,7 @@ static char	*remove_plus(char *new_var)
 
 	i = 0;
 	clean_var = ft_calloc(ft_strlen(new_var), 1);
-	if(!clean_var)
+	if (!clean_var)
 		return (NULL);
 	while (new_var[i] && new_var[i] != '+')
 	{
@@ -30,12 +42,10 @@ static char	**add_var(char **envp, char *new_var)
 {
 	size_t	new_len;
 	size_t	i;
-    // size_t	j;
 	char	*clean_var;
 	char	**nenvp;
 
 	i = 0;
-	// j = 1;
 	new_len = ft_mtrxlen(envp) + 1;
 	nenvp = ft_calloc(new_len + 1, sizeof(envp));
 	if (!nenvp)
@@ -65,8 +75,8 @@ static bool	check_vardup(char **envp2, char *input)
 		return (print_err("check_vardup: ", "first malloc failed\n"), false);
 	new_var = ft_substr(input, 0, ft_strlen(new_var_name) - 1);
 	if (!new_var)
-		return (print_err("check_vardup: ", "second malloc failed\n"), free(new_var_name), 
-																		false);
+		return (print_err("check_vardup: ", "second malloc failed\n"), \
+					free(new_var_name), false);
 	free(new_var_name);
 	while (envp2[i])
 	{

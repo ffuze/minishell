@@ -6,5 +6,4 @@ heredoc ctrl D ----fatto----
 export a , export a= ----fatto----
 export a a=hhhh a= a=k 1gk ----fatto----
 env printed 2wice ----fatto----
->>< 
-<|> e >|<
+>>< e <|> e >|< ----fatto----

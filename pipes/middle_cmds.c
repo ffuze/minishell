@@ -12,7 +12,7 @@ int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 		close(msh->fd_mrx[*i][1]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_cmd_list(msh->cmds);
-		free_everything(*msh);
+		free_stuff(*msh);
 		exit(EXIT_SUCCESS);
 	}
 	if (current->infile)
@@ -53,7 +53,7 @@ int	middle_child_generator(t_msh *msh, t_cmds **current)
 			{
 				liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 				free_cmd_list(msh->cmds);
-				free_everything(*msh);
+				free_stuff(*msh);
 				msh->exit_status = 1;
 				exit(EXIT_FAILURE);
 			}

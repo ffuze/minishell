@@ -191,7 +191,7 @@ void	ft_exit(t_msh *msh, char **args);
 int		ft_echo(char  **cmd);
 
 // Prints the absolute path to the current directory.
-int		ft_pwd();
+int		ft_pwd(void);
 
 // Prints all the environment variables.
 int		ft_env(char **envp2);
@@ -212,6 +212,8 @@ int		ft_unset(t_msh *msh, char  **cmd);
 
 // Canghes the current directory.
 int		ft_cd(t_msh *msh, char  **cmd);
+void	update_oldpwd(char **envp);
+void	update_pwd(char **envp);
 
 /*________________________________ non_builtin ______________________________*/
 // Initializes a non built-in command.
@@ -257,8 +259,9 @@ void 	printList(t_cmds *head);
 void 	freeList(t_cmds *head);
 
 /*_______________________________ free_memory ______________________________*/
+void	free_everything(t_msh *msh);
+void	free_stuff(t_msh msh);
 void	free_tokens(t_token **tokens);
-void    free_everything(t_msh msh);
 void	free_input_redirection(t_cmds *current_node);
 void	free_cmd_list(t_cmds *root);
 

@@ -9,7 +9,7 @@ static int	last_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 		close(pipefd[0]);
 		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 		free_cmd_list(msh->cmds);
-		free_everything(*msh);
+		free_stuff(*msh);
 		exit(EXIT_SUCCESS);
 	}
 	if (current->infile)
@@ -37,7 +37,7 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i)
 		{
 			liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
 			free_cmd_list(msh->cmds);
-			free_everything(*msh);
+			free_stuff(*msh);
 			msh->exit_status = 1;
 			exit(EXIT_FAILURE);
 		}

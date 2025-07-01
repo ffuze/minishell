@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 20:16:42 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 20:16:43 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static int	check_flag(char **cmd, int j)
@@ -8,12 +20,12 @@ static int	check_flag(char **cmd, int j)
 	{
 		i = 0;
 		if (cmd[j][i] != '-' || cmd[j][i + 1] != 'n')
-			break;
+			break ;
 		i++;
 		while (cmd[j][i] == 'n')
 			i++;
 		if (cmd[j][i] != '\0')
-			break;
+			break ;
 		j++;
 	}
 	return (j);

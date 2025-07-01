@@ -19,8 +19,7 @@ static char	*find_pathname(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		pathname = ft_strjoin2(ft_strdup(paths[i]), "/");
-		pathname = ft_strjoin2(pathname, cmd);
+		pathname = ft_strjoin2(ft_strjoin2(ft_strdup(paths[i]), "/"), cmd);
 		if (!pathname)
 			return (free_dpc(paths), NULL);
 		if (0 == access(pathname, F_OK | X_OK))
@@ -28,8 +27,7 @@ static char	*find_pathname(char *cmd, char **envp)
 		free(pathname);
 		i++;
 	}
-	free_dpc(paths);
-	return (print_err(cmd, ": command not found.\n"), NULL);
+	return (free_dpc(paths), print_err(cmd, ": command not found.\n"), NULL);
 }
 
 // Executes a command with the given absolute or relative path
@@ -42,7 +40,7 @@ static void	*execute_absrel_path(char *cmd, char **envp)
 		return (NULL);
 	if (access(split_cmd[0], F_OK | X_OK | R_OK) != 0)
 	{
-		print_err(cmd, ": permission denied.\n");
+		print_err(cmd, ": couldn't access.\n");
 		free_dpc(split_cmd);
 		return (NULL);
 	}
@@ -60,25 +58,19 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 	cmd_path = NULL;
 	if (execute_builtin_commands(msh, cmd) != 1)///////////////////
 	{
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_everything(*msh);
-		free_cmd_list(msh->cmds);
+		free_everything(msh);
 		exit(EXIT_SUCCESS);
 	}
 	if (ft_strchr(cmd[0], '/'))
 	{
 		execute_absrel_path(cmd[0], envp);
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_cmd_list(msh->cmds);
-		free_everything(*msh);
+		free_everything(msh);
 		exit (127);
 	}
 	cmd_path = find_pathname(cmd[0], envp);
 	if (!cmd_path)
 	{
-		liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-		free_cmd_list(msh->cmds);
-		free_everything(*msh);
+		free_everything(msh);
 		exit (127);
 	}
 	execve(cmd_path, cmd, envp);

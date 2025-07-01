@@ -15,7 +15,7 @@ void	free_tokens(t_token **tokens)
 	free(tokens);
 }
 
-void    free_everything(t_msh msh)
+void    free_stuff(t_msh msh)
 {
 	free_dpc(msh.envp2);
     free_tokens(msh.tokens);
@@ -54,4 +54,11 @@ void	free_cmd_list(t_cmds *root)
 		root = tmp;
 	}
 	tmp = NULL;
+}
+
+void	free_everything(t_msh *msh)
+{
+	liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
+	free_cmd_list(msh->cmds);
+	free_stuff(*msh);
 }

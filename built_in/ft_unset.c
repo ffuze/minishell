@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 18:06:23 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 18:06:24 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	**delete_var(char **envp, int *i)
@@ -25,7 +37,7 @@ char	**delete_var(char **envp, int *i)
 		free(envp[j]);
 		(*i)++;
 	}
-	return (free(envp),nenv);
+	return (free(envp), nenv);
 }
 
 // Looks for the target Variable in the Environment.
@@ -56,7 +68,7 @@ char	**take_aim(char **envp, char *target)
 	return (envp);
 }
 
-int	ft_unset(t_msh *msh, char  **cmd)
+int	ft_unset(t_msh *msh, char **cmd)
 {
 	int		i;
 	char	*target;

@@ -6,7 +6,7 @@ static void	child_proc(t_msh *msh)
 	setup_signals();
 	if (msh->cmds->abort_flag)
 	{
-		free_everything(*msh);
+		free_stuff(*msh);
 		free_cmd_list(msh->cmds);
 		msh->exit_status = 1;
 		exit(EXIT_FAILURE);

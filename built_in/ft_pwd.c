@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 18:10:24 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 20:17:37 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // Prints the absolute path to the current directory.
-int	ft_pwd()
+int	ft_pwd(void)
 {
 	char	*dir_path;
 

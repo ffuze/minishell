@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 18:09:09 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 18:09:10 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // Copies the old envp to the newly allocated one.
@@ -7,10 +19,10 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i)
 	{
 		nenvp[*i] = ft_strdup(envp2[*i]);
 		if (!nenvp[*i])
-			{
-				free_dpc(nenvp);
-				return ;
-			}	
+		{
+			free_dpc(nenvp);
+			return ;
+		}
 		(*i)++;
 	}
 }
@@ -66,7 +78,7 @@ static int	var_name_check(t_msh *msh, char *new_var)
 	char	*var_name;
 
 	j = 0;
-	if (!ft_isalpha(new_var[0]) && new_var[0]!= '_')
+	if (!ft_isalpha(new_var[0]) && new_var[0] != '_')
 	{
 		msh->exit_status = 1;
 		return (false);
@@ -75,7 +87,7 @@ static int	var_name_check(t_msh *msh, char *new_var)
 	while (var_name[j])
 	{
 		chr = var_name[j++];
-		if (j == ft_strlen(var_name) - 1 && chr =='+')
+		if (j == ft_strlen(var_name) - 1 && chr == '+')
 			break ;
 		if ((chr < 'A' || chr > 'Z') && (chr < 'a' || chr > 'z') \
 				&& (chr < '0' || chr > '9') && chr != '_' && chr != '=')

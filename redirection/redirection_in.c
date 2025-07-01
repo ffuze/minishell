@@ -12,7 +12,7 @@ void	redirect_input(t_msh *msh, t_cmds *current)
 	{
 		print_err(current->infile, ": could not be opened.\n");
 		free_cmd_list(msh->cmds);
-		free_everything(*msh);
+		free_stuff(*msh);
 		exit(1);
 	}
 	dup2(infile_fd, STDIN_FILENO);
