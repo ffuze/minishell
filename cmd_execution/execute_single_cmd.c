@@ -2,6 +2,7 @@
 
 static void	child_proc(t_msh *msh)
 {
+	msh->fd_mrx = NULL;
 	setup_signals();
 	if (msh->cmds->abort_flag)
 	{
@@ -27,7 +28,7 @@ static void	init_builtin(t_msh *msh)
 		msh->exit_status = 1;
 		return ;
 	}
-	if (ft_strcmp(msh->exp_input, "exit") == 0)
+	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0)
 		execute_builtin_commands(msh, msh->cmds->cmd);
 	i = dup(STDIN_FILENO);
 	o = dup(STDOUT_FILENO);

@@ -38,6 +38,9 @@ t_token **tokenize(t_msh *msh, char *input)
 	}
 	tokens[count] = NULL;
 	if (!check_tokens(tokens))
+	{
+		msh->exit_status = 2;
 		return (free_tokens(tokens), NULL);
+	}
 	return (tokens);
 }

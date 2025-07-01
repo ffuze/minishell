@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	update_pwd(t_msh *msh, char **envp)
+static void	update_pwd(char **envp)
 {
 	int		i;
 	char	*current_dir;
@@ -15,7 +15,7 @@ static void	update_pwd(t_msh *msh, char **envp)
 	envp[i] = ft_strjoin3(envp[i], getcwd(current_dir, PATH_MAX));
 }
 
-static void	update_oldpwd(t_msh *msh, char **envp)
+static void	update_oldpwd(char **envp)
 {
 	int		i;
 	char	*current_dir;
@@ -101,7 +101,7 @@ int	ft_cd(t_msh *msh, char **cmd)
 	}
 	else if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		update_oldpwd(msh, msh->envp2);
+		update_oldpwd(msh->envp2);
 		if (chdir(home_path) < 0)
 		{
 			ft_printfd(2, RED"%s: %s\n"NO_ALL, home_path, strerror(errno));
@@ -110,16 +110,16 @@ int	ft_cd(t_msh *msh, char **cmd)
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
 	{
-		update_oldpwd(msh, msh->envp2);
+		update_oldpwd(msh->envp2);
 		to_prev_dir(msh, msh->envp2);
 	}
 	else if (ft_strcmp(cmd[1], ".") == 0)
-		update_oldpwd(msh, msh->envp2);
+		update_oldpwd(msh->envp2);
 	else
 	{
-		update_oldpwd(msh, msh->envp2);
+		update_oldpwd(msh->envp2);
 		get_dir(msh, home_path, cmd[1]);
 	}
-	update_pwd(msh, msh->envp2);
+	update_pwd(msh->envp2);
 	return (0);
 }
