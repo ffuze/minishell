@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   middle_cmds.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 21:22:54 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 21:38:26 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // pipefd1: fd_mrx[*i - 1]
 // pipefd2: fd_mrx[*i]
-int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
+static int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 {
 	setup_signals();
 	close(msh->fd_mrx[*i][0]);
@@ -38,7 +50,7 @@ int	middle_child_generator(t_msh *msh, t_cmds **current)
 	int		i;
 
 	i = 0;
-	while (msh->pipe_counter)
+	while (msh->pipe_counter--)
 	{
 		i++;
 		if (-1 == pipe(msh->fd_mrx[i]))
@@ -46,22 +58,16 @@ int	middle_child_generator(t_msh *msh, t_cmds **current)
 		id2 = fork();
 		if (id2 < 0)
 			return (print_err("Fork failed for id2.", "\n"), \
-						close(msh->fd_mrx[i][0]), close(msh->fd_mrx[i][1]), i - 1);
+					close(msh->fd_mrx[i][0]), close(msh->fd_mrx[i][1]), i - 1);
 		else if (0 == id2)
 		{
 			if (!(*current) || !(*current)->cmd[0] || (*current)->abort_flag)
-			{
-				liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-				free_cmd_list(msh->cmds);
-				free_stuff(*msh);
-				msh->exit_status = 1;
-				exit(EXIT_FAILURE);
-			}
+				return (free_everything(msh), msh->exit_status = 1, \
+						exit(EXIT_FAILURE), i);
 			middle_cmd_process(msh, *current, &i);
 		}
 		close(msh->fd_mrx[i - 1][0]);
 		close(msh->fd_mrx[i][1]);
-		msh->pipe_counter--;
 		*current = (*current)->next;
 	}
 	return (i);

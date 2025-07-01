@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:10:07 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/05/31 14:56:18 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/01 21:04:21 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_putchar_fd(char c, int fd)
 {
-	return(write(fd, &c, 1));
+	return (write(fd, &c, 1));
 }
 
 /*int main()

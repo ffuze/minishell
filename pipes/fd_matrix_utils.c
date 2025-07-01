@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fd_matrix_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 20:05:28 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 21:38:02 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // Closes all file descriptors and liberates the allocated memory
@@ -27,7 +39,7 @@ int	**fd_matrix_creator(int pipe_number)
 	i = 0;
 	fd_matrix = ft_calloc((pipe_number + 1), sizeof(int *));
 	if (!fd_matrix)
-		exit(1);//////////////////////////////////////////
+		exit(1);
 	while (i < (pipe_number))
 	{
 		fd_matrix[i] = ft_calloc(2, sizeof(int));

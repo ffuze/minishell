@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_memory.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 21:03:17 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 21:03:18 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	free_tokens(t_token **tokens)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!tokens)
 		return ;
 	while (tokens[i])
@@ -15,10 +28,10 @@ void	free_tokens(t_token **tokens)
 	free(tokens);
 }
 
-void    free_stuff(t_msh msh)
+void	free_stuff(t_msh msh)
 {
 	free_dpc(msh.envp2);
-    free_tokens(msh.tokens);
+	free_tokens(msh.tokens);
 	free(msh.exp_input);
 }
 

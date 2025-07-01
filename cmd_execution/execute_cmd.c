@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 20:48:14 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // Looks for the path of the command "cmd" in the Environment (envp)
@@ -56,7 +68,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 	char	*cmd_path;
 
 	cmd_path = NULL;
-	if (execute_builtin_commands(msh, cmd) != 1)///////////////////
+	if (execute_builtin_commands(msh, cmd) != 1)
 	{
 		free_everything(msh);
 		exit(EXIT_SUCCESS);

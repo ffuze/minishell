@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -165,6 +177,10 @@ void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node);
 // If a heredoc is to be created, it will be named *token number*heredoc.txt.
 void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
 														t_cmds *new_node);
+
+// Returns the string "str" with expanded variables.
+// Returns NULL on failure.
+char	*ft_expanded_heredoc_cpy(t_msh *msh, char *str);
 
 
 /*_________________________________ utils.c _________________________________*/

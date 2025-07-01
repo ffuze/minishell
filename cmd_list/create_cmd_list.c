@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_cmd_list.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/01 20:49:47 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // Returns the number of TOKEN_WORDs before the next pipe or the end of input.
@@ -66,14 +78,10 @@ static t_cmds	*ft_create_cmd_nodes(t_msh *msh, t_token **tokens, int *i, \
 // Returns a list of commands and relative arguments given from input.
 t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens)
 {
-	// t_cmds	*new_node;
-	// t_cmds	*prev;
 	int		i;
 	int		j;
 
-	// new_node = NULL;
 	msh->cmds = NULL;
-	// prev = NULL;
 	i = 0;
 	j = 0;
 	msh->cmds = ft_create_cmd_nodes(msh, tokens, &i, &j);
