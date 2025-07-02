@@ -37,11 +37,23 @@ void	init_shell(t_msh *msh, char **envp)
 	msh->exit_status = 0;
 }
 
-void	cleanup_iteration(t_msh *msh)
+void cleanup_iteration(t_msh *msh)
 {
-	free_cmd_list(msh->cmds);
-	free_tokens(msh->tokens);
-	free(msh->exp_input);
+	if (msh->cmds)
+	{
+		free_cmd_list(msh->cmds);
+		msh->cmds = NULL;
+	}
+	if (msh->tokens)
+	{
+		free_tokens(msh->tokens);
+		msh->tokens = NULL;
+	}
+	if (msh->exp_input)
+	{
+		free(msh->exp_input);
+		msh->exp_input = NULL;
+	}
 	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
 }
 
@@ -62,35 +74,36 @@ int	process_input(t_msh *msh, char *input)
 	return (0);
 }
 
-int	main(int ac, char *av[], char **envp)
+int main(int ac, char *av[], char **envp)
 {
-	char	*input;
-	t_msh	msh;
+	char    *input;
+	t_msh   msh;
 
 	(void)ac;
 	(void)av;
-	// print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	setup_signals();
 	while (1)
 	{
-		// msh.exit_status = 0;
 		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
 		if (!input)
 		{
-			if (msh.tokens)
-				free_tokens(msh.tokens);
-			free_dpc(msh.envp2);
-			return (EXIT_FAILURE);
+			printf("exit\n");
+			break ;
 		}
 		add_history(input);
 		if (process_input(&msh, input) == 1)
-			return (EXIT_SUCCESS);
+		{
+			free(input);
+			break ;
+		}
+		free(input);
 		get_exit_status(&msh);
 	}
+	if (msh.tokens)
+		free_tokens(msh.tokens);
 	free_dpc(msh.envp2);
-	free_tokens(msh.tokens);
 	return (msh.exit_status);
 }
