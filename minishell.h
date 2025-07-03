@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:08:27 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # define _DEFAULT_SOURCE
 # define _XOPEN_SOURCE 700
+
+# define Y \033[1;33m
+# define G \033[1;32m
+# define P \033[1;35m
 
 # include "./libft/libft.h"
 # include <stdio.h>
@@ -63,7 +67,7 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-typedef enum	s_token_enum
+typedef enum s_token_enum
 {
 	TOKEN_WORD, // simple strings
 	TOKEN_STRING_SINGLE, // string with single quotes
@@ -74,55 +78,44 @@ typedef enum	s_token_enum
 	TOKEN_LIMITER,
 	TOKEN_RE_OUTPUT, // --> '>' o '>>' <--
 	TOKEN_OUTFILE, // output file
-	TOKEN_ERROR // invalid token
-}				t_token_enum;
+	TOKEN_NGUL
+}	t_token_enum;
 
-typedef struct		s_token
+typedef struct s_token
 {
 	t_token_enum	type;
 	char			*value;
-}					t_token;
+}	t_token;
 
-typedef struct		s_cmds
+typedef struct s_cmds
 {
 	char			**cmd;
-
 	char			*outfile;
 	bool			append_flag; // 0 for '>', 1 for '>>'.
-
 	char			*infile;
 	bool			heredoc_flag; // 0 for '<', 1 for '<<'.
 	char			*limiter; //   Signal the end of the input in heredoc.
-
 	bool			abort_flag;// If true the command must not be executed.
-
 	struct s_cmds	*next;
-}					t_cmds;
+}	t_cmds;
 
-typedef struct		s_inf
-{
-	char			*infile;
-	bool			heredoc_flag;// 0 for '<', 1 for '<<'.
-	bool			heredoc_executed;
-}					t_inf;
-
-typedef	struct		s_msh
+typedef struct s_msh
 {
 	char			*exp_input;// 	Input from readline() with expanded vars.
 	bool			env_var_flag;// True if at least a var is to be expanded.
 	t_token			**tokens;
 	t_cmds			*cmds;
 	char			**envp2;
-	t_inf			*infiles; //   Input files from redirection.///////////////////////////
 	int				pipe_number; // Number of pipes from input.
 	int				pipe_counter; // Number of remainign pipes to execute.
 	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
 	unsigned char	exit_status;
-	char			*limiter; //   Signal the end of the input in heredoc./////////////////
-}					t_msh;
+}	t_msh;
 
 /*________________________________ tokenizer ________________________________*/
 t_token	**tokenize(t_msh *msh, char *input);
+t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
+																size_t end);
 
 // Expands the Environment variables from the input string.
 // An error message is diplayed if outer quotes are unclosed.
@@ -135,8 +128,6 @@ int		expand_dollar(t_msh *msh, char *input, size_t *i, size_t *j);
 // Searches the var in the environment and returns its value.
 char	*find_value(char **envp, char *input, size_t *i);
 
-t_token	*make_token(t_token_enum token_type, char *input, size_t start, \
-																size_t end);
 int		count_tokens(t_token **tokens);
 int		tokenize_quotes(t_token **tokens, char *input, size_t *i);
 int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count);
@@ -182,7 +173,6 @@ void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
 // Returns NULL on failure.
 char	*ft_expanded_heredoc_cpy(t_msh *msh, char *str);
 
-
 /*_________________________________ utils.c _________________________________*/
 int		skip_spaces(t_token *input, int i);
 
@@ -198,13 +188,10 @@ char	**ft_envp_dup(char **envp);
 void	print_err(char *s1, char *err_type);
 
 /*_________________________________ built_in ________________________________*/
-
 int		identify_builtin_commands(char **cmd);
 int		execute_builtin_commands(t_msh *msh, char **cmd);
-
 void	ft_exit(t_msh *msh, char **args);
-
-int		ft_echo(char  **cmd);
+int		ft_echo(char **cmd);
 
 // Prints the absolute path to the current directory.
 int		ft_pwd(void);
@@ -214,9 +201,11 @@ int		ft_env(char **envp2);
 
 // Adds the arguments to the environment as new variables.
 // Prints Environment Vars in ASCII order if no arguments are given.
-int		ft_export(t_msh *msh, char  **cmd);
+int		ft_export(t_msh *msh, char **cmd);
+
 // Handles the "+=" option for export.
 void	append_handle(t_msh *msh, char *var);
+
 // Copies the old envp to the newly allocated one.
 void	envpcpy(char **envp2, char **nenvp, size_t *i);
 
@@ -224,10 +213,10 @@ void	envpcpy(char **envp2, char **nenvp, size_t *i);
 void	print_declarex(char **envp2);
 
 // Removes Variables from the Environment.
-int		ft_unset(t_msh *msh, char  **cmd);
+int		ft_unset(t_msh *msh, char **cmd);
 
 // Canghes the current directory.
-int		ft_cd(t_msh *msh, char  **cmd);
+int		ft_cd(t_msh *msh, char **cmd);
 void	update_oldpwd(char **envp);
 void	update_pwd(char **envp);
 
@@ -270,9 +259,9 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i);
 int		middle_child_generator(t_msh *msh, t_cmds **current);
 
 /*_______________________________ test_setup.c ______________________________*/
-t_cmds	*crealista();
-void 	printList(t_cmds *head);
-void 	freeList(t_cmds *head);
+t_cmds	*crealista(void);
+void	printList(t_cmds *head);
+void	freeList(t_cmds *head);
 
 /*_______________________________ free_memory ______________________________*/
 void	free_everything(t_msh *msh);
@@ -282,10 +271,10 @@ void	free_input_redirection(t_cmds *current_node);
 void	free_cmd_list(t_cmds *root);
 
 /*_______________________________ signals ______________________________*/
-void	setup_signals();
-void	reset_child_signals();
+void	setup_signals(void);
+void	reset_child_signals(void);
 void	get_exit_status(t_msh *msh);
 
-void	print_banner();
+void	print_banner(void);
 
 #endif
