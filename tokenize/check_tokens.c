@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 16:31:31 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:07:04 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ static void	hc_heredoc(t_token **tokens)
 static bool	check_pipe_tokens(t_token **tokens, int *i)
 {
 	if (!tokens[(*i) + 1] || *i == 0)
-		return (print_sintax_err(tokens[*i]->value), false);
+		return (print_syntax_err(tokens[*i]->value), false);
 	else if (tokens[(*i) + 1]->type == TOKEN_PIPE)
-		return (print_sintax_err(tokens[*i]->value), false);
+		return (print_syntax_err(tokens[*i]->value), false);
 	else if (tokens[(*i) + 1]->type == TOKEN_RE_INPUT && \
 		(!tokens[(*i) + 2] || !tokens[(*i) + 2]->value[0]))
-		return (print_sintax_err(tokens[*i]->value), false);
+		return (print_syntax_err(tokens[*i]->value), false);
 	else if (tokens[(*i) + 1]->type == TOKEN_RE_OUTPUT && \
 		(!tokens[(*i) + 2] || !tokens[(*i) + 2]->value[0]))
-		return (print_sintax_err(tokens[*i]->value), false);
+		return (print_syntax_err(tokens[*i]->value), false);
 	return (true);
 }
 
