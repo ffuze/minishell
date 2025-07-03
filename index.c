@@ -6,29 +6,11 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 17:04:54 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:03:18 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-////////////////////////////////////////////////////////////-
-void	print_token_info(t_msh *msh)
-{
-	int	i;
-
-	i = 0;
-	if (!msh || !msh->tokens)
-		return ;
-	while (msh->tokens[i] != NULL)
-	{
-		if (!msh->tokens[i]->value)
-			break ;
-		ft_printf("Token numero %d: %s e' di tipo: %d++\n", i, msh->tokens[i]->value, msh->tokens[i]->type);//////////////
-		i++;
-	}
-	ft_printf("Number of pipes: %d\n", msh->pipe_number);
-}
-//////////////////////////////////////////////////////////////////
 
 void	init_shell(t_msh *msh, char **envp)
 {
@@ -56,7 +38,6 @@ void	cleanup_iteration(t_msh *msh)
 		free(msh->exp_input);
 		msh->exp_input = NULL;
 	}
-	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);////////////////
 }
 
 int	process_input(t_msh *msh, char *input)
@@ -69,7 +50,6 @@ int	process_input(t_msh *msh, char *input)
 		free(msh->exp_input);
 		return (0);
 	}
-	print_token_info(msh);/////////////////////////////////////////
 	msh->cmds = ft_create_cmd_list(msh, msh->tokens);
 	pipe_check(msh);
 	cleanup_iteration(msh);

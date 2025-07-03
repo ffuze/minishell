@@ -1,9 +1,0 @@
-bash$ << fggf cat (si comporta come) bash$ cat << ffgf
-
-bash$ << dd << aa cat
-> dfhifho
-> sggggg
-> dd
-> vssv
-> aa
-vssv

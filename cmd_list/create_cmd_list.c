@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_cmd_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 16:15:48 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:02:53 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,5 @@ t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens)
 	i = 0;
 	j = 0;
 	msh->cmds = ft_create_cmd_nodes(msh, tokens, &i, &j);
-	printList(msh->cmds);/////////////////////////////////////
 	return (msh->cmds);
 }

@@ -7,7 +7,6 @@ SRC_MAIN = index.c utils.c \
 			cmd_list/create_cmd_list.c cmd_list/assign_cmd.c \
 			cmd_list/assign_input_file.c cmd_list/heredoc_expansion.c \
 			cmd_list/assign_output_file.c \
-			test_setup.c \
 			built_in/identify_commands.c built_in/ft_exit.c \
 			built_in/ft_echo.c built_in/ft_pwd.c built_in/ft_env.c \
 			built_in/ft_export.c built_in/ft_export_print.c \

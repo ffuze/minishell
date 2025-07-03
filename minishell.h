@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 17:06:50 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:04:47 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int		execute_builtin_commands(t_msh *msh, char **cmd);
 void	ft_exit(t_msh *msh, char **args);
 
 // Prints every argument, separated by a single space.
-int		ft_echo(char  **cmd);
+int		ft_echo(char **cmd);
 
 // Prints the absolute path to the current directory.
 int		ft_pwd(void);
@@ -270,10 +270,5 @@ void	reset_child_signals(void);
 void	get_exit_status(t_msh *msh);
 
 void	print_banner(void);
-
-/*_______________________________ test_setup.c ______________________________*/
-t_cmds	*crealista();
-void 	printList(t_cmds *head);
-void 	freeList(t_cmds *head);
 
 #endif
