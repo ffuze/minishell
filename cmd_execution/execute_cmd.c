@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:14 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:14:54 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,8 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 		exit (127);
 	}
 	execve(cmd_path, cmd, envp);
+	ft_printfd(2, RED"Command not executed\n"NO_ALL);
+	free(cmd_path);
+	free_everything(msh);
+	exit(127);
 }
