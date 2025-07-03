@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 18:03:18 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:49:12 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_shell(t_msh *msh, char **envp)
 {
-	print_banner();
+	// print_banner();
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
 	msh->envp2[ft_mtrxlen(msh->envp2)] = ft_strdup("OLDPWD");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:57 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:43:06 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:07:48 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,19 @@ void	ft_exit(t_msh *msh, char **args)
 	int	exit_status;
 
 	exit_status = 0;
-	if (ft_mtrxlen(args) > 2)
+	if (ft_mtrxlen(args) > 2 && is_valid_number(args[1]))
 	{
 		ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
-		msh->exit_status = 1;
-		return ;
+		free_cmd_list(msh->cmds);
+		free_stuff(*msh);
+		exit(1);
+	}
+	if (ft_mtrxlen(args) > 2 && !is_valid_number(args[1]))
+	{
+		ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
+		free_cmd_list(msh->cmds);
+		free_stuff(*msh);
+		exit(2);
 	}
 	if (args[1])
 	{

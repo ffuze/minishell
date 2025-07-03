@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 12:01:57 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:03:47 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ static void	init_builtin(t_msh *msh)
 		return ;
 	}
 	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0)
+	{
 		execute_builtin_commands(msh, msh->cmds->cmd);
+		return ;
+	}
 	i = dup(STDIN_FILENO);
 	o = dup(STDOUT_FILENO);
 	if (msh->cmds->infile)
