@@ -6,27 +6,20 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:49:03 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:58:12 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
-
-int	skip_spaces(t_token *input, int i)
-{
-	while (input->value[i] && input->value[i] == ' ')
-		i++;
-	return (i);
-}
 
 // Duplicates the pointer to Environment Variables
 char	**ft_envp_dup(char **envp)
 {
 	char	**envp2;
 	int		i;
+	size_t	l;
 
 	i = 0;
-	size_t	l;
 	l = ft_mtrxlen(envp);
 	envp2 = ft_calloc((l + 2), sizeof(char *));
 	if (!envp2)

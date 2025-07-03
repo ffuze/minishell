@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:28 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:01:57 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	init_builtin(t_msh *msh)
 	close(o);
 }
 
+// Initializes a command when no pipes are present.
 void	execute_single_cmd(t_msh *msh)
 {
 	pid_t	id;

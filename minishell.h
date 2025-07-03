@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:03:07 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,26 +99,17 @@ typedef struct		s_cmds
 	struct s_cmds	*next;
 }					t_cmds;
 
-typedef struct		s_inf
-{
-	char			*infile;
-	bool			heredoc_flag;// 0 for '<', 1 for '<<'.
-	bool			heredoc_executed;
-}					t_inf;
 
 typedef	struct		s_msh
 {
-	char			*exp_input;// 	Input from readline() with expanded vars.
-	bool			env_var_flag;// True if at least a var is to be expanded.
+	char			*exp_input;// Input from readline() with expanded vars.
 	t_token			**tokens;
 	t_cmds			*cmds;
 	char			**envp2;
-	t_inf			*infiles; //   Input files from redirection.///////////////////////////
 	int				pipe_number; // Number of pipes from input.
 	int				pipe_counter; // Number of remainign pipes to execute.
 	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
 	unsigned char	exit_status;
-	char			*limiter; //   Signal the end of the input in heredoc./////////////////
 }					t_msh;
 
 /*________________________________ tokenizer ________________________________*/
@@ -142,8 +133,6 @@ int		tokenize_quotes(t_token **tokens, char *input, size_t *i);
 int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count);
 int		tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i);
 int		tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i);
-// Handles $ sign for environment vars expansion.
-int		tokenize_env_var(t_msh *msh, t_token **tokens, char *input, size_t *i);
 void	tokenize_commands(t_msh *msh);
 int		insert_input(t_msh *msh, t_token **tokens);
 
@@ -153,7 +142,7 @@ bool	check_tokens(t_token **tokens);
 
 /*_________________ tokenizer/quotes_removal _________________*/
 // Checks whether there are variables to expand or unclosed quotes.
-int		ft_parse_input(t_msh *msh, char *input);
+int		ft_parse_input(char *input);
 
 // Returns the string "input" without outer quotes.
 char	*ft_cleancpy(t_msh *msh, char *input);
@@ -184,10 +173,10 @@ char	*ft_expanded_heredoc_cpy(t_msh *msh, char *str);
 
 
 /*_________________________________ utils.c _________________________________*/
-int		skip_spaces(t_token *input, int i);
 
 // Verifies whether the c character is a symbol recognized from bash.
 int		ft_isbashprint(int c);
+
 // Verifies whether the c character is printable and an operator.
 int		ft_isoperator(int c);
 
@@ -202,8 +191,10 @@ void	print_err(char *s1, char *err_type);
 int		identify_builtin_commands(char **cmd);
 int		execute_builtin_commands(t_msh *msh, char **cmd);
 
+// Closes the program.
 void	ft_exit(t_msh *msh, char **args);
 
+// Prints every argument, separated by a single space.
 int		ft_echo(char  **cmd);
 
 // Prints the absolute path to the current directory.
@@ -232,17 +223,13 @@ void	update_oldpwd(char **envp);
 void	update_pwd(char **envp);
 
 /*________________________________ non_builtin ______________________________*/
-// Initializes a non built-in command.
+// Initializes a command when no pipes are present.
 void	execute_single_cmd(t_msh *msh);
 
-// Executes the given command
+// Executes the given command.
 void	execute_cmd(t_msh *msh, char **cmd, char **envp);
 
 /*_______________________________ redirection ______________________________*/
-// Fill the infile structure with the appropriate file name, and determines
-// wether there is an input file or a heredoc.
-int		setup_input_redirection(t_msh *msh);
-
 // Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh, t_cmds *current);
 
@@ -252,9 +239,6 @@ void	redirect_output(t_msh *msh, t_cmds *current);
 /*__________________________________ pipes __________________________________*/
 // Determines whether a single command or more have to be executed.
 void	pipe_check(t_msh *msh);
-
-// Closes all file descriptors and liberates the allocated memory
-void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
 // Creates an FD for each pipe in the command line.
 int		**fd_matrix_creator(int pipe_number);
@@ -269,23 +253,25 @@ void	init_lastcmd(t_msh *msh, t_cmds *current, int *i);
 //  between the first and last.
 int		middle_child_generator(t_msh *msh, t_cmds **current);
 
-/*_______________________________ test_setup.c ______________________________*/
-t_cmds	*crealista();
-void 	printList(t_cmds *head);
-void 	freeList(t_cmds *head);
-
-/*_______________________________ free_memory ______________________________*/
+/*_______________________________ free_memory _______________________________*/
 void	free_everything(t_msh *msh);
 void	free_stuff(t_msh msh);
 void	free_tokens(t_token **tokens);
 void	free_input_redirection(t_cmds *current_node);
 void	free_cmd_list(t_cmds *root);
+// Closes all file descriptors and liberates the allocated memory
+void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
-/*_______________________________ signals ______________________________*/
+/*_________________________________ signals _________________________________*/
 void	setup_signals();
 void	reset_child_signals();
 void	get_exit_status(t_msh *msh);
 
 void	print_banner();
+
+/*_______________________________ test_setup.c ______________________________*/
+t_cmds	*crealista();
+void 	printList(t_cmds *head);
+void 	freeList(t_cmds *head);
 
 #endif

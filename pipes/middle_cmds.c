@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:22:54 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:38:26 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:07:28 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 		redirect_output(msh, current);
 	else if (dup2(msh->fd_mrx[*i][1], STDOUT_FILENO) < 0)
 		return (close(msh->fd_mrx[*i][1]), 0);
+	close(msh->fd_mrx[*i - 1][0]);
 	close(msh->fd_mrx[*i][1]);
 	if (identify_builtin_commands(current->cmd))
 		close(msh->fd_mrx[*i][0]);

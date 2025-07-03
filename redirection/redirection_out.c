@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:53:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/01 21:41:57 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void	redirect_output(t_msh *msh, t_cmds *current)
 	if (!current->outfile)
 		return ;
 	if (current->append_flag)
-		outfile_fd = open(current->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		outfile_fd = open(current->outfile, O_WRONLY | O_CREAT | \
+														O_APPEND, 0644);
 	else
-		outfile_fd = open(current->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		outfile_fd = open(current->outfile, O_WRONLY | O_CREAT | \
+														O_TRUNC, 0644);
 	if (outfile_fd < 0)
 	{
 		print_err(current->outfile, ": could not be opened.\n");
