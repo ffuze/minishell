@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:48:16 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:36 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:08:12 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*handle_quotes(char *input, size_t *i, char *word)
 // Strings outside and inside quotes will be joined in the same token
 //  if  not separated by at least one space.
 // Returns 1 on success, 0 on failure. 
-int		tokenize_word(t_token **tokens, char *input, size_t *i, int *count)
+int	tokenize_word(t_token **tokens, char *input, size_t *i, int *count)
 {
 	size_t	start;
 	char	*str_segment;

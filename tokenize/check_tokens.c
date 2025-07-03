@@ -6,16 +6,42 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:31:31 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-static void	print_sintax_err(char *tokenvalue)
+
+static void	open_heredoc(char *limiter, char *infile)
 {
-	ft_printfd(2, \
-		RED"minishell: syntax error near token `%s'\n" \
-		NO_ALL, tokenvalue);
+	char	*str;
+	int		heredocfd;
+
+	heredocfd = open(infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	while (1)
+	{
+		str = readline("> ");
+		if (!str || ft_strcmp(limiter, str) == 0)
+			return (unlink(infile), free(infile), close(heredocfd), free(str));
+		ft_printfd(heredocfd, "%s", str);
+		free(str);
+	}
+}
+
+static void	hc_heredoc(t_token **tokens)
+{
+	int		i;
+	char	*limiter;
+	char	*infile;
+
+	i = 0;
+	while (tokens[i] && tokens[i]->type != TOKEN_LIMITER)
+		i++;
+	if (!tokens[i])
+		return ;
+	limiter = tokens[i]->value;
+	infile = ft_strjoin2(ft_itoa(i + 157), "heredoc.txt");
+	open_heredoc(limiter, infile);
 }
 
 static bool	check_pipe_tokens(t_token **tokens, int *i)
@@ -72,6 +98,6 @@ bool	check_tokens(t_token **tokens)
 		i++;
 	}
 	if (!search_word_tokens(tokens))
-		return (false);
+		return (hc_heredoc(tokens), false);
 	return (true);
 }

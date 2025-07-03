@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:01:31 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:34:37 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	check_fd(t_token *tokens)
 	if (ft_strcmp(tokens->value, "") == 0)
 	{
 		ft_printfd(2, \
-			RED"minishell: syntax error near unexpected token `newline'\n" \
+			RED"minishell: syntax error found in input redirection\n" \
 			NO_ALL);
 		return (0);
 	}

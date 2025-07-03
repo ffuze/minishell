@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:12:43 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:18 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:08:05 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 static void	reset_fd(t_msh *msh, t_token **tokens, int count)
 {
 	int	fd;
+
 	if (!msh || !tokens[count] || tokens[count]->type != TOKEN_OUTFILE)
 		return ;
 	fd = open(tokens[count]->value, O_WRONLY | O_CREAT, 0644);
@@ -65,7 +66,7 @@ static void	double_redirect(t_token **tokens, char *input, size_t *i, \
 // Check for every command block divided by a pipe that has an output
 //  redirection wether the output file exists or not; if it does not,
 //  print an error message and skip the whole block until a next pipe is found.
-int tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
+int	tokenize_output(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		starting_count;
 	int		count;

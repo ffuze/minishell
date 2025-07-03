@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:12:52 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:14 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:08:02 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static void	double_redirect(t_token **tokens, char *input, size_t *i, \
 // Check for every command block divided by a pipe that has an
 //  input redirection wether the input file exists or not; if it does not,
 //  print an error message and skip the wholeblock until a next pipe is found.
-int tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
+int	tokenize_input(t_msh *msh, t_token **tokens, char *input, size_t *i)
 {
 	int		count;
 	int		starting_count;
-	
+
 	starting_count = count_tokens(tokens);
 	count = starting_count;
 	if (!tokens || !input || !msh)

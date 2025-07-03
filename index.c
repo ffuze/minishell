@@ -6,12 +6,12 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 16:04:22 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:04:54 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+////////////////////////////////////////////////////////////-
 void	print_token_info(t_msh *msh)
 {
 	int	i;
@@ -23,21 +23,23 @@ void	print_token_info(t_msh *msh)
 	{
 		if (!msh->tokens[i]->value)
 			break ;
-		printf("Token numero %d: %s e' di tipo: %d++\n", i, msh->tokens[i]->value, msh->tokens[i]->type);//////////////
+		ft_printf("Token numero %d: %s e' di tipo: %d++\n", i, msh->tokens[i]->value, msh->tokens[i]->type);//////////////
 		i++;
 	}
 	ft_printf("Number of pipes: %d\n", msh->pipe_number);
 }
+//////////////////////////////////////////////////////////////////
 
 void	init_shell(t_msh *msh, char **envp)
 {
+	print_banner();
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
 	msh->envp2[ft_mtrxlen(msh->envp2)] = ft_strdup("OLDPWD");
 	msh->exit_status = 0;
 }
 
-void cleanup_iteration(t_msh *msh)
+void	cleanup_iteration(t_msh *msh)
 {
 	if (msh->cmds)
 	{
@@ -54,7 +56,7 @@ void cleanup_iteration(t_msh *msh)
 		free(msh->exp_input);
 		msh->exp_input = NULL;
 	}
-	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);
+	ft_printf(BRGREEN"Exit status: %d\n"NO_ALL, msh->exit_status);////////////////
 }
 
 int	process_input(t_msh *msh, char *input)
@@ -67,17 +69,39 @@ int	process_input(t_msh *msh, char *input)
 		free(msh->exp_input);
 		return (0);
 	}
-	print_token_info(msh);
+	print_token_info(msh);/////////////////////////////////////////
 	msh->cmds = ft_create_cmd_list(msh, msh->tokens);
 	pipe_check(msh);
 	cleanup_iteration(msh);
 	return (0);
 }
 
-int main(int ac, char *av[], char **envp)
+static void	get_prompt(t_msh *msh)
 {
-	char    *input;
-	t_msh   msh;
+	char	*input;
+
+	while (1)
+	{
+		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
+		if (!input)
+		{
+			ft_printf("exit\n");
+			return ;
+		}
+		add_history(input);
+		if (process_input(msh, input) == 1)
+		{
+			free(input);
+			return ;
+		}
+		free(input);
+		get_exit_status(msh);
+	}
+}
+
+int	main(int ac, char *av[], char **envp)
+{
+	t_msh	msh;
 
 	(void)ac;
 	(void)av;
@@ -86,23 +110,7 @@ int main(int ac, char *av[], char **envp)
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
 	setup_signals();
-	while (1)
-	{
-		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
-		if (!input)
-		{
-			printf("exit\n");
-			break ;
-		}
-		add_history(input);
-		if (process_input(&msh, input) == 1)
-		{
-			free(input);
-			break ;
-		}
-		free(input);
-		get_exit_status(&msh);
-	}
+	get_prompt(&msh);
 	if (msh.tokens)
 		free_tokens(msh.tokens);
 	free_dpc(msh.envp2);

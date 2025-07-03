@@ -7,4 +7,5 @@ export a , export a= ----fatto----
 export a a=hhhh a= a=k 1gk ----fatto----
 env printed 2wice ----fatto----
 >>< e <|> e >|< ----fatto----
-< utils.c cat | grep c | wc su bash fd aperto?
+< utils.c cat | grep c | wc su bash fd aperto? ----fatto----
+ctrlC per uscire da heredoc
