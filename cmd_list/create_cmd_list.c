@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:49:47 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:15:48 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_cmds	*ft_create_cmd_nodes(t_msh *msh, t_token **tokens, int *i, \
 	t_cmds	*new_node;
 	t_cmds	*prev;
 
-	while (tokens[*i])
+	while (tokens && tokens[*i])
 	{
 		if (tokens[*i]->type == TOKEN_WORD || \
 						(tokens[*i + 1] && tokens[*i + 1]->type == TOKEN_PIPE))

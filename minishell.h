@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 12:03:07 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:31:27 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,13 @@ typedef enum	s_token_enum
 	TOKEN_ERROR // invalid token
 }				t_token_enum;
 
+
+
 typedef struct		s_token
 {
 	t_token_enum	type;
 	char			*value;
+	char			*hc;
 }					t_token;
 
 typedef struct		s_cmds
@@ -98,7 +101,6 @@ typedef struct		s_cmds
 
 	struct s_cmds	*next;
 }					t_cmds;
-
 
 typedef	struct		s_msh
 {
@@ -185,6 +187,8 @@ char	**ft_envp_dup(char **envp);
 
 // Prints an error message in red color.
 void	print_err(char *s1, char *err_type);
+
+void	print_sintax_err(char *tokenvalue);
 
 /*_________________________________ built_in ________________________________*/
 

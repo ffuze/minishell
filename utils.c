@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:49:03 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 11:58:12 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:15:07 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,11 @@ void	print_err(char *s1, char *err_type)
 	write(2, s1, ft_strlen(s1));
 	write(2, err_type, ft_strlen(err_type));
 	write(2, NO_ALL"", 4);
+}
+
+void	print_sintax_err(char *tokenvalue)
+{
+	ft_printfd(2, \
+		RED"minishell: syntax error near token `%s'\n" \
+		NO_ALL, tokenvalue);
 }

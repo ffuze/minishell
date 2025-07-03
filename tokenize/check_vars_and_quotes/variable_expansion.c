@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 19:52:01 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 11:26:00 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:26:22 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ char	*find_value(char **envp, char *input, size_t *i)
 	j = 0;
 	(*i)++;
 	start = *i;
-	while (input[*i] && ((input[*i] > '0' && input[*i] < '9') || \
-						(input[*i] > 'A' && input[*i] < 'Z') || \
-						(input[*i] > 'a' && input[*i] < 'z')))
+	while (input[*i] && ((input[*i] >= '0' && input[*i] <= '9') || \
+						(input[*i] >= 'A' && input[*i] <= 'Z') || \
+						(input[*i] >= 'a' && input[*i] <= 'z')))
 		(*i)++;
 	var_name = ft_substr(input, start, (*i - start));
 	if (!var_name || !var_name[0])

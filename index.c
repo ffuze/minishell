@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 12:04:41 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:31:02 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	process_input(t_msh *msh, char *input)
 		free(msh->exp_input);
 		return (0);
 	}
-	print_token_info(msh);
+	print_token_info(msh);/////////////////////////////////////////
 	msh->cmds = ft_create_cmd_list(msh, msh->tokens);
 	pipe_check(msh);
 	cleanup_iteration(msh);
