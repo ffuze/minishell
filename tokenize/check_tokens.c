@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/04 14:31:12 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:32:53 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	hc_heredoc(t_token **tokens)
 	char	*infile;
 
 	i = 0;
-	while (tokens[i]/* tokens[i]->type != TOKEN_LIMITER */)
+	while (tokens[i])
 	{
 		if (tokens[i]->type == TOKEN_LIMITER)
 		{	
