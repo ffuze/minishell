@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/04 11:52:52 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:01:59 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,27 @@ void	assign_values(t_msh *msh, t_token **tokens, int *i, t_cmds *new_node)
 	assign_infile_value(msh, tokens, &j, new_node);
 }
 
+// A function to avoid making a new node upon finding a pipe if a command was
+//  already found before.
+static bool	backtrack_setter(t_msh *msh, t_token **tokens, int *i)
+{
+	if (tokens[*i]->type == TOKEN_WORD)
+	{
+		msh->backtrackflag = true;
+		return (true);
+	}
+	else if (tokens[*i + 1]->type == TOKEN_PIPE && msh->backtrackflag == true)
+	{
+		msh->backtrackflag = false;
+		return (false);
+	}
+	else if (tokens[*i + 1]->type == TOKEN_PIPE && msh->backtrackflag == false)
+	{
+		return (true);
+	}
+	return (true);
+}
+
 // Allocates memory for every node of the commands list.
 static t_cmds	*ft_create_cmd_nodes(t_msh *msh, t_token **tokens, int *i, \
 																		int *j)
@@ -87,13 +108,12 @@ static t_cmds	*ft_create_cmd_nodes(t_msh *msh, t_token **tokens, int *i, \
 
 	while (tokens && tokens[*i])
 	{
-		if (tokens[*i]->type == TOKEN_WORD || \
-						(tokens[*i + 1] && tokens[*i + 1]->type == TOKEN_PIPE))
+		if ((tokens[*i]->type == TOKEN_WORD || (tokens[*i + 1] && \
+				tokens[*i + 1]->type == TOKEN_PIPE)) \
+					&& backtrack_setter(msh, tokens, i))
 		{
 			prev = new_node;
 			new_node = ft_calloc(count_w_token(tokens, i) + 1, sizeof(t_cmds));
-			if (!new_node)
-				return (msh->cmds);
 			if ((*j)++ == 0)
 				msh->cmds = new_node;
 			else

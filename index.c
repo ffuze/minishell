@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/04 11:58:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:06:30 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_shell(t_msh *msh, char **envp)
 {
+	msh->backtrackflag = false;
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
 	msh->envp2[ft_mtrxlen(msh->envp2)] = ft_strdup("OLDPWD");
@@ -84,7 +85,7 @@ int	main(int ac, char *av[], char **envp)
 
 	(void)ac;
 	(void)av;
-	// print_banner();
+	print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);

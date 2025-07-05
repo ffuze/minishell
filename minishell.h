@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 18:04:47 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:56:01 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_msh
 	int				pipe_number; // Number of pipes from input.
 	int				pipe_counter; // Number of remainign pipes to execute.
 	int				**fd_mrx; //   Array of FileDescriptors for the pipeline.
+	bool			backtrackflag;//See backtrack_setter() in create_cmd_list.c
 	unsigned char	exit_status;
 }	t_msh;
 

@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/04 11:45:09 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:05:13 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	*execute_absrel_path(char **cmd, char **envp)
 	}
 	execve(cmd[0], cmd, envp);
 	print_err(cmd[0], ": No such file or directory.\n");
-	return (free_dpc(cmd), NULL);
+	return (NULL);
 }
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
