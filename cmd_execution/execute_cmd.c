@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 16:05:13 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:17:15 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,18 @@ static char	*find_pathname(char *cmd, char **envp)
 // Executes a command with the given absolute or relative path
 static void	*execute_absrel_path(char **cmd, char **envp)
 {
-	if (access(cmd[0], F_OK | X_OK | R_OK) != 0)
+	int	permissions;
+
+	permissions = access(cmd[0], F_OK | X_OK | R_OK);
+	if (permissions != 0)
 	{
-		print_err(cmd[0], ": couldn't access.\n");
-		free_dpc(cmd);
+		ft_printfd(2, RED"minishell: ");
+		perror(cmd[0]);
+		ft_printfd(2, ""NO_ALL);
 		return (NULL);
 	}
 	execve(cmd[0], cmd, envp);
-	print_err(cmd[0], ": No such file or directory.\n");
+	ft_printfd(2, RED"Command not executed\n"NO_ALL);
 	return (NULL);
 }
 

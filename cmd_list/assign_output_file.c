@@ -6,31 +6,34 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:50:44 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 12:25:26 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:55:15 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Checks the file descriptor's permissions.
-static int	check_fd(t_token *tokens)
+static int	check_fd(t_token *token)
 {
 	int	fd;
 
-	if (ft_strcmp(tokens->value, "") == 0)
+	if (ft_strcmp(token->value, "") == 0)
 	{
 		ft_printfd(2, \
 			RED"minishell: syntax error found in output redirection\n" \
 			NO_ALL);
 		return (0);
 	}
-	fd = open(tokens->value, O_WRONLY | O_CREAT, 0644);
+	fd = access(token->value, W_OK);
 	if (fd < 0)
 	{
-		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
-														tokens->value);
-		return (0);
+		ft_printfd(2, RED"minishell: ");
+		perror(token->value);
+		ft_printfd(2, ""NO_ALL);
 	}
+	fd = open(token->value, O_WRONLY | O_CREAT, 0644);
+	if (fd < 0)
+		return (0);
 	close(fd);
 	return (1);
 }

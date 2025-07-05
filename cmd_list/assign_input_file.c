@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 15:45:57 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:50:40 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ static bool	check_fd(t_token *token)
 			NO_ALL);
 		return (0);
 	}
-	fd = open(token->value, O_RDONLY);
+	fd = access(token->value, F_OK | R_OK);
 	if (fd < 0)
 	{
-		ft_printfd(2, RED"minishell: %s: Permission denied\n"NO_ALL, \
-														token->value);
+		ft_printfd(2, RED"minishell: ");
+		perror(token->value);
+		ft_printfd(2, ""NO_ALL);
 		return (0);
 	}
 	close(fd);
