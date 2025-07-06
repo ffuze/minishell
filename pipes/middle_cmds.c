@@ -16,7 +16,7 @@
 // pipefd2: fd_mrx[*i]
 static int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 {
-	setup_signals();
+	reset_child_signals();
 	close(msh->fd_mrx[*i][0]);
 	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{

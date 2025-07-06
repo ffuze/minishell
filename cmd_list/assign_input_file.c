@@ -41,7 +41,10 @@ static char	*get_readline_result(const char *prompt)
 
 	readline_result = readline(prompt);
 	if (!readline_result)
+	{
+		write(STDOUT_FILENO, "\n", 1);
 		return (NULL);
+	}
 	return (ft_strjoin2(readline_result, "\n"));
 }
 
@@ -59,7 +62,13 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 	{
 		str = get_readline_result("> ");
 		if (!str)
-			return (close(heredoc_fd), 0);
+		{
+			close(heredoc_fd);
+			unlink(new_node->infile);
+			new_node->abort_flag = 1;
+			msh->exit_status = 130;
+			return (0);
+		}
 		str = ft_expanded_heredoc_cpy(msh, str);
 		if (!str)
 			return (close(heredoc_fd), 0);

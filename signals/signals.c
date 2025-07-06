@@ -21,9 +21,21 @@ static void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
+static void	handle_sigint_cmd(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
 void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	setup_signals_cmd(void)
+{
+	signal(SIGINT, handle_sigint_cmd);
 	signal(SIGQUIT, SIG_IGN);
 }
 

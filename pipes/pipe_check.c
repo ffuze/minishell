@@ -23,6 +23,7 @@ static void	init_pipeline(t_msh *msh)
 		return (print_err("No commands to execute.", "\n"));
 	status = 0;
 	i = 0;
+	setup_signals_cmd();
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_number);
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
@@ -39,6 +40,7 @@ static void	init_pipeline(t_msh *msh)
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
 	}
+	setup_signals();
 }
 
 // Determines whether a single command or more have to be executed.

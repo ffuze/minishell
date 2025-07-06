@@ -15,7 +15,7 @@
 static void	child_proc(t_msh *msh)
 {
 	msh->fd_mrx = NULL;
-	setup_signals();
+	reset_child_signals();
 	if (msh->cmds->abort_flag)
 	{
 		free_stuff(*msh);
@@ -73,14 +73,32 @@ void	execute_single_cmd(t_msh *msh)
 	if (identify_builtin_commands(msh->cmds->cmd))
 		return (init_builtin(msh));
 	else
+	{
+		setup_signals_cmd();
 		id = fork();
+	}
 	if (id < 0)
+	{
+		setup_signals();
 		return ;
+	}
 	else if (0 == id)
 		child_proc(msh);
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			int sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				msh->exit_status = 130;
+			else if (sig == SIGQUIT)
+			{
+				write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+				msh->exit_status = 131;
+			}
+		}
 	}
+	setup_signals();
 }

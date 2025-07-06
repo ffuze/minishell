@@ -49,20 +49,6 @@ void	ft_exit(t_msh *msh, char **args)
 	int	exit_status;
 
 	exit_status = 0;
-	if (ft_mtrxlen(args) > 2 && is_valid_number(args[1]))
-	{
-		ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
-		free_cmd_list(msh->cmds);
-		free_stuff(*msh);
-		exit(1);
-	}
-	if (ft_mtrxlen(args) > 2 && !is_valid_number(args[1]))
-	{
-		ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
-		free_cmd_list(msh->cmds);
-		free_stuff(*msh);
-		exit(2);
-	}
 	if (args[1])
 	{
 		if (!is_valid_number(args[1]))
@@ -72,6 +58,13 @@ void	ft_exit(t_msh *msh, char **args)
 			free_cmd_list(msh->cmds);
 			free_stuff(*msh);
 			exit(2);
+		}
+		if (ft_mtrxlen(args) > 2)
+		{
+			ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
+			free_cmd_list(msh->cmds);
+			free_stuff(*msh);
+			exit(1);
 		}
 		exit_status = ft_atoi(args[1]);
 		exit_status = exit_status % 256;

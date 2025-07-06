@@ -266,6 +266,7 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
 /*_______________________________ signals ______________________________*/
 void	setup_signals(void);
+void	setup_signals_cmd(void);
 void	reset_child_signals(void);
 void	get_exit_status(t_msh *msh);
 

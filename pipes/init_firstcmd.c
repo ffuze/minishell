@@ -14,7 +14,7 @@
 
 static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 {
-	setup_signals();
+	reset_child_signals();
 	close(pipefd[0]);
 	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{
