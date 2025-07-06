@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 17:07:04 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:02:38 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,16 @@ static void	hc_heredoc(t_token **tokens)
 	char	*infile;
 
 	i = 0;
-	while (tokens[i] && tokens[i]->type != TOKEN_LIMITER)
+	while (tokens[i])
+	{
+		if (tokens[i]->type == TOKEN_LIMITER)
+		{
+			limiter = tokens[i]->value;
+			infile = ft_strjoin2(ft_itoa(i + 157), "heredoc.txt");
+			open_heredoc(limiter, infile);
+		}
 		i++;
-	if (!tokens[i])
-		return ;
-	limiter = tokens[i]->value;
-	infile = ft_strjoin2(ft_itoa(i + 157), "heredoc.txt");
-	open_heredoc(limiter, infile);
+	}
 }
 
 static bool	check_pipe_tokens(t_token **tokens, int *i)

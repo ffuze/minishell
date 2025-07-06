@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:14 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:17:15 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,21 @@ static char	*find_pathname(char *cmd, char **envp)
 }
 
 // Executes a command with the given absolute or relative path
-static void	*execute_absrel_path(char *cmd, char **envp)
+static void	*execute_absrel_path(char **cmd, char **envp)
 {
-	char	**split_cmd;
+	int	permissions;
 
-	split_cmd = ft_split(cmd, ' ');
-	if (!split_cmd)
-		return (NULL);
-	if (access(split_cmd[0], F_OK | X_OK | R_OK) != 0)
+	permissions = access(cmd[0], F_OK | X_OK | R_OK);
+	if (permissions != 0)
 	{
-		print_err(cmd, ": couldn't access.\n");
-		free_dpc(split_cmd);
+		ft_printfd(2, RED"minishell: ");
+		perror(cmd[0]);
+		ft_printfd(2, ""NO_ALL);
 		return (NULL);
 	}
-	execve(split_cmd[0], split_cmd, envp);
-	print_err(cmd, ": No such file or directory.\n");
-	return (free_dpc(split_cmd), NULL);
+	execve(cmd[0], cmd, envp);
+	ft_printfd(2, RED"Command not executed\n"NO_ALL);
+	return (NULL);
 }
 
 // If a '/' is present in the cmd string, an absolute/relative path was given
@@ -75,7 +74,7 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 	}
 	if (ft_strchr(cmd[0], '/'))
 	{
-		execute_absrel_path(cmd[0], envp);
+		execute_absrel_path(cmd, envp);
 		free_everything(msh);
 		exit (127);
 	}
@@ -86,4 +85,8 @@ void	execute_cmd(t_msh *msh, char **cmd, char **envp)
 		exit (127);
 	}
 	execve(cmd_path, cmd, envp);
+	ft_printfd(2, RED"Command not executed\n"NO_ALL);
+	free(cmd_path);
+	free_everything(msh);
+	exit(127);
 }

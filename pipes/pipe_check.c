@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:06:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:29:34 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:45:38 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	pipe_check(t_msh *msh)
 	msh->pipe_counter = msh->pipe_number;
 	if (!msh->cmds)
 	{
-		ft_printf("Error: no commands to execute\n");
+		ft_printfd(2, RED"Error: no commands to execute\n"NO_ALL);
 		return ;
 	}
 	if (msh->pipe_counter > 0)
