@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 15:52:58 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 17:27:34 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	init_shell(t_msh *msh, char **envp)
 {
-	msh->backtrackflag = false;
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
 	msh->envp2[ft_mtrxlen(msh->envp2)] = ft_strdup("OLDPWD");
@@ -63,6 +62,7 @@ static void	get_prompt(t_msh *msh)
 
 	while (1)
 	{
+		msh->backtrackflag = false;
 		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
 		if (!input)
 		{
