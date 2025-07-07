@@ -6,13 +6,13 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 16:01:59 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:09:48 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void	printList(t_cmds *head)
 {
 	t_cmds	*current;
@@ -44,7 +44,8 @@ void	printList(t_cmds *head)
 		ft_printf(GREEN"##\n"NO_ALL);
 		current = current->next;
 	}
-}/////////////////////////////////////////////////////////////////////////////////////
+}
+/////////////////////////////////////////////////////////////////////////////
 
 // Returns the number of TOKEN_WORDs before the next pipe or the end of input.
 static size_t	count_w_token(t_token **tokens, int *i)

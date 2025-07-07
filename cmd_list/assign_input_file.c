@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 17:50:40 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:04:54 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static bool	check_fd(t_token *token)
 		ft_printfd(2, ""NO_ALL);
 		return (0);
 	}
-	close(fd);
 	return (1);
 }
 

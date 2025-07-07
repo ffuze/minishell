@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:50:28 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:50:29 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:08:30 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	**assign_cmd_value(t_token **tokens, int *i)
 	cmd = ft_calloc(n_word_tokens + 1, sizeof(char *));
 	if (!cmd)
 		return (NULL);
+	if (n_word_tokens == 0)
+		;
 	while (j < n_word_tokens)
 	{
 		if (tokens[*i]->type == TOKEN_WORD)

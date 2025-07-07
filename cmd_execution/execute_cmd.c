@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 19:17:15 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:05:02 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*find_pathname(char *cmd, char **envp)
 		pathname = ft_strjoin2(ft_strjoin2(ft_strdup(paths[i]), "/"), cmd);
 		if (!pathname)
 			return (free_dpc(paths), NULL);
-		if (0 == access(pathname, F_OK | X_OK))
+		if (0 == access(pathname, F_OK | X_OK | R_OK))
 			return (free_dpc(paths), pathname);
 		free(pathname);
 		i++;

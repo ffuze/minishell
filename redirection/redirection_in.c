@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:52:55 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:55:11 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Substitutes the standard input with a file.
 void	redirect_input(t_msh *msh, t_cmds *current)
 {
-	int		infile_fd;
+	int	infile_fd;
 
 	if (!current->infile)
 		return ;
