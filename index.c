@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 18:59:36 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 03:17:47 by alek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	process_input(t_msh *msh, char *input)
 	}
 	msh->cmds = ft_create_cmd_list(msh, msh->tokens);
 	pipe_check(msh);
+	check_signal_exit_status(msh);
 	cleanup_iteration(msh);
 	return (0);
 }
@@ -68,6 +69,7 @@ static void	get_prompt(t_msh *msh)
 			ft_printf("exit\n");
 			return ;
 		}
+		check_signal_exit_status(msh);
 		add_history(input);
 		if (process_input(msh, input) == 1)
 		{
@@ -89,7 +91,7 @@ int	main(int ac, char *av[], char **envp)
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
-	setup_signals();
+	setup_signals(SIG_BACKTOBACK);
 	get_prompt(&msh);
 	if (msh.tokens)
 		free_tokens(msh.tokens);

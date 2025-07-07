@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_firstcmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:52:33 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 21:24:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 02:13:14 by alek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 {
-	reset_child_signals();
+	setup_signals(SIG_CHILD);
 	close(pipefd[0]);
 	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{
