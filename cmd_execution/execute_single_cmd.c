@@ -6,7 +6,7 @@
 /*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 02:13:17 by alek             ###   ########.fr       */
+/*   Updated: 2025/07/07 04:34:11 by alek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	execute_single_cmd(t_msh *msh)
 				msh->exit_status = 130;
 			else if (sig == SIGQUIT)
 			{
-				write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+				write(STDOUT_FILENO, "Quit\n", 19);
 				msh->exit_status = 131;
 			}
 		}
