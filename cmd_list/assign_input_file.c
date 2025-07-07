@@ -6,14 +6,14 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 12:21:43 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:52:08 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Checks the file descriptor's permissions.
-static bool	check_fd(t_token *token)
+bool	check_fd_in(t_token *token)
 {
 	int	fd;
 
@@ -39,7 +39,7 @@ static bool	check_token_value(t_token *token, t_cmds *new_node)
 {
 	if (token->type == TOKEN_INFILE)
 	{
-		if (!check_fd(token))
+		if (!check_fd_in(token))
 		{
 			new_node->abort_flag = true;
 			return (false);
@@ -86,35 +86,35 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 	new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
 	new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
 	heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	setup_signals(SIG_HEREDOC);
+	// setup_signals(SIG_HEREDOC);
 	while (1)
 	{
-		if (g_signal_mode == SIG_INT_RECEIVED)
-		{
-			close(heredoc_fd);
-			unlink(new_node->infile);
-			new_node->abort_flag = 1;
-			msh->exit_status = 130;
-			setup_signals(SIG_BACKTOBACK);
-			return (0);
-		}
+		// if (g_signal_mode == SIG_INT_RECEIVED)
+		// {
+		// 	close(heredoc_fd);
+		// 	unlink(new_node->infile);
+		// 	new_node->abort_flag = 1;
+		// 	msh->exit_status = 130;
+		// 	setup_signals(SIG_BACKTOBACK);
+		// 	return (0);
+		// }
 		str = get_readline_result("> ");
 		if (!str)
 		{
-			if (g_signal_mode == SIG_INT_RECEIVED)
-			{
-				close(heredoc_fd);
-				unlink(new_node->infile);
-				new_node->abort_flag = 1;
-				msh->exit_status = 130;
-				setup_signals(SIG_BACKTOBACK);
-				return (0);
-			}
+			// if (g_signal_mode == SIG_INT_RECEIVED)
+			// {
+			// 	close(heredoc_fd);
+			// 	unlink(new_node->infile);
+			// 	new_node->abort_flag = 1;
+			// 	msh->exit_status = 130;
+			// 	setup_signals(SIG_BACKTOBACK);
+			// 	return (0);
+			// }
 			close(heredoc_fd);
-			unlink(new_node->infile);
-			new_node->abort_flag = 1;
-			msh->exit_status = 130;
-			setup_signals(SIG_BACKTOBACK);
+			// unlink(new_node->infile);
+			// new_node->abort_flag = 1;
+			// msh->exit_status = 130;
+			// setup_signals(SIG_BACKTOBACK);
 			return (0);
 		}
 		str = ft_expanded_heredoc_cpy(msh, str);
@@ -131,7 +131,7 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 		ft_printfd(heredoc_fd, "%s", str);
 		free(str);
 	}
-	setup_signals(SIG_BACKTOBACK);
+	// setup_signals(SIG_BACKTOBACK);
 	return (close(heredoc_fd), 0);
 }
 

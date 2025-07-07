@@ -6,14 +6,14 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:50:44 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 17:55:15 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:52:35 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Checks the file descriptor's permissions.
-static int	check_fd(t_token *token)
+static int	check_fd_out(t_token *token)
 {
 	int	fd;
 
@@ -50,7 +50,7 @@ void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node)
 	{
 		if (tokens[*j]->type == TOKEN_OUTFILE)
 		{
-			if (!check_fd(tokens[*j]))
+			if (!check_fd_out(tokens[*j]))
 			{
 				new_node->abort_flag = true;
 				return ;

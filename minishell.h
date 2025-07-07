@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 12:22:25 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:50:41 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,8 @@ void	assign_outfile_value(t_token **tokens, int *j, t_cmds *new_node);
 // If a heredoc is to be created, it will be named *token number*heredoc.txt.
 void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
 														t_cmds *new_node);
+// Checks the file descriptor's permissions.
+bool	check_fd_in(t_token *token);
 
 // Returns the string "str" with expanded variables.
 // Returns NULL on failure.

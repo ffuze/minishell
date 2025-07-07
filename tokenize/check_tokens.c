@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 02:35:40 by alek             ###   ########.fr       */
+/*   Updated: 2025/07/07 16:50:57 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	open_heredoc(char *limiter, char *infile)
 	}
 }
 
+// Pointlessly executes heredocs in absence of commands. 
 static void	hc_heredoc(t_token **tokens)
 {
 	int		i;
@@ -41,8 +42,18 @@ static void	hc_heredoc(t_token **tokens)
 	i = 0;
 	while (tokens[i])
 	{
-		if (tokens[i]->type == TOKEN_LIMITER)
+		if (tokens[i]->type == TOKEN_INFILE || \
+					tokens[i]->type == TOKEN_OUTFILE)
 		{
+			if (!tokens[i]->value || !tokens[i]->value[0])
+				return (print_syntax_err(tokens[i - 1]->value));
+			else if (!check_fd_in(tokens[i]))
+				return ;
+		}
+		else if (tokens[i]->type == TOKEN_LIMITER)
+		{
+			if (!tokens[i]->value || !tokens[i]->value[0])
+				return (print_syntax_err(tokens[i - 1]->value));
 			limiter = tokens[i]->value;
 			infile = ft_strjoin2(ft_itoa(i + 157), "heredoc.txt");
 			open_heredoc(limiter, infile);

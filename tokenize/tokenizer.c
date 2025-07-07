@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:19:53 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 17:08:19 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:27:00 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void print_tokens(t_token **tokens)
+{
+	int	i = 0;
+
+	while (tokens[i])
+	{
+		ft_printf(BRCYAN"token[%d]: value = %s, type = %d\n"NO_ALL, \
+									i, tokens[i]->value, tokens[i]->type);
+		i++;
+	}
+}
 
 static void	ft_fill_tokens(t_msh *msh, t_token **tokens, int *count)
 {
@@ -53,6 +65,7 @@ t_token	**tokenize(t_msh *msh, char *input)
 		return (free(msh->exp_input), NULL);
 	ft_fill_tokens(msh, tokens, &count);
 	tokens[count] = NULL;
+	print_tokens(tokens);/////////////////////////////////////////////////
 	if (!check_tokens(tokens))
 	{
 		msh->exit_status = 2;
