@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_input_file.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 16:52:08 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 17:36:56 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ static char	*get_readline_result(const char *prompt)
 {
 	char	*readline_result;
 
-	readline_result = readline(prompt);
-	
-	// Controlla se abbiamo ricevuto SIGINT durante readline
 	if (g_signal_mode == SIG_INT_RECEIVED)
 		return (NULL);
-		
+	readline_result = readline(prompt);
+	if (g_signal_mode == SIG_INT_RECEIVED)
+	{
+		if (readline_result)
+			free(readline_result);
+		return (NULL);
+	}
 	if (!readline_result)
 	{
 		write(STDOUT_FILENO, "\n", 1);
@@ -141,6 +144,7 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
 															t_cmds *new_node)
 {
+	ft_printf("+++++++++++++++++++++++++++++++\n");
 	new_node->infile = NULL;
 	new_node->heredoc_flag = false;
 	new_node->limiter = NULL;

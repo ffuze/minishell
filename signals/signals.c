@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:55:42 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 03:58:14 by alek             ###   ########.fr       */
+/*   Updated: 2025/07/07 17:23:33 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ static void	handle_sigint(int sig)
 	else if (prev_mode == SIG_COMMAND)
 		write(STDOUT_FILENO, "\n", 1);
 	else if (prev_mode == SIG_HEREDOC)
+	{
 		write(STDOUT_FILENO, "\n", 1);
+	}
+	
 }
 
 // static void	handle_sigquit(int sig)
