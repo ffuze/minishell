@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:52:33 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/06 16:25:33 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:21:29 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	first_cmd_process(t_msh *msh, t_cmds *current, int *pipefd)
 {
-	setup_signals();
+	setup_signals(SIG_CHILD);
 	close(pipefd[0]);
 	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{

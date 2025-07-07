@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 11:04:54 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:21:43 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,16 @@ static char	*get_readline_result(const char *prompt)
 	char	*readline_result;
 
 	readline_result = readline(prompt);
-	if (!readline_result)
+	
+	// Controlla se abbiamo ricevuto SIGINT durante readline
+	if (g_signal_mode == SIG_INT_RECEIVED)
 		return (NULL);
+		
+	if (!readline_result)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		return (NULL);
+	}
 	return (ft_strjoin2(readline_result, "\n"));
 }
 
@@ -78,14 +86,43 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 	new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
 	new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
 	heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	setup_signals(SIG_HEREDOC);
 	while (1)
 	{
+		if (g_signal_mode == SIG_INT_RECEIVED)
+		{
+			close(heredoc_fd);
+			unlink(new_node->infile);
+			new_node->abort_flag = 1;
+			msh->exit_status = 130;
+			setup_signals(SIG_BACKTOBACK);
+			return (0);
+		}
 		str = get_readline_result("> ");
 		if (!str)
-			return (close(heredoc_fd), 0);
+		{
+			if (g_signal_mode == SIG_INT_RECEIVED)
+			{
+				close(heredoc_fd);
+				unlink(new_node->infile);
+				new_node->abort_flag = 1;
+				msh->exit_status = 130;
+				setup_signals(SIG_BACKTOBACK);
+				return (0);
+			}
+			close(heredoc_fd);
+			unlink(new_node->infile);
+			new_node->abort_flag = 1;
+			msh->exit_status = 130;
+			setup_signals(SIG_BACKTOBACK);
+			return (0);
+		}
 		str = ft_expanded_heredoc_cpy(msh, str);
 		if (!str)
+		{
+			setup_signals(SIG_BACKTOBACK);
 			return (close(heredoc_fd), 0);
+		}
 		if (ft_strcmp(new_node->limiter, str) == 0)
 		{
 			free(str);
@@ -94,6 +131,7 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 		ft_printfd(heredoc_fd, "%s", str);
 		free(str);
 	}
+	setup_signals(SIG_BACKTOBACK);
 	return (close(heredoc_fd), 0);
 }
 

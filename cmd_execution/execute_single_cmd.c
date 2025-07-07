@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 12:01:57 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 04:34:11 by alek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_proc(t_msh *msh)
 {
 	msh->fd_mrx = NULL;
-	setup_signals();
+	setup_signals(SIG_CHILD);
 	if (msh->cmds->abort_flag)
 	{
 		free_stuff(*msh);
@@ -41,7 +41,10 @@ static void	init_builtin(t_msh *msh)
 		return ;
 	}
 	if (ft_strcmp(msh->cmds->cmd[0], "exit") == 0)
+	{
 		execute_builtin_commands(msh, msh->cmds->cmd);
+		return ;
+	}
 	i = dup(STDIN_FILENO);
 	o = dup(STDOUT_FILENO);
 	if (msh->cmds->infile)
@@ -70,14 +73,32 @@ void	execute_single_cmd(t_msh *msh)
 	if (identify_builtin_commands(msh->cmds->cmd))
 		return (init_builtin(msh));
 	else
+	{
+		setup_signals(SIG_COMMAND);
 		id = fork();
+	}
 	if (id < 0)
+	{
+		setup_signals(SIG_BACKTOBACK);
 		return ;
+	}
 	else if (0 == id)
 		child_proc(msh);
 	while (waitpid(id, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			int sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				msh->exit_status = 130;
+			else if (sig == SIGQUIT)
+			{
+				write(STDOUT_FILENO, "Quit\n", 19);
+				msh->exit_status = 131;
+			}
+		}
 	}
+	setup_signals(SIG_BACKTOBACK);
 }

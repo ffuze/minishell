@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/05 16:02:38 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 02:35:40 by alek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ static void	open_heredoc(char *limiter, char *infile)
 	int		heredocfd;
 
 	heredocfd = open(infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	setup_signals(SIG_HEREDOC);
 	while (1)
 	{
 		str = readline("> ");
 		if (!str || ft_strcmp(limiter, str) == 0)
+		{
+			setup_signals(SIG_BACKTOBACK);
 			return (unlink(infile), free(infile), close(heredocfd), free(str));
+		}
 		ft_printfd(heredocfd, "%s", str);
 		free(str);
 	}

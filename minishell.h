@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 11:08:36 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:22:25 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,22 @@
 
 # define HIDE "\e[8m"
 # define NO_HIDE "\e[28m"
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SIGNAL TYPES~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+// SIG_BACKTOBACK == go back to normal prompt after pressing CTRL+C
+// SIG_COMMAND == show a newline
+// SIG_HEREDOC == same thing with SIG_BACKTOBACK but in heredocs
+// SIG_CHILD == child signal handling flag
+typedef enum e_signal_mode
+{
+	SIG_BACKTOBACK,
+	SIG_COMMAND,
+	SIG_HEREDOC,
+	SIG_CHILD,
+	SIG_INT_RECEIVED
+}	t_signal_mode;
+
+extern t_signal_mode	g_signal_mode;
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -266,9 +282,9 @@ void	free_cmd_list(t_cmds *root);
 void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
 /*_______________________________ signals ______________________________*/
-void	setup_signals(void);
-void	reset_child_signals(void);
-void	get_exit_status(t_msh *msh);
+void			setup_signals(t_signal_mode mode);
+void			get_exit_status(t_msh *msh);
+void			check_signal_exit_status(t_msh *msh);
 
 void	print_banner(void);
 
