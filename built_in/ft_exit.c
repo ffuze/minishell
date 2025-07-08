@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:57 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/08 12:16:17 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:05:21 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ int	all_args_int(char **args)
 
 void	ft_exit(t_msh *msh, char **args)
 {
-	unsigned char	exit_status;
-
-	exit_status = 0;
-	ft_printfd(2, RED"exit\n"NO_ALL);
+	ft_printfd(2, BRCYAN"exit\n"NO_ALL);
 	if (args[1])
 	{
 		if (!is_valid_number(args[1]))
@@ -64,10 +61,13 @@ void	ft_exit(t_msh *msh, char **args)
 		if (ft_mtrxlen(args) > 2)
 		{
 			ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
-			exit_status = 1;
+			msh->exit_status = 1;
 			return ;
 		}
-		exit_status = ft_atoi(args[1]);
+		msh->exit_status = ft_atoi(args[1]);
+		free_cmd_list(msh->cmds);
+		free_stuff(*msh);
+		return (exit(msh->exit_status));
 	}
-	return (free_cmd_list(msh->cmds), free_stuff(*msh), exit(exit_status));
+	return (free_cmd_list(msh->cmds), free_stuff(*msh), exit(msh->exit_status));
 }
