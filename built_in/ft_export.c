@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:09:09 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 18:09:10 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:22:32 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static char	**add_var(char **envp, char *new_var)
 	return (free_dpc(envp), nenvp);
 }
 
-// Checks whether the new Variable already exists, if so it overwrites it.
+// Checks whether the new Variable already exists, if so it overwrites it,
+//  unless no new value was given (lines 64-65).
 static bool	check_vardup(char **envp2, char *input)
 {
 	int		i;
@@ -60,6 +61,8 @@ static bool	check_vardup(char **envp2, char *input)
 	{
 		if (ft_strnstr(envp2[i], new_var, ft_strlen(new_var)))
 		{
+			if (!ft_strchr(input, '='))
+				return (free(new_var), true);
 			free(envp2[i]);
 			envp2[i] = ft_strdup(input);
 			return (free(new_var), true);
@@ -119,7 +122,7 @@ int	ft_export(t_msh *msh, char **cmd)
 			else if (ft_strnstr(cmd[i], "+=", ft_strlen(cmd[i])))
 				append_handle(msh, cmd[i]);
 			else if (check_vardup(msh->envp2, cmd[i]))
-				return (0);
+				;
 			else
 				msh->envp2 = add_var(msh->envp2, cmd[i]);
 			i++;
