@@ -6,58 +6,43 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:55:42 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 17:23:33 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:36:48 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_signal_mode	g_signal_mode = SIG_BACKTOBACK;
-
 static void	handle_sigint(int sig)
 {
-	t_signal_mode	prev_mode;
-	
 	(void)sig;
-	prev_mode = g_signal_mode;
-	g_signal_mode = SIG_INT_RECEIVED;
-	if (prev_mode == SIG_BACKTOBACK)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else if (prev_mode == SIG_COMMAND)
-		write(STDOUT_FILENO, "\n", 1);
-	else if (prev_mode == SIG_HEREDOC)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-	}
-	
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-// static void	handle_sigquit(int sig)
-// {
-// 	(void)sig;
-
-// 	return ;
-// }
-
-void	setup_signals(t_signal_mode mode)
+static void	handle_sigint_cmd(int sig)
 {
-	g_signal_mode = mode;
-	
-	if (mode == SIG_CHILD)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	else
-	{
-		signal(SIGINT, handle_sigint);
-		signal(SIGQUIT, SIG_IGN);
-	}
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	setup_signals_cmd(void)
+{
+	signal(SIGINT, handle_sigint_cmd);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	reset_child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 // WIFEXITED == se il processo e' uscito senza problemi
@@ -86,14 +71,5 @@ void	get_exit_status(t_msh *msh)
 			else
 				msh->exit_status = 128 + sig;
 		}
-	}
-}
-
-void	check_signal_exit_status(t_msh *msh)
-{
-	if (g_signal_mode == SIG_INT_RECEIVED)
-	{
-		msh->exit_status = 130;
-		g_signal_mode = SIG_BACKTOBACK;
 	}
 }

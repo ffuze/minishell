@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:06:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 02:13:06 by alek             ###   ########.fr       */
+/*   Updated: 2025/07/04 16:45:38 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	init_pipeline(t_msh *msh)
 		return (print_err("No commands to execute.", "\n"));
 	status = 0;
 	i = 0;
-	setup_signals(SIG_COMMAND);
+	setup_signals_cmd();
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_number);
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
@@ -40,7 +40,7 @@ static void	init_pipeline(t_msh *msh)
 		if (WIFEXITED(status))
 			msh->exit_status = WEXITSTATUS(status);
 	}
-	setup_signals(SIG_BACKTOBACK);
+	setup_signals();
 }
 
 // Determines whether a single command or more have to be executed.
