@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   create_cmd_list.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/13 14:42:27 by adegl-in         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -77,7 +66,6 @@ void	assign_values(t_msh *msh, t_token **tokens, int *i, t_cmds *new_node)
 	assign_outfile_value(tokens, &j, new_node);
 	j = *i;
 	assign_infile_value(msh, tokens, &j, new_node);
-	ft_printf(YELLOW"gggg\n"NO_ALL);///////////////////////////////
 }
 
 // A function to avoid making a new node upon finding a pipe if a command was

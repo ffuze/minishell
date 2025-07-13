@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 14:55:42 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/13 14:37:09 by adegl-in         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -23,15 +12,16 @@ static void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
+// ioctl(STDIN_FILENO, TIOCSTI, "\n") gives a newline as input to the 
+//  heredoc's readline.
 static void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_sigint_rec = 1;
-	write(STDOUT_FILENO, "\n", 1);
-	ft_printf(GREEN"global: %d\n"NO_ALL, g_sigint_rec);///////////////////////////////
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_on_new_line();
 	// rl_replace_line("", 0);
-	rl_redisplay();
+	// rl_redisplay();
 }
 
 void	setup_signals(void)

@@ -1,35 +1,35 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_tokens.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 17:44:11 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/08 16:22:26 by adegl-in         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	open_heredoc(char *limiter, char *infile)
+static void	open_heredoc(t_msh *msh, char *limiter, char *infile)
 {
 	char	*str;
 	int		heredocfd;
 
 	heredocfd = open(infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	setup_signals_heredoc();
 	while (1)
 	{
 		str = readline("> ");
+		if (g_sigint_rec)
+		{
+			msh->exit_status = 130;
+			g_sigint_rec = 0;
+			return (unlink(infile), close(heredocfd), free(str), free(infile));
+		}
 		if (!str || ft_strcmp(limiter, str) == 0)
+		{
+			ft_printfd(2, RED"pokeshell: warning: heredoc delimited by ");
+			ft_printfd(2, "end-of-file (wanted `%s')\n"NO_ALL, limiter);
 			return (unlink(infile), free(infile), close(heredocfd), free(str));
+		}
 		ft_printfd(heredocfd, "%s", str);
 		free(str);
 	}
 }
 
 // Pointlessly executes heredocs in absence of commands. 
-static void	hc_heredoc(t_token **tokens)
+static void	hc_heredoc(t_msh *msh, t_token **tokens)
 {
 	int		i;
 	char	*limiter;
@@ -52,7 +52,7 @@ static void	hc_heredoc(t_token **tokens)
 				return (print_syntax_err(tokens[i - 1]->value));
 			limiter = tokens[i]->value;
 			infile = ft_strjoin2(ft_itoa(i + 157), "heredoc.txt");
-			open_heredoc(limiter, infile);
+			open_heredoc(msh, limiter, infile);
 		}
 		i++;
 	}
@@ -88,7 +88,7 @@ static bool	search_word_tokens(t_token **tokens)
 
 // Checks whether the tokenized strings are acceptable and/or 
 //  are associated to the needed token.
-bool	check_tokens(t_token **tokens)
+bool	check_tokens(t_msh *msh, t_token **tokens)
 {
 	int	i;
 
@@ -112,6 +112,6 @@ bool	check_tokens(t_token **tokens)
 		i++;
 	}
 	if (!search_word_tokens(tokens))
-		return (hc_heredoc(tokens), false);
+		return (hc_heredoc(msh, tokens), false);
 	return (true);
 }

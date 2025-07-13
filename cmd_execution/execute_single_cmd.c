@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execute_single_cmd.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/13 12:44:44 by adegl-in         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -58,6 +47,23 @@ static void	init_builtin(t_msh *msh)
 	close(o);
 }
 
+static void	get_status(t_msh *msh, int status)
+{
+	if (WIFEXITED(status))
+			msh->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		int sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			msh->exit_status = 130;
+		else if (sig == SIGQUIT)
+		{
+			write(STDOUT_FILENO, "Quit\n", 19);
+			msh->exit_status = 131;
+		}
+	}
+}
+
 // Initializes a command when no pipes are present.
 void	execute_single_cmd(t_msh *msh)
 {
@@ -74,31 +80,16 @@ void	execute_single_cmd(t_msh *msh)
 		return (init_builtin(msh));
 	else
 	{
-		setup_signals_heredoc();
+		setup_signals();
 		id = fork();
 	}
 	if (id < 0)
-	{
-		setup_signals();
-		return ;
-	}
+		return (setup_signals());
 	else if (0 == id)
 		child_proc(msh);
 	while (waitpid(id, &status, 0) > 0)
 	{
-		if (WIFEXITED(status))
-			msh->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-		{
-			int sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				msh->exit_status = 130;
-			else if (sig == SIGQUIT)
-			{
-				write(STDOUT_FILENO, "Quit\n", 19);
-				msh->exit_status = 131;
-			}
-		}
+		get_status(msh, status);
 	}
 	setup_signals();
 }

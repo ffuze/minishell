@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 21:08:55 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:29 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:43:36 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,27 @@ int	count_tokens(t_token **tokens)
 	while (tokens && tokens[count])
 		count++;
 	return (count);
+}
+
+// Checks the file descriptor's permissions.
+bool	check_fd_in(t_token *token)
+{
+	int	fd;
+
+	if (!token->value || !token->value[0])
+	{
+		ft_printfd(2, \
+			RED"minishell: syntax error found in input redirection\n" \
+			NO_ALL);
+		return (0);
+	}
+	fd = access(token->value, F_OK | R_OK);
+	if (fd < 0)
+	{
+		ft_printfd(2, RED"minishell: ");
+		perror(token->value);
+		ft_printfd(2, ""NO_ALL);
+		return (0);
+	}
+	return (1);
 }

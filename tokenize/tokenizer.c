@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 16:19:53 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/08 17:19:53 by lemarino         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -66,7 +55,7 @@ t_token	**tokenize(t_msh *msh, char *input)
 	ft_fill_tokens(msh, tokens, &count);
 	tokens[count] = NULL;
 	print_tokens(tokens);/////////////////////////////////////////////////
-	if (!check_tokens(tokens))
+	if (!check_tokens(msh, tokens))
 	{
 		msh->exit_status = 2;
 		return (free_tokens(tokens), NULL);

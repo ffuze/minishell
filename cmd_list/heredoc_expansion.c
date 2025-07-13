@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc_expansion.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 20:54:53 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/01 20:55:44 by lemarino         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -52,6 +41,8 @@ char	*ft_expanded_heredoc_cpy(t_msh *msh, char *str)
 	i = 0;
 	j = 0;
 	expanded_s = NULL;
+	if (!str)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '$')
