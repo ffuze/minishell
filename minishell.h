@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:56:12 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/08 16:21:47 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:46:00 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@
 # define NO_HIDE "\e[28m"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+extern volatile sig_atomic_t g_sigint_rec;
 
 typedef enum s_token_enum
 {
@@ -269,7 +271,7 @@ void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
 /*_______________________________ signals ______________________________*/
 void	setup_signals(void);
-void	setup_signals_cmd(void);
+void	setup_signals_heredoc(void);
 void	reset_child_signals(void);
 void	get_exit_status(t_msh *msh);
 

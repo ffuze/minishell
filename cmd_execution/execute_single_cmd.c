@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/08 16:21:54 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:44:44 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	execute_single_cmd(t_msh *msh)
 		return (init_builtin(msh));
 	else
 	{
-		setup_signals_cmd();
+		setup_signals_heredoc();
 		id = fork();
 	}
 	if (id < 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:06:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/04 16:45:38 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:45:09 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	init_pipeline(t_msh *msh)
 		return (print_err("No commands to execute.", "\n"));
 	status = 0;
 	i = 0;
-	setup_signals_cmd();
+	setup_signals_heredoc();
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_number);
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
