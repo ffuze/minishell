@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   middle_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:22:54 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 02:13:09 by alek             ###   ########.fr       */
+/*   Updated: 2025/07/03 11:07:28 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // pipefd2: fd_mrx[*i]
 static int	middle_cmd_process(t_msh *msh, t_cmds *current, int *i)
 {
-	setup_signals(SIG_CHILD);
+	reset_child_signals();
 	close(msh->fd_mrx[*i][0]);
 	if (ft_strcmp(current->cmd[0], "exit") == 0)
 	{

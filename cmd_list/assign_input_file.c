@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:54:02 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/13 14:41:35 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:42:00 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,7 @@ static char	*get_readline_result(const char *prompt)
 {
 	char	*readline_result;
 
-	if (g_signal_mode == SIG_INT_RECEIVED)
-		return (NULL);
 	readline_result = readline(prompt);
-	if (g_signal_mode == SIG_INT_RECEIVED)
-	{
-		if (readline_result)
-			free(readline_result);
-		return (NULL);
-	}
 	if (!readline_result)
 	{
 		write(STDOUT_FILENO, "\n", 1);
@@ -89,52 +81,36 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 	new_node->limiter = ft_strjoin(tokens[*j]->value, "\n");
 	new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
 	heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	// setup_signals(SIG_HEREDOC);
+	setup_signals_heredoc();
+	ft_printf(BLUE"global: %d\n"NO_ALL, g_sigint_rec);
 	while (1)
 	{
-		// if (g_signal_mode == SIG_INT_RECEIVED)
-		// {
-		// 	close(heredoc_fd);
-		// 	unlink(new_node->infile);
-		// 	new_node->abort_flag = 1;
-		// 	msh->exit_status = 130;
-		// 	setup_signals(SIG_BACKTOBACK);
-		// 	return (0);
-		// }
+		ft_printf(MAGENTA"gggg\n"NO_ALL);////////////////
 		str = get_readline_result("> ");
-		if (!str)
-		{
-			// if (g_signal_mode == SIG_INT_RECEIVED)
-			// {
-			// 	close(heredoc_fd);
-			// 	unlink(new_node->infile);
-			// 	new_node->abort_flag = 1;
-			// 	msh->exit_status = 130;
-			// 	setup_signals(SIG_BACKTOBACK);
-			// 	return (0);
-			// }
-			close(heredoc_fd);
-			// unlink(new_node->infile);
-			// new_node->abort_flag = 1;
-			// msh->exit_status = 130;
-			// setup_signals(SIG_BACKTOBACK);
-			return (0);
-		}
 		str = ft_expanded_heredoc_cpy(msh, str);
 		if (!str)
-		{
-			setup_signals(SIG_BACKTOBACK);
+		{	
 			return (close(heredoc_fd), 0);
+		}
+		if (g_sigint_rec)
+		{
+			close(heredoc_fd);
+			unlink(new_node->infile);
+			new_node->abort_flag = 1;
+			msh->exit_status = 130;
+			g_sigint_rec = 0;
+			free(str);
+			return (1);
 		}
 		if (ft_strcmp(new_node->limiter, str) == 0)
 		{
 			free(str);
+			reset_child_signals();
 			break ;
 		}
 		ft_printfd(heredoc_fd, "%s", str);
 		free(str);
 	}
-	// setup_signals(SIG_BACKTOBACK);
 	return (close(heredoc_fd), 0);
 }
 
@@ -144,7 +120,6 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
 															t_cmds *new_node)
 {
-	ft_printf("+++++++++++++++++++++++++++++++\n");
 	new_node->infile = NULL;
 	new_node->heredoc_flag = false;
 	new_node->limiter = NULL;
@@ -165,6 +140,7 @@ void	assign_infile_value(t_msh *msh, t_token **tokens, int *j, \
 				return ;
 			free_input_redirection(new_node);
 			generate_heredoc(msh, tokens, j, new_node);
+			ft_printf(GREEN"gggg\n"NO_ALL);/////////////////////////////
 		}
 		(*j)++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/08 17:06:34 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:42:19 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_shell(t_msh *msh, char **envp)
 {
+	msh->backtrackflag = false;
 	msh->tokens = NULL;
 	msh->envp2 = ft_envp_dup(envp);
 	msh->envp2[ft_mtrxlen(msh->envp2)] = ft_strdup("OLDPWD");
@@ -51,7 +52,6 @@ int	process_input(t_msh *msh, char *input)
 	}
 	msh->cmds = ft_create_cmd_list(msh, msh->tokens);
 	pipe_check(msh);
-	check_signal_exit_status(msh);
 	cleanup_iteration(msh);
 	return (0);
 }
@@ -62,14 +62,12 @@ static void	get_prompt(t_msh *msh)
 
 	while (1)
 	{
-		msh->backtrackflag = false;
 		input = readline(BGMAGENTA"pokeshell> "NO_ALL);
 		if (!input)
 		{
 			ft_printf("exit\n");
 			return ;
 		}
-		check_signal_exit_status(msh);
 		add_history(input);
 		if (process_input(msh, input) == 1)
 		{
@@ -91,7 +89,7 @@ int	main(int ac, char *av[], char **envp)
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
-	setup_signals(SIG_BACKTOBACK);
+	setup_signals();
 	get_prompt(&msh);
 	if (msh.tokens)
 		free_tokens(msh.tokens);

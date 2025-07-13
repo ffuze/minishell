@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alek <alek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:27 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 04:34:11 by alek             ###   ########.fr       */
+/*   Updated: 2025/07/13 12:44:44 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_proc(t_msh *msh)
 {
 	msh->fd_mrx = NULL;
-	setup_signals(SIG_CHILD);
+	reset_child_signals();
 	if (msh->cmds->abort_flag)
 	{
 		free_stuff(*msh);
@@ -74,12 +74,12 @@ void	execute_single_cmd(t_msh *msh)
 		return (init_builtin(msh));
 	else
 	{
-		setup_signals(SIG_COMMAND);
+		setup_signals_heredoc();
 		id = fork();
 	}
 	if (id < 0)
 	{
-		setup_signals(SIG_BACKTOBACK);
+		setup_signals();
 		return ;
 	}
 	else if (0 == id)
@@ -100,5 +100,5 @@ void	execute_single_cmd(t_msh *msh)
 			}
 		}
 	}
-	setup_signals(SIG_BACKTOBACK);
+	setup_signals();
 }
