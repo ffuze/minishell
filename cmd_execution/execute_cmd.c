@@ -6,11 +6,16 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:48:13 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 11:05:02 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:18:12 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	print_cmd_notfound(char *cmd)
+{
+	ft_printfd(2, RED"minishell: %s: No such file or directory\n");
+}
 
 // Looks for the path of the command "cmd" in the Environment (envp)
 static char	*find_pathname(char *cmd, char **envp)
@@ -24,10 +29,10 @@ static char	*find_pathname(char *cmd, char **envp)
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (!envp[i])
-		return (NULL);
+		return (print_cmd_notfound(cmd), NULL);
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
-		return (NULL);
+		return (print_cmd_notfound(cmd), NULL);
 	i = 0;
 	while (paths[i])
 	{

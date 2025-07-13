@@ -6,7 +6,7 @@
 /*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:57 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 16:38:32 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:41:24 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,28 @@ int	all_args_int(char **args)
 
 void	ft_exit(t_msh *msh, char **args)
 {
-	int	exit_status;
-
-	exit_status = 0;
-	if (ft_mtrxlen(args) > 2)
-	{
-		ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
-		msh->exit_status = 1;
-		return ;
-	}
+	ft_printfd(2, BRCYAN"exit\n"NO_ALL);
 	if (args[1])
 	{
 		if (!is_valid_number(args[1]))
 		{
-			ft_printfd(2, "pokeshell: exit: %s: numeric argument required\n", \
+			ft_printfd(2, \
+				RED"pokeshell: exit: %s: numeric argument required\n"NO_ALL, \
 																	args[1]);
 			free_cmd_list(msh->cmds);
 			free_stuff(*msh);
 			exit(2);
 		}
-		exit_status = ft_atoi(args[1]);
-		exit_status = exit_status % 256;
-		if (exit_status < 0)
-			exit_status = 256 + exit_status;
+		if (ft_mtrxlen(args) > 2)
+		{
+			ft_printfd(2, RED"pokeshell: exit: too many arguments\n"NO_ALL);
+			msh->exit_status = 1;
+			return ;
+		}
+		msh->exit_status = ft_atoi(args[1]);
+		free_cmd_list(msh->cmds);
+		free_stuff(*msh);
+		return (exit(msh->exit_status));
 	}
-	return (free_cmd_list(msh->cmds), free_stuff(*msh), exit(exit_status));
+	return (free_cmd_list(msh->cmds), free_stuff(*msh), exit(msh->exit_status));
 }

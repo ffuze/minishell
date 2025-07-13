@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:49:03 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 11:44:01 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:52:30 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ char	*ft_expandedcpy(t_msh *msh, char *input)
 	{
 		if (input[i] && input[i] != '"' && input[i] != '\'' && input[i] != '$')
 			msh->exp_input[j++] = input [i++];
-		if (input[i] == '$')
-		{
-			if (!expand_dollar(msh, input, &i, &j))
-				return (NULL);
-		}
 		if (input[i] == '\'')
 			through_singlequotes(msh, input, &i, &j);
 		if (input[i] == '"')
 		{
 			j = through_doublequotes(msh, input, &i);
 			if (j == 0)
+				return (NULL);
+		}
+		if (input[i] == '$')
+		{
+			if (!expand_dollar(msh, input, &i, &j))
 				return (NULL);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:49:46 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 11:09:48 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:21:35 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	printList(t_cmds *head)
 			while (current && current->cmd && current->cmd[i])
 			{
 				ft_printf(YELLOW" %s "NO_ALL, current->cmd[i]);
-                i++;
+				i++;
 				j++;
 			}
 			ft_printf(MAGENTA"abrt_flag: %d, "NO_ALL, current->abort_flag);
@@ -40,7 +40,7 @@ void	printList(t_cmds *head)
 			ft_printf(BRCYAN"append: %d, "NO_ALL, current->append_flag);
 		}
 		else
-            ft_printf(YELLOW" (cmd array is NULL) "NO_ALL);
+			ft_printf(YELLOW" (cmd array is NULL) "NO_ALL);
 		ft_printf(GREEN"##\n"NO_ALL);
 		current = current->next;
 	}

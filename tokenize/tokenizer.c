@@ -6,13 +6,13 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:19:53 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/07 16:27:00 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:19:53 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void print_tokens(t_token **tokens)
+static void	print_tokens(t_token **tokens)
 {
 	int	i = 0;
 

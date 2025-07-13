@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 21:08:55 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/03 11:44:14 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:24:31 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	through_singlequotes(char *input, int *i, int *l)
 	return ;
 }
 
-// Checks whether there are variables to expand or unclosed quotes.
+// Checks whether there are unclosed quotes.
 int	ft_parse_input(char *input)
 {
 	int		i;
