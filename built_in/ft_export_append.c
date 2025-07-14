@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:04:26 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:35:46 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,14 @@ static void	append_var(char **envp2, char *var)
 		{
 			tmp = ft_strdup(envp2[i]);
 			free(envp2[i]);
-			envp2[i] = ft_strjoin(tmp, ft_strchr2(var, '='));
-			return (free(var_name), free(tmp));
+			if (ft_strchr2(var, '=') == 0)
+				envp2[i] = ft_strjoin2(tmp, ft_strchr2(var, '='));
+			else
+			{
+				envp2[i] = ft_strjoin2(tmp, "=");
+				envp2[i] = ft_strjoin2(envp2[i], ft_strchr2(var, '='));
+			}
+			return (free(var_name));
 		}
 		i++;
 	}

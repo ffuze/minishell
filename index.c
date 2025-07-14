@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 15:30:15 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:00:26 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int ac, char *av[], char **envp)
 
 	(void)ac;
 	(void)av;
-	print_banner();
+	// print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
@@ -96,3 +96,5 @@ int	main(int ac, char *av[], char **envp)
 	free_dpc(msh.envp2);
 	return (msh.exit_status);
 }
+
+// cat | cat | cat lancio ctrl+c e poi echo $? non restituisce 130
