@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 15:14:05 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/14 15:32:16 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*/////////////////////////////////////////////////////////////////////////////
 static void	print_tokens(t_token **tokens)
 {
 	int	i = 0;
@@ -12,6 +24,7 @@ static void	print_tokens(t_token **tokens)
 		i++;
 	}
 }
+/////////////////////////////////////////////////////////////////////////////*/
 
 static void	ft_fill_tokens(t_msh *msh, t_token **tokens, int *count)
 {
@@ -54,7 +67,6 @@ t_token	**tokenize(t_msh *msh, char *input)
 		return (free(msh->exp_input), NULL);
 	ft_fill_tokens(msh, tokens, &count);
 	tokens[count] = NULL;
-	print_tokens(tokens);/////////////////////////////////////////////////
 	if (!check_tokens(msh, tokens))
 	{
 		msh->exit_status = 2;
@@ -62,3 +74,4 @@ t_token	**tokenize(t_msh *msh, char *input)
 	}
 	return (tokens);
 }
+// print_tokens(tokens);/////////////////////////////////////////////

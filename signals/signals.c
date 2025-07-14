@@ -1,32 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 15:01:53 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-volatile sig_atomic_t g_sigint_rec = 0;
-
-static void	handle_sigint(int sig)
+void	setup_signals_prompt(void)
 {
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	signal(SIGINT, handle_sigint_prompt);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-// ioctl(STDIN_FILENO, TIOCSTI, "\n") gives a newline as input to the 
-//  heredoc's readline.
-static void	handle_sigint_heredoc(int sig)
+void	setup_signals_exec(void)
 {
-	(void)sig;
-	g_sigint_rec = 1;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_redisplay();
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, handle_sigint);
+	signal(SIGINT, handle_sigint_exec);
 	signal(SIGQUIT, SIG_IGN);
 }
 

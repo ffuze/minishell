@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_cmd_list.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 15:14:11 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/14 15:31:24 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-///////////////////////////////////////////////////////////////////////////////
+/*/////////////////////////////////////////////////////////////////////////////
 void	printList(t_cmds *head)
 {
 	t_cmds	*current;
@@ -34,7 +45,7 @@ void	printList(t_cmds *head)
 		current = current->next;
 	}
 }
-/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////*/
 
 // Returns the number of TOKEN_WORDs before the next pipe or the end of input.
 static size_t	count_w_token(t_token **tokens, int *i)
@@ -129,6 +140,6 @@ t_cmds	*ft_create_cmd_list(t_msh *msh, t_token **tokens)
 	i = 0;
 	j = 0;
 	msh->cmds = ft_create_cmd_nodes(msh, tokens, &i, &j);
-	printList(msh->cmds);
 	return (msh->cmds);
 }
+// printList(msh->cmds);

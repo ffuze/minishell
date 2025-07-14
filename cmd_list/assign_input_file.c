@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assign_input_file.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 15:27:56 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -31,7 +42,6 @@ static char	*get_readline_result(const char *prompt)
 	readline_result = readline(prompt);
 	if (!readline_result)
 	{
-		write(STDOUT_FILENO, "\n", 1);
 		return (NULL);
 	}
 	return (ft_strjoin2(readline_result, "\n"));
@@ -77,11 +87,8 @@ static int	generate_heredoc(t_msh *msh, t_token **tokens, int *j,
 	new_node->infile = ft_strjoin2(ft_itoa(*j), "heredoc.txt");
 	heredoc_fd = open(new_node->infile, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	setup_signals_heredoc();
-	ft_printf(BLUE"global: %d\n"NO_ALL, g_sigint_rec);
 	while (rl_cycle(msh, new_node, heredoc_fd, str) > 0)
-	{
 		;
-	}
 	return (close(heredoc_fd), 0);
 }
 

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_single_cmd.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 15:09:16 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -49,11 +60,13 @@ static void	init_builtin(t_msh *msh)
 
 static void	get_status(t_msh *msh, int status)
 {
+	int	sig;
+
 	if (WIFEXITED(status))
-			msh->exit_status = WEXITSTATUS(status);
+		msh->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		int sig = WTERMSIG(status);
+		sig = WTERMSIG(status);
 		if (sig == SIGINT)
 			msh->exit_status = 130;
 		else if (sig == SIGQUIT)
@@ -80,16 +93,16 @@ void	execute_single_cmd(t_msh *msh)
 		return (init_builtin(msh));
 	else
 	{
-		setup_signals();
+		setup_signals_exec();
 		id = fork();
 	}
 	if (id < 0)
-		return (setup_signals());
+		return (setup_signals_prompt());
 	else if (0 == id)
 		child_proc(msh);
 	while (waitpid(id, &status, 0) > 0)
 	{
 		get_status(msh, status);
 	}
-	setup_signals();
+	setup_signals_prompt();
 }

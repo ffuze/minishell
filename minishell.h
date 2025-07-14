@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 15:13:04 by lemarino          #+#    #+#             */
+/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -53,7 +64,7 @@
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-extern volatile sig_atomic_t g_sigint_rec;
+extern volatile sig_atomic_t	g_sigint_rec;
 
 typedef enum s_token_enum
 {
@@ -260,8 +271,17 @@ void	free_cmd_list(t_cmds *root);
 void	liberate_fdmatrix(int **fd_mrx, int pipe_number);
 
 /*_______________________________ signals ______________________________*/
-void	setup_signals(void);
+void	setup_signals_prompt(void);
+void	handle_sigint_prompt(int sig);
+
+void	setup_signals_exec(void);
+void	handle_sigint_exec(int sig);
+
 void	setup_signals_heredoc(void);
+// ioctl(STDIN_FILENO, TIOCSTI, "\n") gives a newline as input to the 
+//  heredoc's readline.
+void	handle_sigint_heredoc(int sig);
+
 void	reset_child_signals(void);
 void	get_exit_status(t_msh *msh);
 
