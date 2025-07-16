@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:30:42 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 16:10:57 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:21:35 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	open_heredoc(t_msh *msh, char *limiter, char *infile)
 		}
 		if (!str)
 		{
-			ft_printfd(2, RED"pokeshell: warning: heredoc delimited by ");
+			ft_printfd(2, YELLOW"pokeshell: warning: heredoc delimited by ");
 			ft_printfd(2, "end-of-file (wanted `%s')\n"NO_ALL, limiter);
 			return (unlink(infile), free(infile), close(heredocfd), free(str));
 		}

@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -I libft -g
+CFLAGS = -Wall -Wextra -Werror -lreadline -I libft
 NAME = minishell
 
 OBJ_DIR = obj

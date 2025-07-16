@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:06:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/16 17:13:58 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:07:16 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 void	get_status(t_msh *msh)
 {
-	int	status;
-	int statuses[msh->pipe_number];
+	int	i;
 	int	sig;
-	int i;
+	int	status;
+	int	*statuses;
 
 	i = 0;
 	sig = 0;
 	status = 0;
+	statuses = ft_calloc(sizeof(int), msh->pipe_number + 1);
 	while (waitpid(-1, &status, 0) && i < msh->pipe_number)
 	{
 		statuses[i] = status;
-		
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
 			msh->exit_status = 128 + sig;
 		}
 		else if (i == msh->pipe_number - 1 && WIFEXITED(status))
-			msh->exit_status = WEXITSTATUS(status);// if not interrupted, last process's exit status
+			msh->exit_status = WEXITSTATUS(status);
 		i++;
 	}
+	free(statuses);
 }
 
 static void	init_pipeline(t_msh *msh)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/16 17:13:41 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:23:13 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int ac, char *av[], char **envp)
 
 	(void)ac;
 	(void)av;
-	// print_banner();
+	print_banner();
 	init_shell(&msh, envp);
 	if (!msh.envp2)
 		return (printf(RED"Failed envp2"NO_ALL), EXIT_FAILURE);
