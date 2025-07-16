@@ -1,0 +1,38 @@
+I am writing a program in C that emulates bash but i have a problem with exit codes:
+if i run the command cat alone and then press ctrl C the exit code is 130, but if i give ctrl C to the command line "cat | cat | cat"  the exit code is 0.
+how can i solve this?
+
+
+chat:
+Sample Strategy (in C using waitpid)
+Here’s a pseudo-C-style explanation:
+
+
+int statuses[N]; // for each pipeline process
+int exit_code = 0;
+
+for (int i = 0; i < N; ++i) {
+    int status;
+    waitpid(pids[i], &status, 0);
+    statuses[i] = status;
+
+    if (WIFSIGNALED(status)) {
+        // terminated by signal
+        int sig = WTERMSIG(status);
+        exit_code = 128 + sig;
+        // optionally break here, or track the highest signal
+    } else if (i == N-1 && WIFEXITED(status)) {
+        // if not interrupted, last process's exit status
+        exit_code = WEXITSTATUS(status);
+    }
+}
+This way, your shell can behave more like Bash.
+
+TL;DR Fix
+Don't just return the last process's exit code in a pipeline.
+
+Inspect all child statuses.
+
+If any exited via signal (e.g., SIGINT), return 128 + signum.
+
+Let me know if you want a full code example.

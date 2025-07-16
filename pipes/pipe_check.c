@@ -6,30 +6,48 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:06:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 16:07:34 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:54:05 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	get_status(t_msh *msh, int status)
+static void	get_status(t_msh *msh)
 {
-	if (WIFEXITED(status))
-		msh->exit_status = WEXITSTATUS(status);
+	int	status;
+	int statuses[msh->pipe_number];
+	int	sig;
+	int i;
+
+	i = 0;
+	sig = 0;
+	status = 0;
+	while (waitpid(-1, &status, 0) && i < msh->pipe_number)
+	{
+		statuses[i] = status;
+		
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			msh->exit_status = 128 + sig;
+		}
+		else if (i == msh->pipe_number - 1 && WIFEXITED(status))
+			msh->exit_status = WEXITSTATUS(status);// if not interrupted, last process's exit status
+		i++;
+	}
 }
 
 static void	init_pipeline(t_msh *msh)
 {
 	int		i;
-	int		status;
 	t_cmds	*current;
 
 	current = msh->cmds;
 	if (!current)
 		return (print_err("No commands to execute.", "\n"));
-	status = 0;
 	i = 0;
 	setup_signals_heredoc();
+	setup_signals_exec();
 	msh->fd_mrx = fd_matrix_creator(msh->pipe_number);
 	if (-1 == pipe(msh->fd_mrx[i]))
 		return (print_err("Failed to create pipe.", "\n"));
@@ -41,12 +59,10 @@ static void	init_pipeline(t_msh *msh)
 	close(msh->fd_mrx[i][1]);
 	init_lastcmd(msh, current, &i);
 	liberate_fdmatrix(msh->fd_mrx, msh->pipe_number);
-	while (waitpid(-1, &status, 0) > 0)
-		get_status(msh, status);
-	setup_signals_prompt();
+	get_status(msh);
 }
 
-// Determines whether a single command or more have to be executed.
+// Determines whether a single command or more has to be executed.
 void	pipe_check(t_msh *msh)
 {
 	msh->pipe_counter = msh->pipe_number;

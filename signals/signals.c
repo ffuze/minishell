@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:01:53 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 16:59:11 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:16:33 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	reset_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
 }
 
 // WIFEXITED == se il processo e' uscito senza problemi
