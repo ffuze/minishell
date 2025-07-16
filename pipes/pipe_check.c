@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:06:04 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/16 14:54:05 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:13:58 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	get_status(t_msh *msh)
+void	get_status(t_msh *msh)
 {
 	int	status;
 	int statuses[msh->pipe_number];

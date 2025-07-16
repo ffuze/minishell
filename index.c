@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:52:58 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 17:00:26 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:13:41 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ static void	get_prompt(t_msh *msh)
 			ft_printf("exit\n");
 			return ;
 		}
+		if (g_sigint_rec)
+		{
+			msh->exit_status = 130;
+			g_sigint_rec = 0;
+		}
 		add_history(input);
 		if (process_input(msh, input) == 1)
 		{
@@ -96,5 +101,3 @@ int	main(int ac, char *av[], char **envp)
 	free_dpc(msh.envp2);
 	return (msh.exit_status);
 }
-
-// cat | cat | cat lancio ctrl+c e poi echo $? non restituisce 130
