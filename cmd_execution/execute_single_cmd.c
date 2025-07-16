@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegl-in <adegl-in@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:09:16 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:14:04 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ static void	get_status(t_msh *msh, int status)
 {
 	int	sig;
 
+	ft_printf("sad\n");
 	if (WIFEXITED(status))
 		msh->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
+		ft_printf("asd\n");
 		sig = WTERMSIG(status);
 		if (sig == SIGINT)
 			msh->exit_status = 130;
