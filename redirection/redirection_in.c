@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:52:55 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:56:23 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	redirect_input(t_msh *msh, t_cmds *current)
 {
 	int	infile_fd;
 
-	if (!current->infile)
+	if (!current->infile || !current->infile[0])
 		return ;
 	infile_fd = open(current->infile, O_RDONLY, 0644);
 	if (infile_fd < 0)
 	{
-		print_err(current->infile, ": could not be opened.\n");
+		print_err(current->infile, ": input file could not be opened.\n");
 		free_cmd_list(msh->cmds);
 		free_stuff(*msh);
 		exit(1);

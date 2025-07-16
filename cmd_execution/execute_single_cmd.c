@@ -6,7 +6,7 @@
 /*   By: lemarino <lemarino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:09:16 by lemarino          #+#    #+#             */
-/*   Updated: 2025/07/14 15:29:32 by lemarino         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:05:54 by lemarino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	get_status(t_msh *msh, int status)
 			msh->exit_status = 130;
 		else if (sig == SIGQUIT)
 		{
-			write(STDOUT_FILENO, "Quit\n", 19);
+			ft_printfd(2, RED"Quit (core dumped)\n"NO_ALL);
 			msh->exit_status = 131;
 		}
 	}
