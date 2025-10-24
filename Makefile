@@ -60,7 +60,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@echo "$(CYAN)Compiled $<$(NO_COLOR)"
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	$(CC) $(OBJECTS) $(LIBFT) $(LFLAGS) -o $(NAME)
+	@$(CC) $(OBJECTS) $(LIBFT) $(LFLAGS) -o $(NAME)
 	@echo "$(GREEN)Executable created!$(NO_COLOR)"
 
 clean:
