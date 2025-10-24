@@ -1,5 +1,6 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -I libft
+CFLAGS = -Wall -Wextra -Werror -I libft	#Compiler flags
+LFLAGS = -lreadline -ltinfo				#Linker flags
 NAME = minishell
 
 OBJ_DIR = obj
@@ -41,31 +42,36 @@ GREEN = \033[32;5m
 YELLOW = \033[33m
 BLUE = \033[34m
 MAGENTA = \033[35m
-CYAN = \033[36;5m
+CYAN = \033[36m
 
 all: $(LIBFT) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/cmd_list $(OBJ_DIR)/built_in \
+		$(OBJ_DIR)/tokenize $(OBJ_DIR)/tokenize/check_vars_and_quotes \
+		$(OBJ_DIR)/cmd_execution $(OBJ_DIR)/redirection $(OBJ_DIR)/pipes \
+		$(OBJ_DIR)/free_memory $(OBJ_DIR)/signals
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
-$(NAME): $(LIBFT) $(SRC_MAIN)
-	$(CC) $(CFLAGS) $(SRC_MAIN) $(LIBFT) $(OTHER_DIRS) -o $(NAME)
-	@echo "$(GREEN)Object files created!$(NO_COLOR)"
-
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-	@	${CC} -c ${CFLAGS}  $< -g  -o $@
+	@$(CC) -c $(CFLAGS) $< -g -o $@
+	@echo "$(CYAN)Compiled $<$(NO_COLOR)"
+
+$(NAME): $(OBJECTS) $(LIBFT)
+	$(CC) $(OBJECTS) $(LIBFT) $(LFLAGS) -o $(NAME)
+	@echo "$(GREEN)Executable created!$(NO_COLOR)"
 
 clean:
 	@echo "$(YELLOW)Cleaning...$(NO_COLOR)"
-	@	$(MAKE) -C $(LIBFT_DIR) clean --quiet
+	@rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean --quiet
 
 fclean: clean
 	@echo "$(RED)Full Cleaning...$(NO_COLOR)"
-	@	rm -rf $(OBJ_DIR) $(NAME)
-	@	$(MAKE) -C $(LIBFT_DIR) fclean --quiet
+	@rm -rf $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean --quiet
 
 re: fclean all
 
